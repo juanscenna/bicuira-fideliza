@@ -10,6 +10,7 @@ import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { CartaoAoVivo } from "@/components/publico/CartaoAoVivo";
 import { BotoesWallet, SalvarNaTelaInicial } from "@/components/publico/BotoesWallet";
 import { PAGINAS_CARTAO } from "@/temas/paginas-cartao";
+import { iconesDo } from "@/temas/config";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
     referrer: "no-referrer", // o link do cartão é secreto: não vaza para outros sites
     manifest: `/${slug}/cartao/${token}/manifest.webmanifest`,
     appleWebApp: { capable: true, title: estab?.nome ?? "Cartão", statusBarStyle: "default" },
-    icons: { apple: `/${slug}/icone/180` },
+    icons: iconesDo(slug),
   };
 }
 

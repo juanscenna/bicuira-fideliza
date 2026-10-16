@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { exigirDono } from "@/lib/auth";
 import { Moldura } from "@/components/painel/Moldura";
 import type { ItemMenu } from "@/components/painel/Navegacao";
-import { temaDo } from "@/temas/config";
+import { iconesDo, temaDo } from "@/temas/config";
 import { PAINEIS } from "@/temas/paineis";
 
-export const metadata: Metadata = { title: "Painel" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { estabelecimento } = await exigirDono();
+  return { title: "Painel", icons: iconesDo(estabelecimento.slug) };
+}
 
 const MENU: ItemMenu[] = [
   { href: "/painel", rotulo: "Início", icone: "inicio" },

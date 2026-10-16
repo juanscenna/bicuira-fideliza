@@ -18,12 +18,14 @@ export type ConfigTema = {
   cor_secundaria: string;
   /** logo pública (arquivo em /public/temas/<id>/...), ou null para usar a inicial do nome */
   logoUrl: string | null;
+  /** ícone da aba do navegador (logo pequena); sem ele, usa o ícone gerado em /<slug>/icone */
+  favicon?: string;
 };
 
 export const TEMAS: Record<IdTema, ConfigTema> = {
   basico: { cor_primaria: "#111111", cor_secundaria: "#FFFFFF", logoUrl: null },
   // Comida Caseira Rosa Norte — preto, rosa da logo, amarelo do prato, creme das letras
-  "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png` },
+  "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png`, favicon: "/temas/rosa-norte/logo-256.png" },
 };
 
 /** endereço do estabelecimento → tema. Ex.: "bar-do-ze": "bar-do-ze" */
@@ -34,4 +36,13 @@ const TEMA_POR_SLUG: Record<string, IdTema> = {
 
 export function temaDo(slug: string): IdTema {
   return TEMA_POR_SLUG[slug] ?? "basico";
+}
+
+/** Ícones (aba do navegador + tela inicial do iPhone) de um estabelecimento. */
+export function iconesDo(slug: string) {
+  const fav = TEMAS[temaDo(slug)].favicon;
+  return {
+    icon: fav ? [{ url: fav, type: "image/png" }] : [{ url: `/${slug}/icone/192`, type: "image/png" }],
+    apple: `/${slug}/icone/180`,
+  };
 }
