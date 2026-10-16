@@ -11,6 +11,8 @@ import { CartaoAoVivo } from "@/components/publico/CartaoAoVivo";
 import { BotoesWallet, SalvarNaTelaInicial } from "@/components/publico/BotoesWallet";
 import { PAGINAS_CARTAO } from "@/temas/paginas-cartao";
 import { iconesDo } from "@/temas/config";
+import { AtivarAvisos } from "@/components/publico/AtivarAvisos";
+import { pushConfigurado } from "@/lib/push";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
 
@@ -42,6 +44,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
 
   const plano = estab.planos.find((p) => p.tipo === cartao.plano);
   const svg = await qrSvg(cartao.codigo);
+  const chavePush = pushConfigurado() ? process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY! : null;
 
   // Tema com página do cartão própria (ex.: Rosa Norte)
   const PaginaDoTema = PAGINAS_CARTAO[estab.tema];
@@ -65,10 +68,22 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           />
         }
         guardar={
-          <>
+          <div className="flex flex-col gap-3">
+            {chavePush ? (
+              <AtivarAvisos
+                token={token}
+                slug={slug}
+                chavePublica={chavePush}
+                classes={{
+                  caixa: "border-2 border-[#E8115A] bg-[#151515] text-[#F3EEE5]",
+                  botao: "bg-[#F2B315] uppercase text-[#0A0A0A]",
+                  texto: "text-[#F3EEE5]/80",
+                }}
+              />
+            ) : null}
             {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
             <SalvarNaTelaInicial className="border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]" />
-          </>
+          </div>
         }
         regras={{
           codigo: cartao.codigo,
@@ -106,6 +121,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           <h2 id="titulo-wallet" className="text-xl font-bold">
             Guarde no celular
           </h2>
+          {chavePush ? <AtivarAvisos token={token} slug={slug} chavePublica={chavePush} /> : null}
           {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
           <SalvarNaTelaInicial />
         </section>

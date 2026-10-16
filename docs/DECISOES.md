@@ -91,3 +91,9 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 
 57. **A identidade visual sai do admin.** O admin guarda só nome, endereço, regras, contato e cobrança. Logo, cores e layout de cada restaurante ficam no código, em `src/temas/` (um tema por restaurante, ligado ao endereço em `src/temas/config.ts`).
 58. **Tema "básico" em preto e branco** para todo estabelecimento que ainda não tem design próprio. O Wallet (quando ligado), o ícone e o manifest usam as cores e a logo do tema.
+
+## Wallet e avisos
+
+59. **Google Wallet com faixa de selos:** a imagem de destaque é gerada por cartão (`/api/wallet/selos/<slug>/<feitos>-<meta>.png`) com a logo do restaurante como selo. O objeto é atualizado com PUT (substitui tudo), levando junto o recado atual.
+60. **Recado no topo dos detalhes do Google Wallet:** a notificação do Google tem texto fixo ("Nova mensagem"); por isso o último recado também vai como primeiro bloco de texto do cartão.
+61. **Web push (notificação do próprio site):** o cliente toca em "Ativar avisos" no cartão. Título = nome do restaurante, ícone = logo, texto = a mensagem. Android funciona no navegador; iPhone só com o cartão salvo na tela inicial (iOS 16.4+). Sai junto com toda mensagem dos Avisos (manuais e automáticas), sem limite próprio além dos limites já existentes. Inscrições recusadas pelo navegador (404/410) são apagadas; o LGPD apaga as inscrições do cliente.

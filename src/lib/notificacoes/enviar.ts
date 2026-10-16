@@ -6,6 +6,9 @@ import { avisarAparelhosApple } from "@/lib/wallet/apple";
 import { dadosPorCliente } from "@/lib/wallet/dados";
 import { mensagemGoogle } from "@/lib/wallet/google";
 import { walletVisivel } from "@/lib/wallet/config";
+import { clientesComPush, enviarPush } from "@/lib/push";
+import { iconesDo } from "@/temas/config";
+import { SITE_URL } from "@/lib/env";
 import { decidirEnvio, type Origem, type TipoAutomatica } from "./regras";
 
 type Pedido = {
@@ -32,7 +35,7 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
   const resumo: Resumo = { enviados: 0, pulados: 0, motivosPulo: {} };
   if (p.clienteIds.length === 0) return resumo;
 
-  const { data: estab } = await admin.from("estabelecimentos").select("max_personalizadas_semana").eq("id", p.estabelecimentoId).single();
+  const { data: estab } = await admin.from("estabelecimentos").select("max_personalizadas_semana, nome, slug").eq("id", p.estabelecimentoId).single();
   const maxSemana = estab?.max_personalizadas_semana ?? 2;
 
   const historico = await carregarHistorico(p.clienteIds);
@@ -45,8 +48,10 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
     .is("anonimizado_em", null);
 
   const agora = new Date().toISOString();
+  const comPush = await clientesComPush((clientes ?? []).map((c) => c.id));
   const tokens: string[] = [];
   const paraWallet: { clienteId: string; texto: string; notificarGoogle: boolean }[] = [];
+  const paraPush: { clienteId: string; texto: string; url: string }[] = [];
 
   for (const c of clientes ?? []) {
     const texto = typeof p.texto === "function" ? p.texto(c.id) : p.texto;
@@ -70,7 +75,7 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
     const pass = (Array.isArray(c.passes) ? c.passes[0] : c.passes) as
       | { serial: string; google_object_id: string | null; registros_apple: unknown[] | null }
       | null;
-    const canais = ["web", ...((pass?.registros_apple?.length ?? 0) > 0 ? ["apple"] : []), ...(pass?.google_object_id ? ["google"] : [])];
+    const canais = ["web", ...(comPush.has(c.id) ? ["push"] : []), ...((pass?.registros_apple?.length ?? 0) > 0 ? ["apple"] : []), ...(pass?.google_object_id ? ["google"] : [])];
 
     const { data: atual } = await admin.from("passes").select("versao").eq("cliente_id", c.id).single();
     await admin
@@ -81,9 +86,15 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
     resumo.enviados++;
     tokens.push(c.token_cartao);
     paraWallet.push({ clienteId: c.id, texto, notificarGoogle: decisao.notificarGoogle });
+    if (comPush.has(c.id) && estab) paraPush.push({ clienteId: c.id, texto, url: `${SITE_URL}/${estab.slug}/cartao/${c.token_cartao}` });
   }
 
   await avisarCartoes(tokens);
+  // notificação do próprio site: título = nome do restaurante, ícone = logo dele
+  if (paraPush.length > 0 && estab) {
+    const icone = `${SITE_URL}${iconesDo(estab.slug).icon[0].url}`;
+    after(() => Promise.allSettled(paraPush.map((x) => enviarPush(x.clienteId, { titulo: estab.nome, corpo: x.texto, url: x.url, icone }))));
+  }
   if (!walletVisivel()) return resumo; // piloto só com cartão web
   after(async () => {
     for (const w of paraWallet) {

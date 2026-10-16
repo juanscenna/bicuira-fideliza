@@ -1,0 +1,51 @@
+import { estabelecimentoPorSlug } from "@/lib/publico";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { pushConfigurado } from "@/lib/push";
+
+type Inscricao = { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } };
+
+async function clienteDoToken(req: Request, token: string) {
+  const slug = new URL(req.url).searchParams.get("e") ?? "";
+  if (!/^[0-9a-f]{48}$/.test(token)) return null;
+  const estab = await estabelecimentoPorSlug(slug);
+  if (!estab) return null;
+  const { data } = await supabaseAdmin()
+    .from("clientes")
+    .select("id")
+    .eq("estabelecimento_id", estab.id)
+    .eq("token_cartao", token)
+    .is("anonimizado_em", null)
+    .maybeSingle();
+  return data?.id ?? null;
+}
+
+/** O cartão aceitou notificações: guarda a inscrição do navegador. */
+export async function POST(req: Request, { params }: RouteContext<"/api/push/[token]">) {
+  if (!pushConfigurado()) return new Response("Indisponível", { status: 503 });
+  const { token } = await params;
+  const clienteId = await clienteDoToken(req, token);
+  if (!clienteId) return new Response("Não encontrado", { status: 404 });
+
+  const i = (await req.json().catch(() => null)) as Inscricao | null;
+  const endpoint = typeof i?.endpoint === "string" ? i.endpoint : "";
+  const p256dh = typeof i?.keys?.p256dh === "string" ? i.keys.p256dh : "";
+  const auth = typeof i?.keys?.auth === "string" ? i.keys.auth : "";
+  if (!/^https:\/\//.test(endpoint) || endpoint.length > 1000 || !p256dh || !auth || p256dh.length > 200 || auth.length > 100) {
+    return new Response("Inscrição inválida", { status: 400 });
+  }
+  const { error } = await supabaseAdmin()
+    .from("push_inscricoes")
+    .upsert({ cliente_id: clienteId, endpoint, p256dh, auth }, { onConflict: "endpoint" });
+  if (error) return new Response("Erro", { status: 500 });
+  return new Response(null, { status: 204 });
+}
+
+/** O cliente desligou as notificações neste aparelho. */
+export async function DELETE(req: Request, { params }: RouteContext<"/api/push/[token]">) {
+  const { token } = await params;
+  const clienteId = await clienteDoToken(req, token);
+  if (!clienteId) return new Response("Não encontrado", { status: 404 });
+  const { endpoint } = ((await req.json().catch(() => ({}))) ?? {}) as { endpoint?: string };
+  if (endpoint) await supabaseAdmin().from("push_inscricoes").delete().eq("cliente_id", clienteId).eq("endpoint", endpoint);
+  return new Response(null, { status: 204 });
+}

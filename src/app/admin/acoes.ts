@@ -216,6 +216,7 @@ export async function anonimizarCliente(estabelecimentoId: string, _a: EstadoFor
     .eq("id", cliente.id);
   if (error) return { mensagem: `Não foi possível apagar: ${error.message}` };
   await admin.from("passes").delete().eq("cliente_id", cliente.id);
+  await admin.from("push_inscricoes").delete().eq("cliente_id", cliente.id);
 
   await registrarAuditoria({
     acao: "cliente.anonimizar",

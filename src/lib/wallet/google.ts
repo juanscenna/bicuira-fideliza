@@ -67,9 +67,13 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     hexBackgroundColor: d.corPrimaria,
     barcode: { type: "QR_CODE", value: d.codigo, alternateText: d.codigo },
     textModulesData: [
+      // o último recado do restaurante fica no topo dos detalhes (sem precisar abrir a aba de mensagens)
+      ...(d.mensagem ? [{ id: "recado", header: `Recado · ${d.estabelecimento}`, body: d.mensagem }] : []),
       { id: "regras", header: "Como funciona", body: regras(d) },
       { id: "bicuira", header: "Tecnologia", body: "por Bicuíra Digital" },
     ],
+    // o PUT substitui o objeto inteiro: a mensagem atual vai junto para não sumir da aba de mensagens
+    ...(d.mensagem ? { messages: [{ id: "recado", header: d.estabelecimento, body: d.mensagem, messageType: "TEXT" }] } : {}),
     linksModuleData: {
       uris: [
         { id: "cartao", uri: d.urlCartao, description: "Cartão no navegador" },
@@ -146,7 +150,10 @@ export async function mensagemGoogle(d: DadosPass, texto: string, notificar: boo
     });
   if (notificar) {
     const r = await enviar("TEXT_AND_NOTIFY");
-    if (r.status < 300) return "notificado";
+    if (r.status < 300) {
+      await atualizarObjetoGoogle(d); // recado também no topo dos detalhes
+      return "notificado";
+    }
     if (r.status === 404) return "nao_salvo";
     if (r.status !== 429 && !/quota/i.test(JSON.stringify(r.data))) {
       console.error("[wallet:google] mensagem", r.status, JSON.stringify(r.data));
@@ -154,5 +161,6 @@ export async function mensagemGoogle(d: DadosPass, texto: string, notificar: boo
     }
   }
   const r = await enviar("TEXT");
+  if (r.status < 300) await atualizarObjetoGoogle(d);
   return r.status < 300 ? "sem_notificacao" : r.status === 404 ? "nao_salvo" : "erro";
 }
