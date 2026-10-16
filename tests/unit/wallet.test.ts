@@ -44,7 +44,7 @@ describe("Apple Wallet", () => {
     expect(p.organizationName).toBe("Restaurante Teste");
     expect(p.backgroundColor).toBe("rgb(37, 67, 61)");
     expect(p.barcodes[0]).toMatchObject({ format: "PKBarcodeFormatQR", message: "K4827", altText: "K4827" });
-    expect(p.storeCard.headerFields[0]).toMatchObject({ value: "7/10", changeMessage: "Seus carimbos: %@" });
+    expect(p.storeCard.headerFields[0]).toMatchObject({ value: "7/10", changeMessage: "Seus selos: %@" });
     expect(p.storeCard.primaryFields[0].value).toBe("Faltam 3 para 1 prato");
     const verso = Object.fromEntries(p.storeCard.backFields.map((f) => [f.key, f]));
     expect(verso.mensagem).toMatchObject({ value: "Hoje tem sobremesa nova!", changeMessage: "%@" });
@@ -100,5 +100,16 @@ describe("Google Wallet", () => {
     expect(o.loyaltyPoints.balance.string).toBe("7/10");
     expect(o.barcode).toEqual({ type: "QR_CODE", value: "K4827", alternateText: "K4827" });
     expect(o.accountName).toBe("Ana Souza");
+    expect(o.secondaryLoyaltyPoints).toBeDefined(); // tema básico: sem faixa de selos
+    expect(o.heroImage.sourceUri.uri).toMatch(/\/api\/wallet\/selos\/restaurante-teste\/7-10\.png$/);
+  });
+
+  it("tema com faixa de selos: título, Instagram e sem linha de recompensa", async () => {
+    const { montarClasse, montarObjeto } = await import("@/lib/wallet/google");
+    const rosa = { ...dados, slug: "comidacaseirarosanorte" };
+    expect(montarClasse(rosa, "1").programName).toBe("Junte selos. Ganhe recompensas.");
+    const o = montarObjeto(rosa, "1");
+    expect(o.secondaryLoyaltyPoints).toBeUndefined();
+    expect(o.linksModuleData.uris.map((u) => u.id)).toContain("instagram");
   });
 });

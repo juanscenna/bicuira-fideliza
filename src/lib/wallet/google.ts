@@ -6,6 +6,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { googleConfigurado } from "./config";
 import { progresso, regras, statusRecompensa } from "./conteudo";
 import type { DadosPass } from "./dados";
+import { TEMAS, temaDo } from "@/temas/config";
 
 const API = "https://walletobjects.googleapis.com/walletobjects/v1";
 
@@ -25,7 +26,7 @@ function cliente() {
   return auth;
 }
 
-async function chamar<T>(metodo: "GET" | "POST" | "PATCH", caminho: string, corpo?: unknown) {
+async function chamar<T>(metodo: "GET" | "POST" | "PATCH" | "PUT", caminho: string, corpo?: unknown) {
   const c = await cliente().getClient();
   return c.request<T>({ url: `${API}${caminho}`, method: metodo, data: corpo, validateStatus: () => true });
 }
@@ -36,7 +37,7 @@ export function montarClasse(d: DadosPass, issuer = emissor()) {
   return {
     id: idClasse(d.estabelecimentoId, issuer),
     issuerName: d.estabelecimento,
-    programName: "Cartão fidelidade",
+    programName: TEMAS[temaDo(d.slug)].wallet?.titulo ?? "Cartão fidelidade",
     programLogo: { sourceUri: { uri: logo }, contentDescription: { defaultValue: { language: "pt-BR", value: d.estabelecimento } } },
     hexBackgroundColor: d.corPrimaria,
     reviewStatus: "UNDER_REVIEW",
@@ -47,6 +48,8 @@ export function montarClasse(d: DadosPass, issuer = emissor()) {
 
 /** Loyalty Object: um por cliente. */
 export function montarObjeto(d: DadosPass, issuer = emissor()) {
+  const tema = TEMAS[temaDo(d.slug)];
+  const instagram = tema.wallet?.instagram;
   return {
     id: idObjeto(d.clienteId, issuer),
     classId: idClasse(d.estabelecimentoId, issuer),
@@ -54,7 +57,8 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     accountId: d.codigo,
     accountName: d.nome,
     loyaltyPoints: { label: "Selos", balance: { string: progresso(d) } },
-    secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } },
+    // com a faixa de selos do tema, quanto falta já aparece na imagem
+    ...(tema.selos ? {} : { secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } } }),
     // faixa com os selos (logo do restaurante), gerada em /api/wallet/selos; a URL muda a cada selo
     heroImage: {
       sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}.png` },
@@ -69,6 +73,7 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     linksModuleData: {
       uris: [
         { id: "cartao", uri: d.urlCartao, description: "Cartão no navegador" },
+        ...(instagram ? [{ id: "instagram", uri: `https://instagram.com/${instagram}`, description: `Instagram @${instagram}` }] : []),
         { id: "privacidade", uri: d.urlPrivacidade, description: "Política de privacidade" },
       ],
     },
@@ -120,7 +125,8 @@ export async function atualizarObjetoGoogle(d: DadosPass) {
     console.info(`[wallet:google] modo de teste: atualização do objeto ${d.googleObjectId} registrada`);
     return;
   }
-  const r = await chamar("PATCH", `/loyaltyObject/${encodeURIComponent(d.googleObjectId)}`, montarObjeto(d));
+  // PUT substitui o objeto inteiro (um campo que deixou de existir também some do cartão)
+  const r = await chamar("PUT", `/loyaltyObject/${encodeURIComponent(d.googleObjectId)}`, montarObjeto(d));
   if (r.status >= 300 && r.status !== 404) console.error("[wallet:google] atualizar", r.status, JSON.stringify(r.data));
 }
 

@@ -22,6 +22,8 @@ export type ConfigTema = {
   favicon?: string;
   /** selo do cartão no Wallet (PNG, caminho público): ganho e ainda não ganho. Sem ele, bolinhas na cor de apoio. */
   selos?: { feito: string; vazio: string };
+  /** textos extras do cartão no Wallet */
+  wallet?: { titulo?: string; instagram?: string };
 };
 
 export const TEMAS: Record<IdTema, ConfigTema> = {
@@ -29,6 +31,7 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
   // Comida Caseira Rosa Norte — preto, rosa da logo, amarelo do prato, creme das letras
   "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png`, favicon: "/temas/rosa-norte/logo-256.png",
     selos: { feito: "/temas/rosa-norte/selo-160.png", vazio: "/temas/rosa-norte/selo-cinza-160.png" },
+    wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
   },
 };
 
