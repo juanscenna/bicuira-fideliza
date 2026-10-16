@@ -28,6 +28,7 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
 
 /** endereço do estabelecimento → tema. Ex.: "bar-do-ze": "bar-do-ze" */
 const TEMA_POR_SLUG: Record<string, IdTema> = {
+  comidacaseirarosanorte: "rosa-norte",
   "comida-caseira-rosa-norte": "rosa-norte",
 };
 
