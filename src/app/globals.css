@@ -86,3 +86,56 @@ body {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.04); }
 }
+
+/* ---- Painel do dono com a identidade do restaurante ----
+   Troca os tokens da Bicuíra pelos do tema; todas as telas do painel herdam. */
+.tema-rosa-norte {
+  --color-restinga: #0A0A0A; /* preto */
+  --color-carvao: #0A0A0A;
+  --color-areia: #F3EEE5;    /* creme */
+  --color-lima: #F2B315;     /* amarelo (ações, texto preto por cima) */
+  --color-sol: #E8115A;      /* rosa (destaques grandes) */
+  --color-oceano: #E8115A;
+  --font-display: var(--fonte-rosa), system-ui, sans-serif;
+  --font-sans: var(--fonte-rosa), system-ui, sans-serif;
+  background: #F3EEE5;
+  color: #0A0A0A;
+}
+.tema-rosa-norte .font-display {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.tema-rosa-norte main h1.font-display::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 0.35rem;
+  margin-top: 0.4rem;
+  border-radius: 999px;
+  background: #E8115A;
+}
+/* cartões do painel com a cara de "adesivo" das outras páginas */
+.tema-rosa-norte main .bg-white:not(input, textarea, select, button) {
+  border: 2px solid #0A0A0A;
+  box-shadow: 0 5px 0 #E8115A;
+}
+/* nome do restaurante no topo quebra linha em vez de cortar */
+.tema-rosa-norte > header .truncate {
+  white-space: normal;
+  font-size: clamp(1.1rem, 4.8vw, 1.6rem);
+  line-height: 1.05;
+}
+/* selos da ficha do cliente = logo do restaurante */
+.tema-rosa-norte [data-selo="feito"] {
+  background: url("/temas/rosa-norte/selo.webp") center / cover;
+  border-color: #E8115A;
+  box-shadow: 0 0 8px rgba(232, 17, 90, 0.6);
+}
+.tema-rosa-norte [data-selo="feito"] svg {
+  display: none;
+}
+.tema-rosa-norte [data-selo="vazio"] {
+  background: url("/temas/rosa-norte/selo-cinza.webp") center / cover;
+  opacity: 0.35;
+}

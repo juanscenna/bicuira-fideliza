@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { exigirDono } from "@/lib/auth";
 import { Moldura } from "@/components/painel/Moldura";
 import type { ItemMenu } from "@/components/painel/Navegacao";
+import { temaDo } from "@/temas/config";
+import { PAINEIS } from "@/temas/paineis";
 
 export const metadata: Metadata = { title: "Painel" };
 
@@ -17,7 +19,7 @@ export default async function PainelLayout({ children }: LayoutProps<"/painel">)
   const { estabelecimento } = sessao;
 
   return (
-    <Moldura titulo={estabelecimento.nome} subtitulo="Painel do estabelecimento" itens={MENU} raiz="/painel">
+    <Moldura titulo={estabelecimento.nome} subtitulo="Painel do estabelecimento" itens={MENU} raiz="/painel" tema={PAINEIS[temaDo(estabelecimento.slug)]}>
       {estabelecimento.ativo ? (
         children
       ) : (

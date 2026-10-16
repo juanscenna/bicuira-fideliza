@@ -137,6 +137,7 @@ export function FichaCliente({
           {Array.from({ length: cliente.meta }, (_, i) => (
             <li
               key={i}
+              data-selo={i < cliente.carimbos ? "feito" : "vazio"}
               className={`flex size-9 items-center justify-center rounded-full border-2 ${
                 i < cliente.carimbos ? "border-restinga bg-restinga text-areia" : "border-dashed border-restinga/40"
               }`}
