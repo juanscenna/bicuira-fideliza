@@ -1,4 +1,8 @@
 // Service worker do cartão: recebe as notificações do restaurante (web push).
+
+// versão nova assume na hora (sem esperar o usuário fechar todas as abas)
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", (evento) => evento.waitUntil(self.clients.claim()));
 self.addEventListener("push", (evento) => {
   let aviso = {};
   try {

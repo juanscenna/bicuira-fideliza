@@ -44,7 +44,8 @@ export function AtivarAvisos({
       if (!suporta) novo = ehIphone() && !abertoComoApp() ? "iphone_fora_da_tela_inicial" : "sem_suporte";
       else if (Notification.permission === "denied") novo = "bloqueado";
       else {
-        const reg = await navigator.serviceWorker.register("/sw.js");
+        const reg = await navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" });
+        reg.update().catch(() => {}); // busca a versão mais nova do service worker
         const inscricao = await reg.pushManager.getSubscription();
         novo = inscricao && Notification.permission === "granted" ? "ligado" : "desligado";
         // garante que o servidor tem a inscrição atual deste aparelho
@@ -61,7 +62,7 @@ export function AtivarAvisos({
     try {
       const permissao = await Notification.requestPermission();
       if (permissao !== "granted") return setEstado(permissao === "denied" ? "bloqueado" : "desligado");
-      const reg = await navigator.serviceWorker.register("/sw.js");
+      const reg = await navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" });
       await navigator.serviceWorker.ready;
       const inscricao =
         (await reg.pushManager.getSubscription()) ??
