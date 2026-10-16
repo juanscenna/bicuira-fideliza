@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Rosa } from "./Rosa";
+import { Selo } from "./Selo";
 
 const META = 10;
 // começa devagar e acelera até completar; depois uma pausa para ver a recompensa
@@ -73,11 +73,11 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
                 return (
                   <li key={i} className="relative flex justify-center">
                     <span
-                      className={`flex aspect-square w-full max-w-10 items-center justify-center rounded-full transition-colors duration-300 ${
-                        feito ? "bg-[#E8115A] text-[#F3EEE5] shadow-[0_0_14px_rgba(232,17,90,0.9)]" : "border-2 border-dashed border-[#F3EEE5]/25 text-[#F3EEE5]/20"
+                      className={`flex aspect-square w-full max-w-10 items-center justify-center rounded-full ${
+                        feito ? "shadow-[0_0_0_2px_#E8115A,0_0_14px_rgba(232,17,90,0.9)]" : "outline-2 outline-dashed outline-[#F3EEE5]/25"
                       } ${novo ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                     >
-                      <Rosa className="size-3/5" />
+                      <Selo feito={feito} />
                     </span>
                     {novo ? <span className="absolute inset-0 m-auto size-6 rounded-full bg-[#F2B315] animate-[faisca_700ms_ease-out_forwards]" /> : null}
                   </li>

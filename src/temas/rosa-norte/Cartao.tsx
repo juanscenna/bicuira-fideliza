@@ -1,9 +1,9 @@
 import { Gift } from "lucide-react";
 import type { PropsCartao } from "../tipos";
 import { fonteRosa } from "./estilo";
-import { Rosa } from "./Rosa";
+import { Selo } from "./Selo";
 
-/** Cartão Rosa Norte: preto com borda rosa, rosas como carimbos e destaque amarelo do prato. */
+/** Cartão Rosa Norte: preto com borda rosa, logo do restaurante como selo e destaque amarelo do prato. */
 export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qrSvg, carimboNovo }: PropsCartao) {
   const cheio = carimbos >= meta;
   const colunas = meta <= 5 ? meta : meta <= 10 ? 5 : 6;
@@ -37,13 +37,13 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
                 <span
                   className={`flex aspect-square w-full max-w-14 items-center justify-center rounded-full ${
                     feito
-                      ? "bg-[#E8115A] text-[#F3EEE5]"
+                      ? "shadow-[0_0_0_2px_#E8115A,0_0_12px_rgba(232,17,90,0.7)]"
                       : ultimo
                         ? "border-2 border-[#F2B315] text-[#F2B315]"
-                        : "border-2 border-dashed border-[#F3EEE5]/30 text-[#F3EEE5]/25"
+                        : "outline-2 outline-dashed outline-[#F3EEE5]/30"
                   } ${carimboNovo === i ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                 >
-                  {ultimo && !feito ? <Gift className="size-1/2" aria-hidden /> : <Rosa className="size-3/5" />}
+                  {ultimo && !feito ? <Gift className="size-1/2" aria-hidden /> : <Selo feito={feito} />}
                 </span>
               </li>
             );
