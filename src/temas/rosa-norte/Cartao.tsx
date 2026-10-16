@@ -63,7 +63,7 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
         </div>
       </div>
       {/* brilho passando, como no cartão de demonstração */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.18)_48%,rgba(242,179,21,0.12)_52%,transparent_65%)] bg-[length:250%_100%] mix-blend-screen motion-safe:animate-[brilho_5s_ease-in-out_infinite]" />
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 -left-full w-[300%] bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.12)_49%,rgba(242,179,21,0.08)_51%,transparent_58%)] motion-safe:animate-[brilho_5s_ease-in-out_infinite]" />
     </article>
   );
 }
