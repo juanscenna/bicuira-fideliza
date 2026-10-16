@@ -1,6 +1,6 @@
 # Bicuíra Fideliza — Plano do piloto
 
-> Status: **etapa 1 concluída**. Próxima: etapa 2.
+> Status: **as 7 etapas concluídas**. Detalhes das decisões em `docs/DECISOES.md`.
 > Fonte: `prompt-bicuira-fideliza.md`.
 
 ---

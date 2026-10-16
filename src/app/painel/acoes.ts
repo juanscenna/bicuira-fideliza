@@ -22,7 +22,7 @@ const MENSAGENS: Record<string, string> = {
 
 /** Chama uma função do banco com o login do dono e traduz o resultado para a tela. */
 async function operar(funcao: string, args: Record<string, unknown>, revalidar: string[] = []): Promise<Resultado> {
-  await exigirDono();
+  const { estabelecimento } = await exigirDono();
   const { userAgent, ipHash } = await origemDaRequisicao();
   const supabase = await supabaseServidor();
   const { data, error } = await supabase.rpc(funcao, { ...args, p_user_agent: userAgent, p_ip_hash: ipHash });
@@ -33,7 +33,7 @@ async function operar(funcao: string, args: Record<string, unknown>, revalidar: 
     return { ok: false, erro: texto || resto.join(": ") || "Não foi possível concluir. Tente de novo." };
   }
   const estado = data as EstadoOperacao;
-  await aposMudanca(estado);
+  await aposMudanca(estabelecimento.id, estado);
   for (const caminho of ["/painel", `/painel/clientes/${estado.cliente_id}`, ...revalidar]) revalidatePath(caminho);
   const semToken: Partial<EstadoOperacao> = { ...estado };
   delete semToken.token; // o token do cartão não vai para a tela do painel

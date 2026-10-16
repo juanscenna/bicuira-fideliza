@@ -69,3 +69,15 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 43. **Mudou nome, logo, cor ou regras no admin:** todos os cartões do estabelecimento são atualizados.
 44. **Log do iPhone** (`/v1/log`) vai para o log do servidor (Vercel), sem tabela própria.
 45. **Fontes consultadas:** documentação oficial da Apple (web service de atualização de passes) e a especificação oficial da Google Wallet API (discovery document). As páginas de guia do Google não puderam ser abertas deste ambiente; o limite de 3 notificações por cartão a cada 24 h foi confirmado pela página "Trigger push notifications" do Google (resultado de busca) e precisa ser revisado ao ativar o Google Wallet.
+
+## Etapa 7: notificações
+
+46. **Mensagem no cartão = notificação.** O texto vai para o campo de mensagem do cartão: topo do cartão web, verso do Apple Wallet (com `changeMessage`, que pode aparecer na tela de bloqueio) e mensagem do Google Wallet. O status no painel é sempre "enviado", nunca "entregue".
+47. **Limite de 150 caracteres** por mensagem, seguro para as duas plataformas, com contador na tela.
+48. **Limite das personalizadas:** até o máximo semanal do estabelecimento (padrão 2 em 7 dias, configurável no admin) **e** nenhum envio se o cliente já recebeu 3 mensagens (de qualquer tipo) nas últimas 24 h, por causa do limite do Google. Quem passaria do limite é pulado e aparece no resumo antes de confirmar.
+49. **Automáticas não são puladas:** sempre entram no cartão; acima de 3 em 24 h, entram no Google sem notificar.
+50. **"Falta pouco" e "Recompensa disponível"** saem uma vez por ciclo do cartão (não repetem se o dono tirar e devolver um carimbo).
+51. **"Sentimos sua falta" e "Recompensa esquecida"** rodam na tarefa agendada, só entre 10h e 20h (horário de São Paulo), uma vez por período de inatividade / por recompensa.
+52. **Tarefa agendada:** a rota `/api/cron/notificacoes` (protegida por `CRON_SECRET`) roda a cada 5 minutos pelo `pg_cron` + `pg_net` do Supabase (configuração no README). O `vercel.json` também agenda uma execução diária às 11h de São Paulo, como reserva.
+53. **Agendamento** aceita até 60 dias à frente. O público é recalculado na hora do envio (quem se cadastrar até lá também recebe).
+54. **Seleção manual** de clientes: busca por nome ou código, com caixas de seleção.

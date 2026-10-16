@@ -11,7 +11,7 @@ Documentos:
 - `docs/PLANO.md`: plano, telas, modelo de dados e ordem de construção
 - `docs/DECISOES.md`: decisões tomadas no caminho
 
-> **Andamento:** etapas 1 a 6 concluídas (base, admin, cadastro + cartão web, painel do dono, métricas, Wallet). Próxima: notificações.
+> **Andamento:** as 7 etapas do piloto estão prontas. Falta publicar (Supabase + Vercel) e configurar as contas Apple e Google.
 
 ---
 
@@ -83,6 +83,24 @@ Os testes de banco precisam do Supabase local rodando (`npm run db:iniciar`).
 1. Na Vercel: **Add New → Project** e importe o repositório `bicuira-fideliza`.
 2. Em **Environment Variables**, cadastre as variáveis do `.env.example`, com os valores do projeto Supabase (*Project Settings → API Keys*) e `NEXT_PUBLIC_SITE_URL` com o endereço final.
 3. Clique em **Deploy**.
+
+### 3. Tarefas agendadas (mensagens agendadas e automáticas)
+
+1. Na Vercel, cadastre a variável `CRON_SECRET` (gere com `openssl rand -hex 32`). A Vercel já roda a rota uma vez por dia (arquivo `vercel.json`).
+2. Para as mensagens agendadas saírem na hora certa, ative o agendador do Supabase: *Database → Extensions*, ligue **pg_cron** e **pg_net**. Depois, em *SQL Editor*, rode (trocando o endereço e o segredo):
+
+```sql
+select cron.schedule(
+  'fideliza-notificacoes',
+  '*/5 * * * *',
+  $$ select net.http_get(
+       url := 'https://fideliza.bicuira.com.br/api/cron/notificacoes',
+       headers := jsonb_build_object('Authorization', 'Bearer COLE_AQUI_O_CRON_SECRET')
+     ) $$
+);
+```
+
+> O segredo fica só no banco do Supabase e na Vercel, nunca no repositório.
 
 > A chave secreta (`SUPABASE_SECRET_KEY`) só vai nas variáveis da Vercel. Nunca no código nem em mensagens.
 
