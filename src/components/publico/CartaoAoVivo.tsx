@@ -14,12 +14,14 @@ type Props = {
   estab: Pick<EstabelecimentoPublico, "nome" | "logoUrl" | "tema">;
   inicial: EstadoCartao;
   qrSvg: string;
+  /** visual da mensagem e do aviso flutuante (cada tema pode trocar) */
+  classes?: { mensagem?: string; aviso?: string };
 };
 
 const CONSULTA_DE_SEGURANCA_MS = 30_000; // caso o tempo real caia
 
 /** Cartão web que se atualiza sozinho quando o dono registra algo no painel. */
-export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
+export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg, classes }: Props) {
   const [cartao, setCartao] = useState(inicial);
   const [carimboNovo, setCarimboNovo] = useState<number | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -83,7 +85,7 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {mostrarMensagem ? (
-        <div role="status" className="flex items-start gap-3 rounded-2xl bg-neutral-900 p-4 text-white shadow-lg">
+        <div role="status" className={`flex items-start gap-3 rounded-2xl p-4 shadow-lg ${classes?.mensagem ?? "bg-neutral-900 text-white"}`}>
           <Bell aria-hidden className="mt-0.5 size-5 shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold">{estab.nome}</p>
@@ -121,7 +123,7 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
       {aviso ? (
         <div
           aria-hidden
-          className="fixed inset-x-4 bottom-6 z-30 mx-auto flex max-w-sm items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-5 py-4 text-lg font-bold text-white shadow-xl"
+          className={`fixed inset-x-4 bottom-6 z-30 mx-auto flex max-w-sm items-center justify-center gap-2 rounded-2xl px-5 py-4 text-lg font-bold shadow-xl ${classes?.aviso ?? "bg-neutral-900 text-white"}`}
         >
           <PartyPopper className="size-6" /> {aviso}
         </div>

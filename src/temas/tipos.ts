@@ -20,3 +20,16 @@ export type PropsCartao = {
 
 /** Página de cadastro completa de um tema (opcional). Recebe o formulário pronto. */
 export type PropsCadastro = { estab: EstabTema; formulario: React.ReactNode };
+
+/** Página do cartão completa de um tema (opcional). Recebe as peças prontas. */
+export type PropsPaginaCartao = {
+  estab: EstabTema;
+  primeiroNome: string;
+  status: "novo" | "recuperado" | null;
+  /** cartão ao vivo (já com tempo real) */
+  cartao: React.ReactNode;
+  /** botões do Wallet (se ligado) + "salvar na tela inicial" */
+  guardar: React.ReactNode;
+  regras: { codigo: string; gastoMinimo: string; meta: number | null; recompensa: string | null };
+  privacidadeHref: string;
+};

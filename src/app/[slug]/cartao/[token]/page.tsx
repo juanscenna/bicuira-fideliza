@@ -9,6 +9,7 @@ import { appleConfigurado, googleConfigurado, walletVisivel } from "@/lib/wallet
 import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { CartaoAoVivo } from "@/components/publico/CartaoAoVivo";
 import { BotoesWallet, SalvarNaTelaInicial } from "@/components/publico/BotoesWallet";
+import { PAGINAS_CARTAO } from "@/temas/paginas-cartao";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
 
@@ -39,6 +40,45 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   if (!cartao) notFound();
 
   const plano = estab.planos.find((p) => p.tipo === cartao.plano);
+  const svg = await qrSvg(cartao.codigo);
+
+  // Tema com página do cartão própria (ex.: Rosa Norte)
+  const PaginaDoTema = PAGINAS_CARTAO[estab.tema];
+  if (PaginaDoTema) {
+    return (
+      <PaginaDoTema
+        estab={{ nome: estab.nome, logoUrl: estab.logoUrl }}
+        primeiroNome={cartao.nome.split(" ")[0]}
+        status={novo ? "novo" : recuperado ? "recuperado" : null}
+        cartao={
+          <CartaoAoVivo
+            token={token}
+            slug={slug}
+            estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema }}
+            inicial={cartao}
+            qrSvg={svg}
+            classes={{
+              mensagem: "border-2 border-[#E8115A] bg-[#151515] text-[#F3EEE5]",
+              aviso: "border-4 border-[#0A0A0A] bg-[#F2B315] uppercase text-[#0A0A0A] shadow-[0_8px_0_#E8115A]",
+            }}
+          />
+        }
+        guardar={
+          <>
+            {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
+            <SalvarNaTelaInicial className="border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]" />
+          </>
+        }
+        regras={{
+          codigo: cartao.codigo,
+          gastoMinimo: formatarReais(estab.gasto_minimo_centavos),
+          meta: plano?.carimbos_meta ?? null,
+          recompensa: plano?.recompensa_texto ?? null,
+        }}
+        privacidadeHref={`/${slug}/privacidade`}
+      />
+    );
+  }
 
   return (
     <MolduraPublica estab={estab}>
@@ -58,7 +98,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           slug={slug}
           estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema }}
           inicial={cartao}
-          qrSvg={await qrSvg(cartao.codigo)}
+          qrSvg={svg}
         />
 
         <section aria-labelledby="titulo-wallet" className="flex flex-col gap-3">

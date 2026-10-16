@@ -80,3 +80,9 @@ body {
   0% { transform: scale(0); opacity: 1; }
   100% { transform: scale(2.4); opacity: 0; }
 }
+
+/* botão "Ganhou!" pulsando sem perder contraste (só escala) */
+@keyframes destaque {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}

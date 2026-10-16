@@ -66,10 +66,10 @@ export function BotoesWallet({ token, slug, apple, google }: { token: string; sl
 }
 
 /** Instruções para salvar o cartão web na tela inicial, abertas no passo do aparelho do cliente. */
-export function SalvarNaTelaInicial() {
+export function SalvarNaTelaInicial({ className }: { className?: string } = {}) {
   const aparelho = useAparelho();
   return (
-    <details className="rounded-2xl border-2 border-neutral-900 bg-white p-4 [&_li]:mt-1" open={aparelho !== "outro"}>
+    <details className={`rounded-2xl p-4 [&_li]:mt-1 ${className ?? "border-2 border-neutral-900 bg-white"}`} open={aparelho !== "outro"}>
       <summary className="min-h-11 cursor-pointer content-center text-lg font-semibold">Salvar este cartão na tela inicial</summary>
       <div className="mt-2 flex flex-col gap-4 text-base">
         {aparelho !== "android" ? (
@@ -90,7 +90,7 @@ export function SalvarNaTelaInicial() {
             </ol>
           </div>
         ) : null}
-        <p className="text-sm text-neutral-600">Assim o cartão abre com um toque, como um aplicativo.</p>
+        <p className="text-sm opacity-75">Assim o cartão abre com um toque, como um aplicativo.</p>
       </div>
     </details>
   );
