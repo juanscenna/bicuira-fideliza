@@ -32,8 +32,6 @@ export type PlanoForm = { ativo: boolean; carimbos_meta: number; recompensa_text
 export type DadosEstabelecimento = {
   nome: string;
   slug: string;
-  cor_primaria: string;
-  cor_secundaria: string;
   gasto_minimo_centavos: number;
   dias_inatividade: number;
   max_personalizadas_semana: number;
@@ -54,8 +52,6 @@ export function validarEstabelecimento(d: DadosEstabelecimento): ErrosForm {
   if (d.nome.trim().length < 2 || d.nome.trim().length > 80) erros.nome = "Informe um nome entre 2 e 80 caracteres.";
   const erroSlug = validarSlug(d.slug);
   if (erroSlug) erros.slug = erroSlug;
-  if (!corValida(d.cor_primaria)) erros.cor_primaria = "Cor inválida.";
-  if (!corValida(d.cor_secundaria)) erros.cor_secundaria = "Cor inválida.";
   if (!Number.isInteger(d.gasto_minimo_centavos) || d.gasto_minimo_centavos < 0)
     erros.gasto_minimo = "Informe um valor em reais, como 15,00.";
   if (!Number.isInteger(d.dias_inatividade) || d.dias_inatividade < 1 || d.dias_inatividade > 365)

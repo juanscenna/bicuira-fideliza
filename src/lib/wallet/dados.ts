@@ -1,6 +1,6 @@
 import "server-only";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { urlLogo } from "@/lib/logo";
+import { TEMAS, temaDo } from "@/temas/config";
 import { SITE_URL } from "@/lib/env";
 
 /** Tudo o que um cartão de Wallet precisa mostrar (Apple e Google usam a mesma fonte). */
@@ -65,9 +65,9 @@ async function montar(linha: Linha | null): Promise<DadosPass | null> {
     estabelecimentoId: linha.estabelecimento_id,
     slug: e.slug,
     estabelecimento: e.nome,
-    logoUrl: urlLogo(e.logo_path),
-    corPrimaria: e.cor_primaria,
-    corSecundaria: e.cor_secundaria,
+    logoUrl: TEMAS[temaDo(e.slug)].logoUrl,
+    corPrimaria: TEMAS[temaDo(e.slug)].cor_primaria,
+    corSecundaria: TEMAS[temaDo(e.slug)].cor_secundaria,
     nome: linha.nome,
     codigo: linha.codigo,
     plano: linha.plano_tipo,

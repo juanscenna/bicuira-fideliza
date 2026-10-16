@@ -39,7 +39,7 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
           />
         </div>
       ) : (
-        <div className="flex flex-col gap-3 rounded-2xl bg-white p-6 text-center">
+        <div className="flex flex-col gap-3 rounded-2xl border-2 border-neutral-900 bg-white p-6 text-center">
           <h1 className="text-2xl font-bold">Programa pausado</h1>
           <p className="text-lg text-neutral-700">
             O cartão fidelidade do {estab.nome} não está recebendo cadastros no momento. Pergunte no balcão!

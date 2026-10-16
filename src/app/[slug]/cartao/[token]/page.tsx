@@ -44,11 +44,11 @@ export default async function PaginaCartao({ params, searchParams }: P) {
     <MolduraPublica estab={estab}>
       <div className="flex flex-col gap-6">
         {novo ? (
-          <p role="status" className="rounded-2xl bg-white p-4 text-lg font-semibold">
+          <p role="status" className="rounded-2xl border-2 border-neutral-900 bg-white p-4 text-lg font-semibold">
             Pronto, {cartao.nome.split(" ")[0]}! Seu cartão foi criado.
           </p>
         ) : recuperado ? (
-          <p role="status" className="rounded-2xl bg-white p-4 text-lg font-semibold">
+          <p role="status" className="rounded-2xl border-2 border-neutral-900 bg-white p-4 text-lg font-semibold">
             Este telefone já tinha um cartão: aqui está ele, com seus carimbos.
           </p>
         ) : null}
@@ -56,7 +56,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
         <CartaoAoVivo
           token={token}
           slug={slug}
-          estab={{ nome: estab.nome, logoUrl: estab.logoUrl, cor_primaria: estab.cor_primaria, cor_secundaria: estab.cor_secundaria }}
+          estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema }}
           inicial={cartao}
           qrSvg={await qrSvg(cartao.codigo)}
         />
@@ -70,7 +70,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
         </section>
 
         {/* "Verso" do cartão */}
-        <section aria-labelledby="titulo-regras" className="flex flex-col gap-2 rounded-2xl bg-white p-5">
+        <section aria-labelledby="titulo-regras" className="flex flex-col gap-2 rounded-2xl border-2 border-neutral-900 bg-white p-5">
           <h2 id="titulo-regras" className="text-xl font-bold">
             Como funciona
           </h2>

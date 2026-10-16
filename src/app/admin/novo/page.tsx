@@ -3,7 +3,6 @@ import { ChevronLeft } from "lucide-react";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { FormEstabelecimento } from "@/components/admin/FormEstabelecimento";
 import { salvarEstabelecimento } from "@/app/admin/acoes";
-import { qrSvg } from "@/lib/qr";
 import { SITE_URL } from "@/lib/env";
 
 export default async function NovoEstabelecimento() {
@@ -17,14 +16,10 @@ export default async function NovoEstabelecimento() {
       <FormEstabelecimento
         acao={salvarEstabelecimento.bind(null, null)}
         novo
-        logoUrl={null}
-        qrExemplo={await qrSvg("K4827")}
         urlBase={SITE_URL}
         inicial={{
           nome: "",
           slug: "",
-          cor_primaria: "#3F3F46",
-          cor_secundaria: "#F4F4F5",
           gasto_minimo_centavos: 1500,
           dias_inatividade: 30,
           max_personalizadas_semana: 2,

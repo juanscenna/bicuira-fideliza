@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Bell, PartyPopper, X } from "lucide-react";
-import { CartaoVisual } from "@/components/cartao/CartaoVisual";
+import { CARTOES } from "@/temas/cartoes";
 import { supabaseNavegador } from "@/lib/supabase/navegador";
 import { canalDoCartao, EVENTO_ATUALIZOU } from "@/lib/tempo-real";
 import type { EstadoCartao } from "@/lib/cartao";
@@ -11,7 +11,7 @@ import type { EstabelecimentoPublico } from "@/lib/publico";
 type Props = {
   token: string;
   slug: string;
-  estab: Pick<EstabelecimentoPublico, "nome" | "logoUrl" | "cor_primaria" | "cor_secundaria">;
+  estab: Pick<EstabelecimentoPublico, "nome" | "logoUrl" | "tema">;
   inicial: EstadoCartao;
   qrSvg: string;
 };
@@ -77,6 +77,7 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
     return () => clearTimeout(t);
   }, [aviso]);
 
+  const Cartao = CARTOES[estab.tema];
   const mostrarMensagem = cartao.mensagem && cartao.mensagemEm !== mensagemFechada;
 
   return (
@@ -104,8 +105,8 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
         </div>
       ) : null}
 
-      <CartaoVisual
-        estabelecimento={estab}
+      <Cartao
+        estab={{ nome: estab.nome, logoUrl: estab.logoUrl }}
         cliente={{ nome: cartao.nome, codigo: cartao.codigo }}
         carimbos={cartao.carimbos}
         meta={cartao.meta}

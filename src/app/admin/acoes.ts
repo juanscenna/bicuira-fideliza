@@ -15,8 +15,6 @@ import { carregarEstabelecimento, donosDoEstabelecimento } from "@/lib/admin/dad
 
 export type EstadoForm = { erros?: ErrosForm; mensagem?: string; ok?: boolean };
 
-const TIPOS_LOGO: Record<string, string> = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp" };
-
 function texto(form: FormData, campo: string) {
   return String(form.get(campo) ?? "").trim();
 }
@@ -32,8 +30,6 @@ function lerFormulario(form: FormData): DadosEstabelecimento {
   return {
     nome: texto(form, "nome"),
     slug: texto(form, "slug").toLowerCase(),
-    cor_primaria: texto(form, "cor_primaria").toUpperCase(),
-    cor_secundaria: texto(form, "cor_secundaria").toUpperCase(),
     gasto_minimo_centavos: lerReais(texto(form, "gasto_minimo")) ?? NaN,
     dias_inatividade: inteiro(form, "dias_inatividade"),
     max_personalizadas_semana: inteiro(form, "max_personalizadas_semana"),
@@ -55,7 +51,7 @@ function lerFormulario(form: FormData): DadosEstabelecimento {
   };
 }
 
-/** Cria (sem id) ou atualiza um estabelecimento com seus dois planos e a logo. */
+/** Cria (sem id) ou atualiza um estabelecimento com seus dois planos. O visual vem do tema (src/temas). */
 export async function salvarEstabelecimento(
   id: string | null,
   _anterior: EstadoForm,
@@ -65,12 +61,6 @@ export async function salvarEstabelecimento(
   const dados = lerFormulario(form);
   const erros = validarEstabelecimento(dados);
 
-  const logo = form.get("logo");
-  const temLogo = logo instanceof File && logo.size > 0;
-  if (temLogo) {
-    if (!TIPOS_LOGO[logo.type]) erros.logo = "Envie PNG, JPG ou WebP.";
-    else if (logo.size > 2 * 1024 * 1024) erros.logo = "A imagem precisa ter até 2 MB.";
-  }
   if (Object.keys(erros).length > 0) return { erros, mensagem: "Confira os campos destacados." };
 
   const supabase = await supabaseServidor();
@@ -94,15 +84,6 @@ export async function salvarEstabelecimento(
     if (error) return erroBanco(error);
   }
 
-  if (temLogo) {
-    const caminho = `${estabelecimentoId}/logo-${Date.now()}.${TIPOS_LOGO[logo.type]}`;
-    const { error } = await supabaseAdmin()
-      .storage.from("logos")
-      .upload(caminho, Buffer.from(await logo.arrayBuffer()), { contentType: logo.type, upsert: true });
-    if (error) return { mensagem: `Os dados foram salvos, mas a logo não: ${error.message}` };
-    await supabase.from("estabelecimentos").update({ logo_path: caminho }).eq("id", estabelecimentoId);
-  }
-
   await registrarAuditoria({
     acao: id ? "estabelecimento.editar" : "estabelecimento.criar",
     userId: sessao.userId,
@@ -110,11 +91,11 @@ export async function salvarEstabelecimento(
     alvoTipo: "estabelecimento",
     alvoId: estabelecimentoId!,
     antes,
-    depois: { ...dados, logo_alterada: temLogo },
+    depois: dados,
   });
 
   if (id) {
-    // nome, logo, cores ou regras mudaram: os cartões no Wallet precisam ser atualizados
+    // nome ou regras mudaram: os cartões no Wallet precisam ser atualizados
     const admin = supabaseAdmin();
     const { data: passes } = await admin.from("passes").select("cliente_id, versao").eq("estabelecimento_id", id);
     for (const p of passes ?? []) {

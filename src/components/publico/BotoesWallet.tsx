@@ -69,7 +69,7 @@ export function BotoesWallet({ token, slug, apple, google }: { token: string; sl
 export function SalvarNaTelaInicial() {
   const aparelho = useAparelho();
   return (
-    <details className="rounded-2xl bg-white p-4 [&_li]:mt-1" open={aparelho !== "outro"}>
+    <details className="rounded-2xl border-2 border-neutral-900 bg-white p-4 [&_li]:mt-1" open={aparelho !== "outro"}>
       <summary className="min-h-11 cursor-pointer content-center text-lg font-semibold">Salvar este cartão na tela inicial</summary>
       <div className="mt-2 flex flex-col gap-4 text-base">
         {aparelho !== "android" ? (

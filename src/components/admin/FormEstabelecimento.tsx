@@ -4,17 +4,13 @@ import { startTransition, useActionState, useState, type ReactNode } from "react
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Botao } from "@/components/ui/Botao";
 import { Campo } from "@/components/ui/Campo";
-import { CartaoVisual } from "@/components/cartao/CartaoVisual";
 import { gerarSlug, type DadosEstabelecimento } from "@/lib/dominio/estabelecimento";
-import { avaliarCor } from "@/lib/tema";
 import type { EstadoForm } from "@/app/admin/acoes";
 
 type Props = {
   acao: (anterior: EstadoForm, form: FormData) => Promise<EstadoForm>;
   inicial: DadosEstabelecimento;
-  logoUrl: string | null;
   novo: boolean;
-  qrExemplo: string;
   urlBase: string;
 };
 
@@ -22,20 +18,15 @@ function centavosParaTexto(c: number) {
   return (c / 100).toFixed(2).replace(".", ",");
 }
 
-export function FormEstabelecimento({ acao, inicial, logoUrl, novo, qrExemplo, urlBase }: Props) {
+export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
   const [estado, enviar, enviando] = useActionState(acao, {});
   const erros = estado.erros ?? {};
 
   const [nome, setNome] = useState(inicial.nome);
   const [slug, setSlug] = useState(inicial.slug);
   const [slugEditado, setSlugEditado] = useState(!novo);
-  const [primaria, setPrimaria] = useState(inicial.cor_primaria);
-  const [secundaria, setSecundaria] = useState(inicial.cor_secundaria);
-  const [previaLogo, setPreviaLogo] = useState<string | null>(logoUrl);
   const [morador, setMorador] = useState(inicial.morador);
   const [turista, setTurista] = useState(inicial.turista);
-
-  const planoPrevia = morador.ativo ? morador : turista;
 
   return (
     <form
@@ -45,10 +36,10 @@ export function FormEstabelecimento({ acao, inicial, logoUrl, novo, qrExemplo, u
         const dados = new FormData(e.currentTarget);
         startTransition(() => enviar(dados));
       }}
-      className="grid gap-8 lg:grid-cols-[1fr_340px]"
+      className="flex max-w-3xl flex-col gap-8"
     >
       <div className="flex flex-col gap-8">
-        <Secao titulo="Identidade">
+        <Secao titulo="Informações básicas" descricao="O visual da página e do cartão é feito sob medida pela Bicuíra, fora deste formulário.">
           <Campo
             id="nome"
             name="nome"
@@ -76,27 +67,6 @@ export function FormEstabelecimento({ acao, inicial, logoUrl, novo, qrExemplo, u
             autoCapitalize="off"
             spellCheck={false}
           />
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="logo" className="font-semibold text-restinga">
-              Logo <span className="font-normal text-carvao/80">(PNG, JPG ou WebP, até 2 MB, de preferência quadrada)</span>
-            </label>
-            <input
-              id="logo"
-              name="logo"
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              className="min-h-12 rounded-xl border-2 border-dashed border-restinga/30 bg-white p-3 file:mr-4 file:rounded-lg file:border-0 file:bg-restinga file:px-4 file:py-2 file:font-semibold file:text-areia"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                setPreviaLogo(f ? URL.createObjectURL(f) : logoUrl);
-              }}
-            />
-            {erros.logo ? <p className="text-sm font-medium">{erros.logo}</p> : null}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <SeletorCor id="cor_primaria" rotulo="Cor principal (fundo do cartão)" valor={primaria} onChange={setPrimaria} erro={erros.cor_primaria} />
-            <SeletorCor id="cor_secundaria" rotulo="Cor secundária (faixa de carimbos)" valor={secundaria} onChange={setSecundaria} erro={erros.cor_secundaria} />
-          </div>
         </Secao>
 
         <Secao titulo="Planos e regras" descricao="O dono vê estas regras, mas não pode mudá-las.">
@@ -168,17 +138,6 @@ export function FormEstabelecimento({ acao, inicial, logoUrl, novo, qrExemplo, u
         </div>
       </div>
 
-      <aside className="lg:sticky lg:top-6 lg:self-start">
-        <p className="mb-3 font-semibold text-restinga">Prévia do cartão</p>
-        <CartaoVisual
-          estabelecimento={{ nome: nome || "Nome do estabelecimento", logoUrl: previaLogo, cor_primaria: primaria, cor_secundaria: secundaria }}
-          cliente={{ nome: "Maria Exemplo", codigo: "K4827" }}
-          carimbos={Math.min(3, planoPrevia.carimbos_meta || 1)}
-          meta={Math.max(1, Math.min(planoPrevia.carimbos_meta || 1, 30))}
-          recompensa={planoPrevia.recompensa_texto || "recompensa"}
-          qrSvg={qrExemplo}
-        />
-      </aside>
     </form>
   );
 }
@@ -199,42 +158,6 @@ function Aviso({ children }: { children: ReactNode }) {
       <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-sol" />
       {children}
     </p>
-  );
-}
-
-function SeletorCor({ id, rotulo, valor, onChange, erro }: { id: string; rotulo: string; valor: string; onChange: (v: string) => void; erro?: string }) {
-  const avaliacao = /^#[0-9A-Fa-f]{6}$/.test(valor) ? avaliarCor(valor) : null;
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="font-semibold text-restinga">
-        {rotulo}
-      </label>
-      <div className="flex gap-2">
-        <input
-          type="color"
-          aria-label={`${rotulo}: escolher`}
-          value={avaliacao ? valor : "#000000"}
-          onChange={(e) => onChange(e.target.value.toUpperCase())}
-          className="h-12 w-14 shrink-0 cursor-pointer rounded-xl border-2 border-restinga/25 bg-white p-1"
-        />
-        <input
-          id={id}
-          name={id}
-          value={valor}
-          onChange={(e) => onChange(e.target.value.toUpperCase())}
-          maxLength={7}
-          spellCheck={false}
-          className="min-h-12 w-full rounded-xl border-2 border-restinga/25 bg-white px-4 font-mono text-lg uppercase"
-        />
-      </div>
-      {erro ? <p className="text-sm font-medium">{erro}</p> : null}
-      {avaliacao && !avaliacao.textoPequenoOk ? (
-        <Aviso>
-          Contraste baixo ({avaliacao.razao.toFixed(1)}:1): textos pequenos sobre esta cor ficam difíceis de ler. Prefira um tom mais escuro ou
-          mais claro.
-        </Aviso>
-      ) : null}
-    </div>
   );
 }
 

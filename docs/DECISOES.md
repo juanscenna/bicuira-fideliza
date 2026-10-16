@@ -86,3 +86,8 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 
 55. **Piloto só com cartão web:** a variável `WALLET_ATIVO` (padrão desligada) esconde os botões de Apple/Google Wallet e não tenta atualizar o Wallet. Para ligar no futuro: `WALLET_ATIVO=true` + credenciais na Vercel e novo deploy, sem mudar código.
 56. **Publicação sem terminal:** `supabase/producao.sql` junta todas as migrations para colar no SQL Editor (testado num banco limpo, com os 106 testes passando). O login de administrador é criado pelo painel do Supabase e promovido com um `insert` em `perfis` (guia em `docs/PUBLICAR.md`).
+
+## Design por estabelecimento
+
+57. **A identidade visual sai do admin.** O admin guarda só nome, endereço, regras, contato e cobrança. Logo, cores e layout de cada restaurante ficam no código, em `src/temas/` (um tema por restaurante, ligado ao endereço em `src/temas/config.ts`).
+58. **Tema "básico" em preto e branco** para todo estabelecimento que ainda não tem design próprio. O Wallet (quando ligado), o ícone e o manifest usam as cores e a logo do tema.

@@ -5,8 +5,6 @@ import { avaliarCor, contraste, textoSobre, TEXTO_CLARO, TEXTO_ESCURO } from "@/
 const base: DadosEstabelecimento = {
   nome: "Restaurante Teste",
   slug: "restaurante-teste",
-  cor_primaria: "#3F3F46",
-  cor_secundaria: "#F4F4F5",
   gasto_minimo_centavos: 1500,
   dias_inatividade: 30,
   max_personalizadas_semana: 2,

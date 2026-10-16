@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Download, ExternalLink } from "lucide-react";
 import { exigirSuperAdmin } from "@/lib/auth";
-import { carregarEstabelecimento, donosDoEstabelecimento, urlLogo } from "@/lib/admin/dados";
+import { carregarEstabelecimento, donosDoEstabelecimento } from "@/lib/admin/dados";
+import { temaDo } from "@/temas/config";
 import { anonimizarCliente, criarLoginDono, redefinirSenhaDono, salvarEstabelecimento } from "@/app/admin/acoes";
 import { FormEstabelecimento } from "@/components/admin/FormEstabelecimento";
 import { FormAnonimizar, FormCriarDono, FormRedefinirSenha } from "@/components/admin/Secoes";
@@ -17,13 +18,8 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
   const estab = await carregarEstabelecimento(id);
   if (!estab) notFound();
 
-  const [donos, qrPagina, qrExemplo] = await Promise.all([
-    donosDoEstabelecimento(id),
-    qrSvg(`${SITE_URL}/${estab.slug}`),
-    qrSvg("K4827"),
-  ]);
-  const { logo_path, ...dados } = estab;
-  const inicial = { ...dados, id: undefined };
+  const [donos, qrPagina] = await Promise.all([donosDoEstabelecimento(id), qrSvg(`${SITE_URL}/${estab.slug}`)]);
+  const inicial = { ...estab, id: undefined, logo_path: undefined };
   const urlPublica = `${SITE_URL}/${estab.slug}`;
 
   return (
@@ -41,6 +37,9 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
         <a href={urlPublica} target="_blank" rel="noreferrer" className="flex items-center gap-1 self-start font-semibold text-restinga underline underline-offset-4">
           {urlPublica.replace(/^https?:\/\//, "")} <ExternalLink aria-hidden className="size-4" />
         </a>
+        <p className="text-sm text-carvao/80">
+          Design da página e do cartão: <strong>{temaDo(estab.slug) === "basico" ? "básico (preto e branco)" : temaDo(estab.slug)}</strong>
+        </p>
         {criado ? (
           <p role="status" className="rounded-xl bg-lima px-4 py-3 font-medium">
             Estabelecimento criado. Agora crie o login do dono e baixe o QR Code.
@@ -90,9 +89,7 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
       <FormEstabelecimento
         acao={salvarEstabelecimento.bind(null, id)}
         inicial={inicial}
-        logoUrl={urlLogo(logo_path)}
         novo={false}
-        qrExemplo={qrExemplo}
         urlBase={SITE_URL}
       />
 
