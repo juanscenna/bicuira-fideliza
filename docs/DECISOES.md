@@ -47,3 +47,13 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 27. **Código digitado:** aceita minúsculas e corrige O→0 e I/L→1 nos números. Com 5 caracteres válidos, a ficha abre sozinha.
 28. **Cursor automático:** no computador, o campo do código já começa selecionado. No celular não (o teclado esconderia o botão do QR). Depois de escanear, o cursor vai direto para o valor.
 29. **Lista de clientes:** mostra até 200 por vez (busca e filtros resolvem o resto).
+
+## Etapa 5: métricas
+
+30. **Visita de retorno** = qualquer visita do cliente que não seja a primeira dele (mesmo que a primeira tenha sido antes do período escolhido).
+31. **Clientes que retornaram** = clientes com pelo menos 1 visita de retorno no período. **Taxa de retorno** = esses clientes ÷ clientes com alguma visita no período.
+32. **Ticket médio** = gasto em visitas de retorno ÷ número de visitas de retorno.
+33. **Períodos** contam para trás a partir de agora (ex.: últimos 7 × 24 h).
+34. **Separação por plano** usa o plano atual de cada cliente.
+35. **Clientes inativos** é sempre a situação de agora (não depende do período). Clientes com dados apagados (LGPD) não entram.
+36. Visitas desfeitas não contam; visitas corrigidas contam com o valor corrigido.

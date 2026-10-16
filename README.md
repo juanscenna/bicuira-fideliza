@@ -11,7 +11,7 @@ Documentos:
 - `docs/PLANO.md`: plano, telas, modelo de dados e ordem de construção
 - `docs/DECISOES.md`: decisões tomadas no caminho
 
-> **Andamento:** etapas 1 a 4 concluídas (base, admin, cadastro + cartão web, painel do dono). Próximas: métricas, Wallet e notificações.
+> **Andamento:** etapas 1 a 5 concluídas (base, admin, cadastro + cartão web, painel do dono, métricas). Próximas: Wallet e notificações.
 
 ---
 
