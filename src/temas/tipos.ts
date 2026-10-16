@@ -1,3 +1,4 @@
+import type React from "react";
 import type { ReactNode } from "react";
 
 /** Dados do estabelecimento que o design de cada tema pode usar. */
@@ -16,3 +17,6 @@ export type PropsCartao = {
   /** índice (0-based) do carimbo recém-ganho, para animar */
   carimboNovo?: number | null;
 };
+
+/** Página de cadastro completa de um tema (opcional). Recebe o formulário pronto. */
+export type PropsCadastro = { estab: EstabTema; formulario: React.ReactNode };

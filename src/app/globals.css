@@ -45,3 +45,37 @@ body {
   60% { transform: scale(0.92) rotate(3deg); opacity: 1; }
   100% { transform: scale(1) rotate(0); }
 }
+
+/* ---- Animações dos temas (todas desligadas com movimento reduzido, acima) ---- */
+@keyframes balanco3d {
+  0%, 100% { transform: rotateY(-24deg) rotateX(10deg) translateY(0); }
+  50% { transform: rotateY(24deg) rotateX(-6deg) translateY(-12px); }
+}
+@keyframes giro360 {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+@keyframes brilho {
+  0% { background-position: 150% 0; }
+  60%, 100% { background-position: -50% 0; }
+}
+@keyframes pulsar {
+  0%, 100% { opacity: 0.55; transform: scale(0.95); }
+  50% { opacity: 0.95; transform: scale(1.08); }
+}
+@keyframes sombra {
+  0%, 100% { transform: scaleX(1); opacity: 0.55; }
+  50% { transform: scaleX(0.82); opacity: 0.35; }
+}
+@keyframes faixa {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0) rotate(var(--giro, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--giro, 0deg)); }
+}
+@keyframes faisca {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}

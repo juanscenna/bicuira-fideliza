@@ -5,6 +5,7 @@ import { textoConsentimento } from "@/lib/dominio/consentimento";
 import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { FormCadastro } from "@/components/publico/FormCadastro";
 import { cadastrar } from "./acoes";
+import { CADASTROS } from "@/temas/cadastros";
 
 export async function generateMetadata({ params }: PageProps<"/[slug]">): Promise<Metadata> {
   const estab = await estabelecimentoPorSlug((await params).slug);
@@ -21,6 +22,21 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
   const estab = await estabelecimentoPorSlug(slug);
   if (!estab) notFound();
 
+  const formulario = (
+    <FormCadastro
+      acao={cadastrar.bind(null, slug)}
+      slug={slug}
+      perguntarPlano={estab.planos.length > 1}
+      textoConsentimento={textoConsentimento(estab.versao_politica, estab.nome)}
+    />
+  );
+
+  // Tema com página de cadastro própria (ex.: Rosa Norte)
+  const CadastroDoTema = CADASTROS[estab.tema];
+  if (CadastroDoTema && estab.ativo && estab.planos.length > 0) {
+    return <CadastroDoTema estab={{ nome: estab.nome, logoUrl: estab.logoUrl }} formulario={formulario} />;
+  }
+
   return (
     <MolduraPublica estab={estab}>
       {estab.ativo && estab.planos.length > 0 ? (
@@ -31,12 +47,7 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
               Junte carimbos a cada visita e ganhe recompensas. Leva menos de um minuto, sem baixar aplicativo.
             </p>
           </div>
-          <FormCadastro
-            acao={cadastrar.bind(null, slug)}
-            slug={slug}
-            perguntarPlano={estab.planos.length > 1}
-            textoConsentimento={textoConsentimento(estab.versao_politica, estab.nome)}
-          />
+          {formulario}
         </div>
       ) : (
         <div className="flex flex-col gap-3 rounded-2xl border-2 border-neutral-900 bg-white p-6 text-center">

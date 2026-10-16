@@ -10,7 +10,7 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
   return (
     <article
       aria-label={`Cartão fidelidade ${estab.nome}`}
-      className={`${fonteRosa.variable} mx-auto w-full max-w-[380px] overflow-hidden rounded-[2rem] border-4 border-[#E8115A] bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}
+      className={`${fonteRosa.variable} relative mx-auto w-full max-w-[380px] overflow-hidden rounded-[2rem] shadow-[0_24px_60px_-18px_rgba(232,17,90,0.65)] border-4 border-[#E8115A] bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}
     >
       <header className="flex items-center gap-3 px-5 pt-5">
         {estab.logoUrl ? (
@@ -62,6 +62,8 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
           <p className="text-xs font-medium">Mostre no caixa a cada visita.</p>
         </div>
       </div>
+      {/* brilho passando, como no cartão de demonstração */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.18)_48%,rgba(242,179,21,0.12)_52%,transparent_65%)] bg-[length:250%_100%] mix-blend-screen motion-safe:animate-[brilho_5s_ease-in-out_infinite]" />
     </article>
   );
 }
