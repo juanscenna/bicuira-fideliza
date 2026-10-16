@@ -21,46 +21,33 @@ function detectar(): Aparelho {
 
 /**
  * Botões "Adicionar ao Apple Wallet" e "Adicionar ao Google Wallet".
- * O mais adequado ao aparelho vem primeiro e em destaque; os dois aparecem sempre.
+ * Só aparecem os Wallets já configurados; o Google não aparece no iPhone (não existe lá).
+ * O mais adequado ao aparelho vem primeiro e em destaque.
  */
 export function BotoesWallet({ token, slug, apple, google }: { token: string; slug: string; apple: boolean; google: boolean }) {
   const aparelho = useAparelho();
 
   const botoes = [
-    { id: "apple", rotulo: "Adicionar ao Apple Wallet", href: `/api/wallet/apple/pass/${token}?e=${slug}`, pronto: apple },
-    { id: "google", rotulo: "Adicionar ao Google Wallet", href: `/api/wallet/google/salvar/${token}?e=${slug}`, pronto: google },
-  ];
+    { id: "apple", rotulo: "Adicionar ao Apple Wallet", href: `/api/wallet/apple/pass/${token}?e=${slug}`, pronto: apple && aparelho !== "android" },
+    { id: "google", rotulo: "Adicionar ao Google Wallet", href: `/api/wallet/google/salvar/${token}?e=${slug}`, pronto: google && aparelho !== "ios" },
+  ].filter((b) => b.pronto);
   if (aparelho === "android") botoes.reverse();
-  const nenhum = !apple && !google;
+  if (botoes.length === 0) return null;
 
   return (
     <div className="flex flex-col gap-3">
-      {botoes.map((b, i) =>
-        b.pronto ? (
-          <a
-            key={b.id}
-            href={b.href}
-            className={`flex min-h-14 items-center justify-center gap-2 rounded-2xl px-5 text-lg font-bold ${
-              i === 0 && aparelho !== "outro" ? "bg-black text-white" : "border-2 border-black bg-white text-black"
-            }`}
-          >
-            <Smartphone aria-hidden className="size-5" />
-            {b.rotulo}
-          </a>
-        ) : (
-          <div
-            key={b.id}
-            aria-disabled
-            className="flex min-h-14 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-neutral-300 px-5 py-2 text-center text-neutral-600"
-          >
-            <span className="font-semibold">{b.rotulo}</span>
-            <span className="text-sm">Wallet ainda não configurado</span>
-          </div>
-        ),
-      )}
-      {nenhum ? (
-        <p className="text-sm text-neutral-600">Enquanto isso, use este cartão pelo navegador. Ele funciona do mesmo jeito.</p>
-      ) : null}
+      {botoes.map((b, i) => (
+        <a
+          key={b.id}
+          href={b.href}
+          className={`flex min-h-14 items-center justify-center gap-2 rounded-2xl px-5 text-lg font-bold ${
+            i === 0 ? "bg-black text-white" : "border-2 border-black bg-white text-black"
+          }`}
+        >
+          <Smartphone aria-hidden className="size-5" />
+          {b.rotulo}
+        </a>
+      ))}
     </div>
   );
 }
