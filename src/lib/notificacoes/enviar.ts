@@ -7,7 +7,7 @@ import { dadosPorCliente } from "@/lib/wallet/dados";
 import { mensagemGoogle } from "@/lib/wallet/google";
 import { walletVisivel } from "@/lib/wallet/config";
 import { clientesComPush, enviarPush } from "@/lib/push";
-import { iconesDo } from "@/temas/config";
+import { iconesPushDo } from "@/temas/config";
 import { SITE_URL } from "@/lib/env";
 import { decidirEnvio, type Origem, type TipoAutomatica } from "./regras";
 
@@ -92,8 +92,8 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
   await avisarCartoes(tokens);
   // notificação do próprio site: título = nome do restaurante, ícone = logo dele
   if (paraPush.length > 0 && estab) {
-    const icone = `${SITE_URL}${iconesDo(estab.slug).icon[0].url}`;
-    after(() => Promise.allSettled(paraPush.map((x) => enviarPush(x.clienteId, { titulo: estab.nome, corpo: x.texto, url: x.url, icone }))));
+    const icones = iconesPushDo(estab.slug, SITE_URL);
+    after(() => Promise.allSettled(paraPush.map((x) => enviarPush(x.clienteId, { titulo: estab.nome, corpo: x.texto, url: x.url, ...icones }))));
   }
   if (!walletVisivel()) return resumo; // piloto só com cartão web
   after(async () => {

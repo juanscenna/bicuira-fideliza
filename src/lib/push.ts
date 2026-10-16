@@ -18,7 +18,7 @@ function configurar() {
   configurado = true;
 }
 
-export type AvisoPush = { titulo: string; corpo: string; url: string; icone: string };
+export type AvisoPush = { titulo: string; corpo: string; url: string; icone: string; badge?: string };
 
 /** Clientes (dentre os informados) que aceitaram notificações. */
 export async function clientesComPush(clienteIds: string[]) {

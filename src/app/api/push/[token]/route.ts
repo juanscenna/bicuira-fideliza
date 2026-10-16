@@ -3,7 +3,7 @@ import { estabelecimentoPorSlug } from "@/lib/publico";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { enviarPush, pushConfigurado } from "@/lib/push";
 import { SITE_URL } from "@/lib/env";
-import { iconesDo } from "@/temas/config";
+import { iconesPushDo } from "@/temas/config";
 
 type Inscricao = { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } };
 
@@ -50,7 +50,7 @@ export async function POST(req: Request, { params }: RouteContext<"/api/push/[to
         titulo: c.nome,
         corpo: "Pronto! Você vai receber os avisos do restaurante aqui. 🎉",
         url: `${SITE_URL}/${c.slug}/cartao/${token}`,
-        icone: `${SITE_URL}${iconesDo(c.slug).icon[0].url}`,
+        ...iconesPushDo(c.slug, SITE_URL),
       }),
     );
   }

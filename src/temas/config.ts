@@ -22,6 +22,8 @@ export type ConfigTema = {
   favicon?: string;
   /** selo do cartão no Wallet (PNG, caminho público): ganho e ainda não ganho. Sem ele, bolinhas na cor de apoio. */
   selos?: { feito: string; vazio: string };
+  /** ícone pequeno das notificações (Android): branco com fundo transparente */
+  badge?: string;
   /** textos extras do cartão no Wallet */
   wallet?: { titulo?: string; instagram?: string };
 };
@@ -31,6 +33,7 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
   // Comida Caseira Rosa Norte — preto, rosa da logo, amarelo do prato, creme das letras
   "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png`, favicon: "/temas/rosa-norte/logo-256.png",
     selos: { feito: "/temas/rosa-norte/selo-160.png", vazio: "/temas/rosa-norte/selo-cinza-160.png" },
+    badge: "/temas/rosa-norte/badge.png",
     wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
   },
 };
@@ -52,4 +55,10 @@ export function iconesDo(slug: string) {
     icon: fav ? [{ url: fav, type: "image/png" }] : [{ url: `/${slug}/icone/192`, type: "image/png" }],
     apple: `/${slug}/icone/180`,
   };
+}
+
+/** Ícone grande (logo) e pequeno (silhueta) das notificações do site. */
+export function iconesPushDo(slug: string, base: string) {
+  const t = TEMAS[temaDo(slug)];
+  return { icone: `${base}${iconesDo(slug).icon[0].url}`, badge: t.badge ? `${base}${t.badge}` : undefined };
 }

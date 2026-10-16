@@ -10,7 +10,8 @@ self.addEventListener("push", (evento) => {
     self.registration.showNotification(aviso.titulo || "Cartão fidelidade", {
       body: aviso.corpo || "",
       icon: aviso.icone || undefined,
-      badge: aviso.icone || undefined,
+      // ícone pequeno da barra: precisa ser silhueta (o Android pinta de uma cor só)
+      badge: aviso.badge || undefined,
       data: { url: aviso.url || "/" },
     }),
   );
