@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { ArrowDown, QrCode, Smartphone, UserPlus } from "lucide-react";
+import { QrCode, Smartphone, UserPlus } from "lucide-react";
 import type { PropsCadastro } from "../tipos";
 import { CartaoDemo } from "./CartaoDemo";
 import { fonteRosa, ROSA } from "./estilo";
@@ -35,8 +35,8 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
 
   return (
     <div style={cores} className={`${fonteRosa.variable} min-h-dvh overflow-x-hidden bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}>
-      {/* ---------- Abertura: foto do salão + logo + adesivos ---------- */}
-      <section className="relative flex h-[78svh] min-h-[520px] items-end justify-center lg:h-[86svh]">
+      {/* ---------- Abertura compacta: foto do salão + logo + adesivos ---------- */}
+      <section className="relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`${FOTO}/salao-800.webp`}
@@ -46,57 +46,39 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
           className="absolute inset-0 size-full object-cover"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.15)_0%,rgba(10,10,10,0.35)_45%,#0A0A0A_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.25)_0%,rgba(10,10,10,0.55)_55%,#0A0A0A_100%)]" />
 
-        <Adesivo giro="-8deg" className="top-[12%] left-4 rounded-md bg-[#E8115A] px-3 py-2 text-sm text-[#F3EEE5] lg:left-[12%] lg:text-lg">
+        <Adesivo giro="-8deg" className="top-4 right-4 rounded-md bg-[#E8115A] px-2.5 py-1.5 text-[11px] text-[#F3EEE5] lg:top-8 lg:right-[10%] lg:text-base">
           Cartão fidelidade
         </Adesivo>
-        <Adesivo giro="10deg" className="top-[22%] right-4 size-24 rounded-full bg-[#F2B315] p-2 text-center text-[13px] text-[#0A0A0A] lg:right-[14%] lg:size-32 lg:text-base">
+        <Adesivo giro="10deg" className="right-6 bottom-6 size-[4.5rem] rounded-full max-lg:hidden bg-[#F2B315] p-1.5 text-center text-[11px] text-[#0A0A0A] lg:right-[16%] lg:bottom-10 lg:size-28 lg:text-sm">
           Junte rosas!
         </Adesivo>
-        <Adesivo giro="4deg" className="top-[40%] left-3 rounded-sm bg-[#F3EEE5] px-3 py-1.5 text-xs tracking-widest text-[#0A0A0A] lg:left-[18%] lg:text-sm">
-          Comida caseira
-        </Adesivo>
 
-        <div className="relative z-10 flex flex-col items-center gap-5 pb-10">
+        <div className="relative z-10 mx-auto flex max-w-6xl items-center gap-4 px-5 pt-14 pb-8 lg:gap-8 lg:pt-16 lg:pb-14">
           {estab.logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={estab.logoUrl}
               alt={estab.nome}
-              className="size-48 rounded-full shadow-[0_0_0_5px_#E8115A,0_20px_60px_rgba(232,17,90,0.55)] lg:size-60"
+              className="size-28 shrink-0 rounded-full shadow-[0_0_0_4px_#E8115A,0_14px_40px_rgba(232,17,90,0.55)] lg:size-40"
             />
           ) : null}
-          <a
-            href="#cadastro"
-            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#E8115A] px-6 text-base font-extrabold uppercase text-[#F3EEE5] shadow-[0_8px_0_#8a0a36] active:translate-y-1 active:shadow-[0_4px_0_#8a0a36]"
-          >
-            Criar meu cartão <ArrowDown aria-hidden className="size-5" />
-          </a>
-        </div>
-      </section>
-
-      {/* ---------- Faixa amarela correndo ---------- */}
-      <div className="relative z-10 -mt-2 -rotate-2 overflow-hidden border-y-4 border-[#0A0A0A] bg-[#F2B315] py-3 text-[#0A0A0A]" aria-hidden>
-        <div className="flex w-max gap-8 motion-safe:animate-[faixa_18s_linear_infinite]">
-          {[...FAIXA, ...FAIXA, ...FAIXA, ...FAIXA].map((t, i) => (
-            <span key={i} className="flex items-center gap-8 text-xl font-black uppercase whitespace-nowrap lg:text-2xl">
-              {t}
-              <Rosa className="size-6 text-[#E8115A]" />
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ---------- Como funciona + cadastro ---------- */}
-      <main className="mx-auto grid max-w-6xl gap-12 px-5 py-14 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-16 lg:py-20">
-        <section aria-labelledby="titulo-como" className="flex flex-col gap-6 lg:sticky lg:top-8">
-          <h1 id="titulo-como" className="text-4xl leading-[0.95] font-black uppercase lg:text-6xl">
+          <h1 className="text-[1.75rem] leading-[0.95] font-black uppercase lg:text-6xl">
             Junte rosas.
             <br />
             Ganhe <span className="text-[#E8115A]">recompensas</span>.
           </h1>
-          <p className="max-w-md text-lg text-[#F3EEE5]/85">
+        </div>
+      </section>
+
+      {/* ---------- Como funciona + cadastro ---------- */}
+      <main className="mx-auto grid max-w-6xl gap-10 px-5 pt-2 pb-12 lg:grid-cols-[1fr_1.05fr] lg:items-start lg:gap-16 lg:pt-6 lg:pb-20">
+        <section aria-labelledby="titulo-como" className="order-2 flex flex-col gap-6 lg:sticky lg:top-8">
+          <h2 id="titulo-como" className="text-2xl font-black uppercase lg:text-3xl">
+            Como <span className="text-[#E8115A]">funciona</span>
+          </h2>
+          <p className="max-w-md text-[#F3EEE5]/85">
             A cada visita, uma rosa no seu cartão. Completou, a recompensa é sua. Tudo pelo celular, sem baixar aplicativo.
           </p>
 
@@ -124,14 +106,28 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
         <section
           id="cadastro"
           aria-label="Criar meu cartão"
-          className="relative scroll-mt-6 rounded-[2rem] bg-[#F3EEE5] p-6 text-[#0A0A0A] shadow-[0_0_0_4px_#E8115A,0_30px_80px_-20px_rgba(232,17,90,0.6)] sm:p-8"
+          className="relative order-1 scroll-mt-6 rounded-[2rem] bg-[#F3EEE5] p-6 text-[#0A0A0A] shadow-[0_0_0_4px_#E8115A,0_30px_80px_-20px_rgba(232,17,90,0.6)] sm:p-8"
         >
           <Rosa className="absolute -top-5 -right-3 size-12 rotate-12 rounded-full bg-[#0A0A0A] p-2 text-[#E8115A]" />
           <h2 className="mb-1 text-3xl font-black uppercase">Crie seu cartão</h2>
-          <p className="mb-6 text-[#0A0A0A]/75">Leva menos de um minuto.</p>
+          <p className="mb-6 font-semibold text-[#0A0A0A]/75">
+            Grátis, sem aplicativo. <span className="text-[#C40E4C]">Leva 30 segundos.</span>
+          </p>
           {formulario}
         </section>
       </main>
+
+      {/* ---------- Faixa amarela correndo ---------- */}
+      <div className="relative z-10 mb-14 -rotate-2 overflow-hidden border-y-4 border-[#0A0A0A] bg-[#F2B315] py-3 text-[#0A0A0A]" aria-hidden>
+        <div className="flex w-max gap-8 motion-safe:animate-[faixa_18s_linear_infinite]">
+          {[...FAIXA, ...FAIXA, ...FAIXA, ...FAIXA].map((t, i) => (
+            <span key={i} className="flex items-center gap-8 text-xl font-black uppercase whitespace-nowrap lg:text-2xl">
+              {t}
+              <Rosa className="size-6 text-[#E8115A]" />
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* ---------- Fotos ---------- */}
       <section aria-label="O lugar" className="mx-auto flex max-w-4xl justify-center gap-4 px-5 pb-16 sm:gap-8">
