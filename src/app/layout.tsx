@@ -6,6 +6,14 @@ const baloo = Baloo_2({ variable: "--font-baloo", weight: "800", subsets: ["lati
 const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  // ícone da Bicuíra (entrada e admin); as páginas de cada restaurante trocam pela logo dele
+  icons: {
+    icon: [
+      { url: "/bicuira/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/bicuira/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/bicuira/apple-touch-icon.png",
+  },
   title: { default: "Bicuíra Fideliza", template: "%s · Bicuíra Fideliza" },
   description: "Cartão fidelidade digital para restaurantes e bares.",
 };
