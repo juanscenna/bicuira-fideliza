@@ -19,7 +19,7 @@ function Adesivo({ children, className, giro }: { children: React.ReactNode; cla
   );
 }
 
-const FAIXA = ["Comida caseira", "Rosa Norte", "Cartão fidelidade", "Junte rosas"];
+const FAIXA = ["Comida caseira", "Rosa Norte", "Cartão fidelidade", "Junte selos"];
 
 /**
  * Página de cadastro da Comida Caseira Rosa Norte: foto do lugar, adesivos, faixa animada,
@@ -52,7 +52,7 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
           Cartão fidelidade
         </Adesivo>
         <Adesivo giro="10deg" className="right-6 bottom-6 size-[4.5rem] rounded-full max-lg:hidden bg-[#F2B315] p-1.5 text-center text-[11px] text-[#0A0A0A] lg:right-[16%] lg:bottom-10 lg:size-28 lg:text-sm">
-          Junte rosas!
+          Junte selos!
         </Adesivo>
 
         <div className="relative z-10 mx-auto flex max-w-6xl items-center gap-4 px-5 pt-14 pb-8 lg:gap-8 lg:pt-16 lg:pb-14">
@@ -65,7 +65,7 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
             />
           ) : null}
           <h1 className="text-[1.75rem] leading-[0.95] font-black uppercase lg:text-6xl">
-            Junte rosas.
+            Junte selos.
             <br />
             Ganhe <span className="text-[#E8115A]">recompensas</span>.
           </h1>
@@ -73,16 +73,31 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
       </section>
 
       {/* ---------- Como funciona + cadastro ---------- */}
-      <main className="mx-auto grid max-w-6xl gap-10 px-5 pt-2 pb-12 lg:grid-cols-[1fr_1.05fr] lg:items-start lg:gap-16 lg:pt-6 lg:pb-20">
-        <section aria-labelledby="titulo-como" className="order-2 flex flex-col gap-6 lg:sticky lg:top-8">
+      <main className="mx-auto grid max-w-6xl gap-8 px-5 pt-0 pb-12 lg:grid-cols-[1fr_1.05fr] lg:items-start lg:gap-x-16 lg:gap-y-2 lg:pt-6 lg:pb-20">
+        {/* celular: 1º o cartão animado; computador: coluna da direita, em cima */}
+        <div className="-mt-4 lg:col-start-2 lg:row-start-1 lg:mt-0">
+          <CartaoDemo logoUrl={estab.logoUrl} />
+        </div>
+
+        <section
+          id="cadastro"
+          aria-label="Criar meu cartão"
+          className="relative scroll-mt-6 rounded-[2rem] lg:col-start-1 lg:row-span-2 lg:row-start-1 bg-[#F3EEE5] p-6 text-[#0A0A0A] shadow-[0_0_0_4px_#E8115A,0_30px_80px_-20px_rgba(232,17,90,0.6)] sm:p-8"
+        >
+          <Rosa className="absolute -top-5 -right-3 size-12 rotate-12 rounded-full bg-[#0A0A0A] p-2 text-[#E8115A]" />
+          <h2 className="mb-1 text-3xl font-black uppercase">Crie seu cartão</h2>
+          <p className="mb-6 font-semibold text-[#0A0A0A]/75">
+            Grátis, sem aplicativo. <span className="text-[#C40E4C]">Leva 30 segundos.</span>
+          </p>
+          {formulario}
+        </section>
+        <section aria-labelledby="titulo-como" className="flex flex-col gap-6 lg:col-start-2 lg:row-start-2">
           <h2 id="titulo-como" className="text-2xl font-black uppercase lg:text-3xl">
             Como <span className="text-[#E8115A]">funciona</span>
           </h2>
           <p className="max-w-md text-[#F3EEE5]/85">
-            A cada visita, uma rosa no seu cartão. Completou, a recompensa é sua. Tudo pelo celular, sem baixar aplicativo.
+            A cada visita, um selo no seu cartão. Completou, a recompensa é sua. Tudo pelo celular, sem baixar aplicativo.
           </p>
-
-          <CartaoDemo logoUrl={estab.logoUrl} />
 
           <ol className="grid gap-3 sm:grid-cols-3">
             {[
@@ -103,18 +118,6 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
           </ol>
         </section>
 
-        <section
-          id="cadastro"
-          aria-label="Criar meu cartão"
-          className="relative order-1 scroll-mt-6 rounded-[2rem] bg-[#F3EEE5] p-6 text-[#0A0A0A] shadow-[0_0_0_4px_#E8115A,0_30px_80px_-20px_rgba(232,17,90,0.6)] sm:p-8"
-        >
-          <Rosa className="absolute -top-5 -right-3 size-12 rotate-12 rounded-full bg-[#0A0A0A] p-2 text-[#E8115A]" />
-          <h2 className="mb-1 text-3xl font-black uppercase">Crie seu cartão</h2>
-          <p className="mb-6 font-semibold text-[#0A0A0A]/75">
-            Grátis, sem aplicativo. <span className="text-[#C40E4C]">Leva 30 segundos.</span>
-          </p>
-          {formulario}
-        </section>
       </main>
 
       {/* ---------- Faixa amarela correndo ---------- */}

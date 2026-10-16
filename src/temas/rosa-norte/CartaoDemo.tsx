@@ -3,8 +3,10 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Rosa } from "./Rosa";
 
-const META = 8;
-const PASSO_MS = 800;
+const META = 10;
+// começa devagar e acelera até completar; depois uma pausa para ver a recompensa
+const ESPERA_MS = [1100, 950, 800, 650, 520, 420, 340, 280, 230, 210];
+const PAUSA_COMPLETO_MS = 3200;
 
 function useMovimentoReduzido() {
   return useSyncExternalStore(
@@ -19,7 +21,7 @@ function useMovimentoReduzido() {
 }
 
 /**
- * Cartão de demonstração: gira em 3D, com brilho e luz, ganhando rosas uma a uma.
+ * Cartão de demonstração: gira em 3D, com brilho e luz, ganhando selos (começa devagar e acelera).
  * Ao completar, dá uma volta inteira, mostra "Recompensa liberada!" e recomeça.
  * Não mostra regras de plano (o cliente escolhe o plano sem ver as recompensas).
  */
@@ -29,11 +31,12 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
 
   useEffect(() => {
     if (reduzido) return;
-    const t = setInterval(() => setPasso((p) => (p >= META + 4 ? 0 : p + 1)), PASSO_MS);
-    return () => clearInterval(t);
-  }, [reduzido]);
+    const espera = passo >= META ? PAUSA_COMPLETO_MS : ESPERA_MS[passo];
+    const t = setTimeout(() => setPasso((p) => (p >= META ? 0 : p + 1)), espera);
+    return () => clearTimeout(t);
+  }, [reduzido, passo]);
 
-  const carimbos = reduzido ? 5 : Math.min(passo, META);
+  const carimbos = reduzido ? 7 : Math.min(passo, META);
   const completo = !reduzido && passo >= META;
 
   return (
@@ -63,14 +66,14 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
                 <span className="text-sm text-[#F3EEE5]/60">/{META}</span>
               </p>
             </div>
-            <ol className="mt-3 grid grid-cols-4 gap-2">
+            <ol className="mt-3 grid grid-cols-5 gap-2">
               {Array.from({ length: META }, (_, i) => {
                 const feito = i < carimbos;
                 const novo = !reduzido && i === carimbos - 1 && !completo;
                 return (
                   <li key={i} className="relative flex justify-center">
                     <span
-                      className={`flex aspect-square w-full max-w-11 items-center justify-center rounded-full transition-colors duration-300 ${
+                      className={`flex aspect-square w-full max-w-10 items-center justify-center rounded-full transition-colors duration-300 ${
                         feito ? "bg-[#E8115A] text-[#F3EEE5] shadow-[0_0_14px_rgba(232,17,90,0.9)]" : "border-2 border-dashed border-[#F3EEE5]/25 text-[#F3EEE5]/20"
                       } ${novo ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                     >

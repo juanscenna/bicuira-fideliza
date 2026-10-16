@@ -1,4 +1,4 @@
-/** Rosa em traço, inspirada nas rosas da logo (usada como carimbo). */
+/** Rosa em traço, inspirada nas rosas da logo (desenho do selo). */
 export function Rosa({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden>
