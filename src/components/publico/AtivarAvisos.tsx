@@ -73,6 +73,13 @@ export function AtivarAvisos({
     }
   }
 
+  async function testar() {
+    const reg = await navigator.serviceWorker.getRegistration("/sw.js");
+    const inscricao = await reg?.pushManager.getSubscription();
+    if (!inscricao) return setEstado("desligado");
+    await fetch(`${api}&teste=1`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inscricao) });
+  }
+
   async function desligar() {
     const reg = await navigator.serviceWorker.getRegistration("/sw.js");
     const inscricao = await reg?.pushManager.getSubscription();
@@ -97,9 +104,14 @@ export function AtivarAvisos({
             <BellRing aria-hidden className="size-5" /> Avisos ligados neste celular
           </p>
           <p className={texto}>Você recebe as novidades do restaurante e os avisos do seu cartão.</p>
-          <button type="button" onClick={desligar} className="self-start text-sm font-semibold underline underline-offset-2">
-            Desligar avisos
-          </button>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <button type="button" onClick={testar} className="min-h-11 text-sm font-semibold underline underline-offset-2">
+              Enviar aviso de teste
+            </button>
+            <button type="button" onClick={desligar} className="min-h-11 text-sm font-semibold underline underline-offset-2">
+              Desligar avisos
+            </button>
+          </div>
         </>
       ) : estado === "desligado" || estado === "erro" ? (
         <>
