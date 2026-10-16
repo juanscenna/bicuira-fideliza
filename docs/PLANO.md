@@ -1,6 +1,6 @@
 # Bicuíra Fideliza — Plano do piloto
 
-> Status: **aguardando confirmação**. Nenhum código foi escrito ainda.
+> Status: **etapa 1 concluída**. Próxima: etapa 2.
 > Fonte: `prompt-bicuira-fideliza.md`.
 
 ---
@@ -166,7 +166,7 @@ auditoria · limites_requisicao
 | **auditoria** | estabelecimento_id, user_id, acao, alvo, antes, depois, user_agent, ip_hash, criado_em | Só inserção |
 | **limites_requisicao** | chave (ip_hash + rota), janela, contagem | Limite do formulário público sem Redis |
 
-**Regras de negócio no banco:** as operações sensíveis (`registrar_visita`, `ajustar_carimbos`, `resgatar`, `trocar_plano`, `editar_visita`, `cadastrar_cliente`) são **funções SQL transacionais** com trava de linha. Assim, dois cliques no caixa não dão carimbo duplicado e o total nunca fica negativo nem passa do máximo. Rodam com as permissões do usuário logado, portanto passam pelo RLS.
+**Regras de negócio no banco:** as operações sensíveis (`registrar_visita`, `ajustar_carimbos`, `resgatar`, `trocar_plano`, `editar_visita`, `cadastrar_cliente`) são **funções SQL transacionais** com trava de linha. Assim, dois cliques no caixa não dão carimbo duplicado e o total nunca fica negativo nem passa do máximo. O dono só **lê** as tabelas; as alterações passam por essas funções, que conferem o estabelecimento do login (ver `docs/DECISOES.md`).
 
 ---
 
@@ -179,8 +179,8 @@ Funções auxiliares: `eh_super_admin()` e `meu_estabelecimento()` (leem `perfis
 | estabelecimentos | tudo | **ler** só o seu | nada (página pública lê pelo servidor, só campos públicos) |
 | planos | tudo | ler os seus | nada |
 | perfis | tudo | ler o próprio | nada |
-| clientes, visitas | tudo | ler/inserir/atualizar onde `estabelecimento_id = meu_estabelecimento()` | nada |
-| eventos_carimbo, auditoria | ler | ler e **inserir** os seus; **sem update/delete para ninguém** | nada |
+| clientes, visitas | tudo | **ler** onde `estabelecimento_id = meu_estabelecimento()`; alterações só pelas funções do banco | nada |
+| eventos_carimbo, auditoria | ler | ler os seus; **ninguém altera nem apaga** (gatilho bloqueia) | nada |
 | campanhas, envios, automacoes | tudo | os seus (automacoes: só ligar/desligar) | nada |
 | passes, dispositivos/registros Apple, consentimentos, limites | ler | ler os seus (passes) | nada; só o servidor (chave de serviço) |
 

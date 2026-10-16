@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* Marca Bicuíra — usada nos painéis (dono e super admin).
+   Páginas públicas e cartão usam as cores do estabelecimento (variáveis --estab-*). */
+@theme {
+  --color-restinga: #25433D;  /* principal: cabeçalhos, navegação, texto forte */
+  --color-sol: #C35E2F;       /* destaque: só ícones, bordas e números ≥ 24px */
+  --color-areia: #F2EBDD;     /* fundo */
+  --color-oceano: #4E889A;    /* secundária: só elementos gráficos */
+  --color-carvao: #292A29;    /* texto */
+  --color-lima: #B4CD64;      /* ações principais e estados positivos (texto carvão por cima) */
+
+  --font-display: var(--font-baloo), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-sora), system-ui, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-areia);
+  color: var(--color-carvao);
+}
+
+/* Foco sempre visível para quem usa teclado */
+:focus-visible {
+  outline: 3px solid var(--color-restinga);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
