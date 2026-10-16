@@ -22,3 +22,28 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 11. **Slugs reservados:** `painel`, `admin`, `entrar`, `api` e outros caminhos do sistema não podem ser usados como endereço de estabelecimento.
 12. **Telefone guardado no formato internacional** (`+5548999990001`), só celular (9 dígitos depois do DDD).
 13. **Chaves novas do Supabase:** o sistema usa a chave pública (`sb_publishable_…`) e a secreta (`sb_secret_…`), que substituem as antigas `anon` e `service_role`.
+
+## Etapa 2: admin
+
+14. **Logo:** PNG, JPG ou WebP, até 2 MB, guardada no Storage do Supabase (pasta pública `logos`). O envio passa pelo servidor.
+15. **Mudar o endereço (slug)** de um estabelecimento é permitido, mas o formulário avisa que os QR Codes já impressos deixam de funcionar.
+16. **Cores com contraste baixo** são aceitas (a identidade do cliente manda), mas o admin vê um aviso. A cor do texto sobre a cor do estabelecimento é escolhida automaticamente (branco ou quase-preto).
+17. **QR Code para impressão:** folha A5 em PDF (nome, chamada, QR grande e endereço) e PNG de 1200 px.
+18. **Exclusão de dados (LGPD):** apaga nome e telefone, troca o link secreto do cartão (o antigo para de funcionar) e remove o cartão do Wallet. As visitas ficam, sem identificar a pessoa, para não distorcer as métricas. Para confirmar, é preciso digitar APAGAR.
+19. **Senha do dono:** a Bicuíra define a senha inicial e redefine quando preciso. Não há "esqueci minha senha" por e-mail no piloto.
+
+## Etapa 3: cadastro e cartão web
+
+20. **Limite do formulário público:** 30 cadastros a cada 10 minutos por IP e estabelecimento. É generoso porque muitos clientes usam o mesmo Wi-Fi do restaurante (mesmo IP); serve só para barrar robôs, junto com o campo-isca.
+21. **Telefone já cadastrado:** devolve o mesmo cartão, sem alterar nome nem plano. A tela diz apenas "este telefone já tinha um cartão".
+22. **Link do cartão:** token aleatório de 48 caracteres. A página não é indexada por buscadores e não envia o endereço para outros sites (`no-referrer`).
+23. **Tempo real:** o nome do canal é um hash do token. Pelo canal passa só o aviso "atualizou"; o cartão então busca os dados. Se o tempo real falhar, o cartão também consulta sozinho a cada 30 s e ao voltar para a tela.
+24. **Texto do consentimento versionado** (`src/lib/dominio/consentimento.ts`). Cada aceite guarda a versão.
+
+## Etapa 4: painel do dono
+
+25. **"Perto da recompensa"** = faltam 1 ou 2 carimbos.
+26. **Desfazer** vale por 10 minutos e só se não houve resgate depois. A visita desfeita fica no histórico, riscada, e não conta nas métricas.
+27. **Código digitado:** aceita minúsculas e corrige O→0 e I/L→1 nos números. Com 5 caracteres válidos, a ficha abre sozinha.
+28. **Cursor automático:** no computador, o campo do código já começa selecionado. No celular não (o teclado esconderia o botão do QR). Depois de escanear, o cursor vai direto para o valor.
+29. **Lista de clientes:** mostra até 200 por vez (busca e filtros resolvem o resto).

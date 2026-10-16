@@ -11,7 +11,7 @@ Documentos:
 - `docs/PLANO.md`: plano, telas, modelo de dados e ordem de construção
 - `docs/DECISOES.md`: decisões tomadas no caminho
 
-> **Andamento:** etapa 1 de 7 concluída (base, banco, login, perfis e regras de acesso).
+> **Andamento:** etapas 1 a 4 concluídas (base, admin, cadastro + cartão web, painel do dono). Próximas: métricas, Wallet e notificações.
 
 ---
 
@@ -46,7 +46,9 @@ npm run dev               # abre em http://localhost:3000
 | Super admin | `admin@bicuira.test` | `bicuira-admin-local` |
 | Dono do Restaurante Teste | `dono@restaurante-teste.test` | `restaurante-teste-local` |
 
-Esses logins só existem no banco local, criados por `supabase/seed.sql`. Nunca rode o seed em produção.
+Esses logins só existem no banco local, criados por `supabase/seed.sql`, junto com o **Restaurante Teste** e **20 clientes fictícios** com visitas variadas. Nunca rode o seed em produção.
+
+Para testar como cliente: abra `http://localhost:3000/restaurante-teste` (de preferência no celular, na mesma rede) e cadastre-se.
 
 ### Testes
 
@@ -88,7 +90,12 @@ Os testes de banco precisam do Supabase local rodando (`npm run db:iniciar`).
 
 ## Criar um novo estabelecimento
 
-Chega na etapa 2 (pelo `/admin`).
+1. Entre em `/entrar` com o login de super admin. Você cai em `/admin`.
+2. **Novo estabelecimento:** preencha nome (o endereço é sugerido sozinho), logo, cores, planos e gasto mínimo. A prévia do cartão mostra o resultado.
+3. Na página do estabelecimento:
+   - **Login do dono:** e-mail e senha inicial. Passe ao dono pessoalmente.
+   - **QR Code:** baixe o PDF (A5, pronto para imprimir) ou o PNG.
+4. O dono entra em `/entrar` com o login dele e cai em `/painel`.
 
 ## Configurar o Apple Wallet e o Google Wallet
 
