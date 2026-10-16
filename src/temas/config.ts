@@ -7,7 +7,9 @@
 //   4. ligue o endereço (slug) do estabelecimento ao tema em TEMA_POR_SLUG
 // Estabelecimentos sem tema próprio usam o "basico" (preto e branco).
 
-export type IdTema = "basico";
+import { SITE_URL } from "@/lib/env";
+
+export type IdTema = "basico" | "rosa-norte";
 
 export type ConfigTema = {
   /** cor de fundo do cartão / cabeçalho (também usada no Wallet e no ícone) */
@@ -20,10 +22,14 @@ export type ConfigTema = {
 
 export const TEMAS: Record<IdTema, ConfigTema> = {
   basico: { cor_primaria: "#111111", cor_secundaria: "#FFFFFF", logoUrl: null },
+  // Comida Caseira Rosa Norte — preto, rosa da logo, amarelo do prato, creme das letras
+  "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png` },
 };
 
 /** endereço do estabelecimento → tema. Ex.: "bar-do-ze": "bar-do-ze" */
-const TEMA_POR_SLUG: Record<string, IdTema> = {};
+const TEMA_POR_SLUG: Record<string, IdTema> = {
+  "comida-caseira-rosa-norte": "rosa-norte",
+};
 
 export function temaDo(slug: string): IdTema {
   return TEMA_POR_SLUG[slug] ?? "basico";
