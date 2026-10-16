@@ -88,18 +88,41 @@ body {
 }
 
 /* ---- Painel do dono com a identidade do restaurante ----
-   Troca os tokens da Bicuíra pelos do tema; todas as telas do painel herdam. */
+   Mesma pegada das páginas de cadastro e cartão: fundo preto, texto creme,
+   blocos #151515, ações amarelas e destaques rosa. Os tokens da Bicuíra são
+   trocados aqui e todas as telas do painel herdam. */
 .tema-rosa-norte {
-  --color-restinga: #0A0A0A; /* preto */
-  --color-carvao: #0A0A0A;
-  --color-areia: #F3EEE5;    /* creme */
-  --color-lima: #F2B315;     /* amarelo (ações, texto preto por cima) */
-  --color-sol: #E8115A;      /* rosa (destaques grandes) */
+  --color-restinga: #F3EEE5; /* texto forte / contornos = creme */
+  --color-carvao: #F3EEE5;
+  --color-areia: #0A0A0A;    /* fundo = preto */
+  --color-lima: #F2B315;     /* ações = amarelo */
+  --color-sol: #E8115A;      /* destaques = rosa */
   --color-oceano: #E8115A;
   --font-display: var(--fonte-rosa), system-ui, sans-serif;
   --font-sans: var(--fonte-rosa), system-ui, sans-serif;
-  background: #F3EEE5;
+  background: #0A0A0A;
+  color: #F3EEE5;
+  color-scheme: dark;
+}
+.tema-rosa-norte :focus-visible {
+  outline-color: #F2B315;
+}
+/* texto sobre amarelo sempre preto */
+.tema-rosa-norte .bg-lima,
+.tema-rosa-norte .bg-lima * {
   color: #0A0A0A;
+}
+/* blocos brancos viram os cartões escuros das outras páginas */
+.tema-rosa-norte .bg-white {
+  background-color: #151515;
+}
+.tema-rosa-norte .bg-white:not(input, textarea, select, button, [role="tablist"] *) {
+  border: 2px solid rgb(243 238 229 / 0.15);
+}
+.tema-rosa-norte input.bg-white,
+.tema-rosa-norte textarea.bg-white,
+.tema-rosa-norte select.bg-white {
+  background-color: #0A0A0A;
 }
 .tema-rosa-norte .font-display {
   font-weight: 900;
@@ -115,27 +138,34 @@ body {
   border-radius: 999px;
   background: #E8115A;
 }
-/* cartões do painel com a cara de "adesivo" das outras páginas */
-.tema-rosa-norte main .bg-white:not(input, textarea, select, button) {
-  border: 2px solid #0A0A0A;
-  box-shadow: 0 5px 0 #E8115A;
+/* menu: preto com a página atual em amarelo */
+.tema-rosa-norte nav {
+  background: #0A0A0A;
+  border-color: rgb(232 17 90 / 0.6);
+}
+.tema-rosa-norte nav a {
+  color: rgb(243 238 229 / 0.85);
+}
+.tema-rosa-norte nav a[aria-current="page"] {
+  color: #F2B315;
+  background: rgb(232 17 90 / 0.15);
 }
 /* nome do restaurante no topo quebra linha em vez de cortar */
 .tema-rosa-norte > header .truncate {
   white-space: normal;
-  font-size: clamp(1.1rem, 4.8vw, 1.6rem);
-  line-height: 1.05;
+  font-size: clamp(1.25rem, 5.5vw, 2rem);
+  line-height: 1;
 }
 /* selos da ficha do cliente = logo do restaurante */
 .tema-rosa-norte [data-selo="feito"] {
   background: url("/temas/rosa-norte/selo.webp") center / cover;
   border-color: #E8115A;
-  box-shadow: 0 0 8px rgba(232, 17, 90, 0.6);
+  box-shadow: 0 0 10px rgba(232, 17, 90, 0.8);
 }
 .tema-rosa-norte [data-selo="feito"] svg {
   display: none;
 }
 .tema-rosa-norte [data-selo="vazio"] {
   background: url("/temas/rosa-norte/selo-cinza.webp") center / cover;
-  opacity: 0.35;
+  opacity: 0.3;
 }
