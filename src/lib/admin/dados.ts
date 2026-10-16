@@ -1,17 +1,13 @@
 import "server-only";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { SUPABASE_URL } from "@/lib/env";
+export { urlLogo } from "@/lib/logo";
 import type { DadosEstabelecimento } from "@/lib/dominio/estabelecimento";
 
 export type EstabelecimentoCompleto = DadosEstabelecimento & {
   id: string;
   logo_path: string | null;
 };
-
-export function urlLogo(logoPath: string | null) {
-  return logoPath ? `${SUPABASE_URL}/storage/v1/object/public/logos/${logoPath}` : null;
-}
 
 /** Estabelecimento com os dois planos (lido com o login do super admin). */
 export async function carregarEstabelecimento(id: string): Promise<EstabelecimentoCompleto | null> {
