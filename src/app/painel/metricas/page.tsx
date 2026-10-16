@@ -3,6 +3,7 @@ import { Info } from "lucide-react";
 import { exigirDono } from "@/lib/auth";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarReais } from "@/lib/dominio/dinheiro";
+import { diasAtras } from "@/lib/dominio/datas";
 
 type M = {
   clientes_cadastrados: number;
@@ -29,7 +30,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
   const sp = await searchParams;
   const periodo: Periodo = typeof sp.periodo === "string" && sp.periodo in PERIODOS ? (sp.periodo as Periodo) : "30";
   const publico: Publico = typeof sp.publico === "string" && sp.publico in PUBLICOS ? (sp.publico as Publico) : "todos";
-  const desde = periodo === "tudo" ? null : new Date(Date.now() - Number(periodo) * 86_400_000).toISOString();
+  const desde = periodo === "tudo" ? null : diasAtras(Number(periodo));
 
   const supabase = await supabaseServidor();
   const [planosAtivos, ...resultados] = await Promise.all([

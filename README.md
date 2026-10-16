@@ -11,7 +11,7 @@ Documentos:
 - `docs/PLANO.md`: plano, telas, modelo de dados e ordem de construção
 - `docs/DECISOES.md`: decisões tomadas no caminho
 
-> **Andamento:** etapas 1 a 5 concluídas (base, admin, cadastro + cartão web, painel do dono, métricas). Próximas: Wallet e notificações.
+> **Andamento:** etapas 1 a 6 concluídas (base, admin, cadastro + cartão web, painel do dono, métricas, Wallet). Próxima: notificações.
 
 ---
 
@@ -99,4 +99,4 @@ Os testes de banco precisam do Supabase local rodando (`npm run db:iniciar`).
 
 ## Configurar o Apple Wallet e o Google Wallet
 
-Chega na etapa 6 (guia em `docs/SETUP-WALLET.md`).
+Passo a passo em `docs/SETUP-WALLET.md`. Sem as credenciais, o sistema funciona com o cartão web e os botões mostram "Wallet ainda não configurado".

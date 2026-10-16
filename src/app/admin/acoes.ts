@@ -2,6 +2,8 @@
 
 import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { atualizarWalletDoEstabelecimento } from "@/lib/wallet";
 import { redirect } from "next/navigation";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { registrarAuditoria } from "@/lib/auditoria";
@@ -110,6 +112,16 @@ export async function salvarEstabelecimento(
     antes,
     depois: { ...dados, logo_alterada: temLogo },
   });
+
+  if (id) {
+    // nome, logo, cores ou regras mudaram: os cartões no Wallet precisam ser atualizados
+    const admin = supabaseAdmin();
+    const { data: passes } = await admin.from("passes").select("cliente_id, versao").eq("estabelecimento_id", id);
+    for (const p of passes ?? []) {
+      await admin.from("passes").update({ versao: p.versao + 1, atualizado_em: new Date().toISOString() }).eq("cliente_id", p.cliente_id);
+    }
+    after(() => atualizarWalletDoEstabelecimento((passes ?? []).map((p) => p.cliente_id)));
+  }
 
   revalidatePath("/admin");
   if (!id) redirect(`/admin/${estabelecimentoId}?criado=1`);

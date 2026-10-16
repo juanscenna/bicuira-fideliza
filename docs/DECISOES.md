@@ -57,3 +57,15 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 34. **Separação por plano** usa o plano atual de cada cliente.
 35. **Clientes inativos** é sempre a situação de agora (não depende do período). Clientes com dados apagados (LGPD) não entram.
 36. Visitas desfeitas não contam; visitas corrigidas contam com o valor corrigido.
+
+## Etapa 6: Wallet
+
+37. **Um Pass Type ID (Apple) e um emissor (Google) da Bicuíra** para todos os estabelecimentos. Cada cartão mostra nome, logo e cor do estabelecimento.
+38. **Credenciais em base64 nas variáveis de ambiente** (certificados PEM e o JSON da conta de serviço), já que a Vercel não guarda arquivos.
+39. **Imagens do pass** (ícone e logo) geradas na hora a partir da logo do estabelecimento ou da inicial do nome.
+40. **Notificação na tela de bloqueio (Apple):** os campos de carimbos, situação da recompensa e mensagem têm `changeMessage`. Quando mudam, o iPhone pode avisar o cliente.
+41. **Atualização do Wallet depois da resposta** (`after()` do Next.js): o caixa não espera a Apple ou o Google responder.
+42. **Google:** a classe do estabelecimento é criada (ou atualizada) quando o primeiro cliente toca em "Adicionar ao Google Wallet". O objeto do cliente só é atualizado depois que ele salvou o cartão.
+43. **Mudou nome, logo, cor ou regras no admin:** todos os cartões do estabelecimento são atualizados.
+44. **Log do iPhone** (`/v1/log`) vai para o log do servidor (Vercel), sem tabela própria.
+45. **Fontes consultadas:** documentação oficial da Apple (web service de atualização de passes) e a especificação oficial da Google Wallet API (discovery document). As páginas de guia do Google não puderam ser abertas deste ambiente; o limite de 3 notificações por cartão a cada 24 h foi confirmado pela página "Trigger push notifications" do Google (resultado de busca) e precisa ser revisado ao ativar o Google Wallet.

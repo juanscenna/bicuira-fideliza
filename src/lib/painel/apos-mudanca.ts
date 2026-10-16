@@ -1,5 +1,7 @@
 import "server-only";
+import { after } from "next/server";
 import { avisarCartoes } from "@/lib/tempo-real-servidor";
+import { atualizarWallet } from "@/lib/wallet";
 
 export type EstadoOperacao = {
   cliente_id: string;
@@ -22,9 +24,12 @@ export type EstadoOperacao = {
 };
 
 /**
- * Depois de qualquer mudança no cartão: avisa o cartão web aberto (tempo real).
- * Etapa 6 acrescenta a atualização do Apple/Google Wallet; etapa 7, as notificações automáticas.
+ * Depois de qualquer mudança no cartão:
+ *  1. avisa o cartão web aberto (tempo real), na hora;
+ *  2. atualiza Apple/Google Wallet depois de responder ao painel (não atrasa o caixa).
+ * A etapa 7 acrescenta as notificações automáticas.
  */
 export async function aposMudanca(estado: EstadoOperacao) {
   await avisarCartoes([estado.token]);
+  after(() => atualizarWallet(estado.cliente_id));
 }

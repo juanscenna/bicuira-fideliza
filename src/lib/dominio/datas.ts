@@ -21,3 +21,8 @@ export function relativo(iso: string | null, agora = new Date()) {
   if (dias === 1) return "ontem";
   return `há ${dias} dias`;
 }
+
+/** Instante de N dias atrás (ISO), para filtros de período. */
+export function diasAtras(dias: number, agora = new Date()) {
+  return new Date(agora.getTime() - dias * 86_400_000).toISOString();
+}
