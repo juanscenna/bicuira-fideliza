@@ -54,7 +54,7 @@ export function Moldura({
         </form>
       </header>
       {tema?.faixa ? (
-        <div className="relative z-10 -mt-1 -rotate-1 overflow-hidden border-y-4 border-[#0A0A0A] bg-[#F2B315] py-1.5 text-[#0A0A0A]" aria-hidden>
+        <div className="relative z-10 overflow-hidden border-y-4 border-[#0A0A0A] bg-[#F2B315] py-1.5 text-[#0A0A0A]" aria-hidden>
           <div className="flex w-max gap-6 motion-safe:animate-[faixa_24s_linear_infinite]">
             {[...tema.faixa, ...tema.faixa, ...tema.faixa, ...tema.faixa].map((t, i) => (
               <span key={i} className="flex items-center gap-6 text-sm font-black uppercase whitespace-nowrap">
