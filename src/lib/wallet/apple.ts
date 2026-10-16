@@ -44,7 +44,7 @@ export function montarPassJson(d: DadosPass, ids: { passTypeId: string; teamId: 
     sharingProhibited: true,
     barcodes: [{ format: "PKBarcodeFormatQR", message: d.codigo, messageEncoding: "iso-8859-1", altText: d.codigo }],
     storeCard: {
-      headerFields: [{ key: "carimbos", label: "CARIMBOS", value: progresso(d), changeMessage: "Seus carimbos: %@" }],
+      headerFields: [{ key: "carimbos", label: "SELOS", value: progresso(d), changeMessage: "Seus selos: %@" }],
       primaryFields: [{ key: "recompensa_status", label: d.nome, value: statusRecompensa(d), changeMessage: "%@" }],
       secondaryFields: [
         { key: "cliente", label: "CLIENTE", value: d.nome },

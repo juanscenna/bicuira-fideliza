@@ -12,8 +12,8 @@ export function statusRecompensa(d: Pick<DadosPass, "carimbos" | "meta" | "recom
 
 export function regras(d: Pick<DadosPass, "meta" | "recompensa" | "gastoMinimoCentavos">) {
   return [
-    `Ganhe 1 carimbo a cada visita a partir de ${formatarReais(d.gastoMinimoCentavos)}.`,
-    `Com ${d.meta} carimbos você ganha: ${d.recompensa}.`,
+    `Ganhe 1 selo a cada visita a partir de ${formatarReais(d.gastoMinimoCentavos)}.`,
+    `Com ${d.meta} selos você ganha: ${d.recompensa}.`,
     "Mostre o QR Code ou o código no caixa. A recompensa é entregue no balcão e o cartão recomeça.",
   ].join(" ");
 }

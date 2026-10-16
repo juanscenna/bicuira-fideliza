@@ -36,7 +36,7 @@ export function montarClasse(d: DadosPass, issuer = emissor()) {
   return {
     id: idClasse(d.estabelecimentoId, issuer),
     issuerName: d.estabelecimento,
-    programName: `Cartão fidelidade ${d.estabelecimento}`,
+    programName: "Cartão fidelidade",
     programLogo: { sourceUri: { uri: logo }, contentDescription: { defaultValue: { language: "pt-BR", value: d.estabelecimento } } },
     hexBackgroundColor: d.corPrimaria,
     reviewStatus: "UNDER_REVIEW",
@@ -53,8 +53,14 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     state: "ACTIVE",
     accountId: d.codigo,
     accountName: d.nome,
-    loyaltyPoints: { label: "Carimbos", balance: { string: progresso(d) } },
+    loyaltyPoints: { label: "Selos", balance: { string: progresso(d) } },
     secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } },
+    // faixa com os selos (logo do restaurante), gerada em /api/wallet/selos; a URL muda a cada selo
+    heroImage: {
+      sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}.png` },
+      contentDescription: { defaultValue: { language: "pt-BR", value: `${d.carimbos} de ${d.meta} selos` } },
+    },
+    hexBackgroundColor: d.corPrimaria,
     barcode: { type: "QR_CODE", value: d.codigo, alternateText: d.codigo },
     textModulesData: [
       { id: "regras", header: "Como funciona", body: regras(d) },
