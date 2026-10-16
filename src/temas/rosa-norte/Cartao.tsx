@@ -66,10 +66,10 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
       </section>
 
       <div className="m-5 flex items-center gap-4 rounded-2xl bg-[#F3EEE5] p-3 text-[#0A0A0A]">
-        <div className="size-28 shrink-0 [&_svg]:size-full" aria-hidden dangerouslySetInnerHTML={{ __html: qrSvg }} />
+        <div className="size-24 shrink-0 min-[360px]:size-28 [&_svg]:size-full" aria-hidden dangerouslySetInnerHTML={{ __html: qrSvg }} />
         <div className="min-w-0">
           <p className="truncate text-sm font-bold">{cliente.nome}</p>
-          <p className="text-3xl font-black tracking-widest">{cliente.codigo}</p>
+          <p className="text-2xl font-black tracking-wider min-[360px]:text-3xl min-[360px]:tracking-widest">{cliente.codigo}</p>
           <p className="text-xs font-medium">Mostre no caixa a cada visita.</p>
         </div>
       </div>
