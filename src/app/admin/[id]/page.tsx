@@ -22,7 +22,8 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
     qrSvg(`${SITE_URL}/${estab.slug}`),
     qrSvg("K4827"),
   ]);
-  const { id: _id, logo_path, ...inicial } = estab;
+  const { logo_path, ...dados } = estab;
+  const inicial = { ...dados, id: undefined };
   const urlPublica = `${SITE_URL}/${estab.slug}`;
 
   return (

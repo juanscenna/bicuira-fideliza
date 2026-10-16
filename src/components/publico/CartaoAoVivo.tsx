@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Bell, PartyPopper, X } from "lucide-react";
 import { CartaoVisual } from "@/components/cartao/CartaoVisual";
 import { supabaseNavegador } from "@/lib/supabase/navegador";
@@ -23,14 +23,14 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
   const [cartao, setCartao] = useState(inicial);
   const [carimboNovo, setCarimboNovo] = useState<number | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
-  const [mensagemFechada, setMensagemFechada] = useState<string | null>(null);
+  const [fechadaAgora, setFechadaAgora] = useState<string | null>(null);
+  const fechadaAntes = useSyncExternalStore(
+    () => () => {},
+    () => lerFechada(token),
+    () => null,
+  );
+  const mensagemFechada = fechadaAgora ?? fechadaAntes;
   const atual = useRef(inicial);
-
-  useEffect(() => {
-    try {
-      setMensagemFechada(localStorage.getItem(`msg-fechada:${token}`));
-    } catch {}
-  }, [token]);
 
   useEffect(() => {
     let ativo = true;
@@ -93,7 +93,7 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
             aria-label="Fechar mensagem"
             className="-m-2 flex size-11 shrink-0 items-center justify-center"
             onClick={() => {
-              setMensagemFechada(cartao.mensagemEm);
+              setFechadaAgora(cartao.mensagemEm);
               try {
                 localStorage.setItem(`msg-fechada:${token}`, cartao.mensagemEm ?? "");
               } catch {}
@@ -127,4 +127,13 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg }: Props) {
       ) : null}
     </div>
   );
+}
+
+/** Última mensagem que o cliente fechou (guardada só neste aparelho). */
+function lerFechada(token: string) {
+  try {
+    return localStorage.getItem(`msg-fechada:${token}`);
+  } catch {
+    return null;
+  }
 }

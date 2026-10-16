@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Smartphone } from "lucide-react";
 
 type Aparelho = "ios" | "android" | "outro";
+
+const semAssinatura = () => () => {};
+
+/** Tipo de aparelho (no servidor: "outro"; no navegador: detectado pelo user agent). */
+function useAparelho(): Aparelho {
+  return useSyncExternalStore(semAssinatura, detectar, () => "outro");
+}
 
 function detectar(): Aparelho {
   const ua = navigator.userAgent;
@@ -17,8 +24,7 @@ function detectar(): Aparelho {
  * O mais adequado ao aparelho vem primeiro e em destaque; os dois aparecem sempre.
  */
 export function BotoesWallet({ token, slug, apple, google }: { token: string; slug: string; apple: boolean; google: boolean }) {
-  const [aparelho, setAparelho] = useState<Aparelho>("outro");
-  useEffect(() => setAparelho(detectar()), []);
+  const aparelho = useAparelho();
 
   const botoes = [
     { id: "apple", rotulo: "Adicionar ao Apple Wallet", href: `/api/wallet/apple/pass/${token}?e=${slug}`, pronto: apple },
@@ -61,8 +67,7 @@ export function BotoesWallet({ token, slug, apple, google }: { token: string; sl
 
 /** Instruções para salvar o cartão web na tela inicial, abertas no passo do aparelho do cliente. */
 export function SalvarNaTelaInicial() {
-  const [aparelho, setAparelho] = useState<Aparelho>("outro");
-  useEffect(() => setAparelho(detectar()), []);
+  const aparelho = useAparelho();
   return (
     <details className="rounded-2xl bg-white p-4 [&_li]:mt-1" open={aparelho !== "outro"}>
       <summary className="min-h-11 cursor-pointer content-center text-lg font-semibold">Salvar este cartão na tela inicial</summary>
