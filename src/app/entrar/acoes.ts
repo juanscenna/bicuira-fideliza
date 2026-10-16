@@ -15,7 +15,11 @@ export async function entrar(_anterior: EstadoLogin, form: FormData): Promise<Es
   const supabase = await supabaseServidor();
   const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
   if (error || !data.user) {
-    return { erro: "E-mail ou senha incorretos.", email };
+    if (!error || error.code === "invalid_credentials") return { erro: "E-mail ou senha incorretos.", email };
+    if (error.code === "email_not_confirmed") return { erro: "Este e-mail ainda não foi confirmado no Supabase.", email };
+    // Outros erros costumam ser de configuração (endereço ou chave do Supabase na Vercel)
+    console.error("[login]", error.code, error.status, error.message);
+    return { erro: `Não foi possível entrar agora (${error.code ?? error.status ?? "erro"}: ${error.message}).`, email };
   }
 
   const sessao = await carregarPerfil(supabase, data.user.id, email);
