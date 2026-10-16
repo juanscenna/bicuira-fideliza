@@ -12,8 +12,8 @@ describe("limite de notificações", () => {
     expect(decidirEnvio("personalizada", { personalizadas7d: 0, enviadas24h: 0 }, 0).enviar).toBe(false);
   });
 
-  it("personalizada pula quem já recebeu 3 mensagens em 24 h (limite do Google)", () => {
-    expect(decidirEnvio("personalizada", { personalizadas7d: 0, enviadas24h: 3 }, 2)).toEqual({ enviar: false, motivo: "limite do Google (3 em 24 h)" });
+  it("personalizada acima de 3 em 24 h ainda sai (cartão e aviso do site), sem notificar no Google", () => {
+    expect(decidirEnvio("personalizada", { personalizadas7d: 0, enviadas24h: 3 }, 2)).toEqual({ enviar: true, notificarGoogle: false });
   });
 
   it("automática sempre entra no cartão, mas sem notificar no Google depois de 3 em 24 h", () => {

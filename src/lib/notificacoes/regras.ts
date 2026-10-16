@@ -13,14 +13,13 @@ export type HistoricoCliente = {
 export type Decisao = { enviar: true; notificarGoogle: boolean } | { enviar: false; motivo: string };
 
 /**
- * Personalizadas: no máximo `maxSemana` por cliente em 7 dias e, para respeitar o Google,
- * nenhuma se o cliente já recebeu 3 mensagens nas últimas 24 h (o cliente é pulado).
- * Automáticas: sempre entram no cartão; só deixam de notificar no Google se passar do limite.
+ * Personalizadas: no máximo `maxSemana` por cliente em 7 dias (acima disso, o cliente é pulado).
+ * Todas as mensagens entram no cartão e no aviso do site; acima de 3 em 24 h só deixam de
+ * pedir notificação ao Google (limite dele).
  */
 export function decidirEnvio(origem: Origem, h: HistoricoCliente, maxSemana: number): Decisao {
   if (origem === "personalizada") {
     if (h.personalizadas7d >= maxSemana) return { enviar: false, motivo: `limite de ${maxSemana} por semana` };
-    if (h.enviadas24h >= LIMITE_GOOGLE_24H) return { enviar: false, motivo: "limite do Google (3 em 24 h)" };
   }
   return { enviar: true, notificarGoogle: h.enviadas24h < LIMITE_GOOGLE_24H };
 }
