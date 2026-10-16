@@ -2,10 +2,11 @@
 // para o link oficial de salvar (JWT assinado pela conta de serviço). ?e=slug
 import { dadosPorToken } from "@/lib/wallet/dados";
 import { linkSalvarGoogle } from "@/lib/wallet/google";
-import { googleConfigurado } from "@/lib/wallet/config";
+import { googleConfigurado, walletVisivel } from "@/lib/wallet/config";
 
 export async function GET(req: Request, { params }: RouteContext<"/api/wallet/google/salvar/[token]">) {
   const { token } = await params;
+  if (!walletVisivel()) return new Response("Não encontrado", { status: 404 });
   if (!googleConfigurado()) return new Response("Wallet ainda não configurado", { status: 503 });
   const d = await dadosPorToken(token, new URL(req.url).searchParams.get("e") ?? "");
   if (!d) return new Response("Cartão não encontrado", { status: 404 });

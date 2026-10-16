@@ -1,5 +1,6 @@
 import "server-only";
 import { avisarAparelhosApple } from "./apple";
+import { walletVisivel } from "./config";
 import { dadosPorCliente } from "./dados";
 import { atualizarObjetoGoogle } from "./google";
 
@@ -8,6 +9,7 @@ import { atualizarObjetoGoogle } from "./google";
  * e no Google Wallet (PATCH do objeto). Sem credenciais, só registra em log.
  */
 export async function atualizarWallet(clienteId: string) {
+  if (!walletVisivel()) return; // piloto só com cartão web
   const d = await dadosPorCliente(clienteId);
   if (!d) return;
   await Promise.allSettled([avisarAparelhosApple(d.serial), atualizarObjetoGoogle(d)]).then((r) =>

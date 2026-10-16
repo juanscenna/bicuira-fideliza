@@ -5,7 +5,7 @@ import { estabelecimentoPorSlug } from "@/lib/publico";
 import { carregarCartao } from "@/lib/cartao";
 import { qrSvg } from "@/lib/qr";
 import { formatarReais } from "@/lib/dominio/dinheiro";
-import { appleConfigurado, googleConfigurado } from "@/lib/wallet/config";
+import { appleConfigurado, googleConfigurado, walletVisivel } from "@/lib/wallet/config";
 import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { CartaoAoVivo } from "@/components/publico/CartaoAoVivo";
 import { BotoesWallet, SalvarNaTelaInicial } from "@/components/publico/BotoesWallet";
@@ -65,7 +65,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           <h2 id="titulo-wallet" className="text-xl font-bold">
             Guarde no celular
           </h2>
-          <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} />
+          {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
           <SalvarNaTelaInicial />
         </section>
 

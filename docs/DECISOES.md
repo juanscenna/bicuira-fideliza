@@ -81,3 +81,8 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 52. **Tarefa agendada:** a rota `/api/cron/notificacoes` (protegida por `CRON_SECRET`) roda a cada 5 minutos pelo `pg_cron` + `pg_net` do Supabase (configuração no README). O `vercel.json` também agenda uma execução diária às 11h de São Paulo, como reserva.
 53. **Agendamento** aceita até 60 dias à frente. O público é recalculado na hora do envio (quem se cadastrar até lá também recebe).
 54. **Seleção manual** de clientes: busca por nome ou código, com caixas de seleção.
+
+## Publicação
+
+55. **Piloto só com cartão web:** a variável `WALLET_ATIVO` (padrão desligada) esconde os botões de Apple/Google Wallet e não tenta atualizar o Wallet. Para ligar no futuro: `WALLET_ATIVO=true` + credenciais na Vercel e novo deploy, sem mudar código.
+56. **Publicação sem terminal:** `supabase/producao.sql` junta todas as migrations para colar no SQL Editor (testado num banco limpo, com os 106 testes passando). O login de administrador é criado pelo painel do Supabase e promovido com um `insert` em `perfis` (guia em `docs/PUBLICAR.md`).

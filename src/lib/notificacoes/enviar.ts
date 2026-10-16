@@ -5,6 +5,7 @@ import { avisarCartoes } from "@/lib/tempo-real-servidor";
 import { avisarAparelhosApple } from "@/lib/wallet/apple";
 import { dadosPorCliente } from "@/lib/wallet/dados";
 import { mensagemGoogle } from "@/lib/wallet/google";
+import { walletVisivel } from "@/lib/wallet/config";
 import { decidirEnvio, type Origem, type TipoAutomatica } from "./regras";
 
 type Pedido = {
@@ -83,6 +84,7 @@ export async function enviarMensagens(p: Pedido): Promise<Resumo> {
   }
 
   await avisarCartoes(tokens);
+  if (!walletVisivel()) return resumo; // piloto só com cartão web
   after(async () => {
     for (const w of paraWallet) {
       const d = await dadosPorCliente(w.clienteId);

@@ -15,3 +15,12 @@ export function appleConfigurado() {
 export function googleConfigurado() {
   return Boolean(process.env.GOOGLE_WALLET_ISSUER_ID && process.env.GOOGLE_WALLET_SERVICE_ACCOUNT_BASE64);
 }
+
+/**
+ * Liga os botões "Adicionar ao Apple/Google Wallet" no cartão do cliente.
+ * Desligado (padrão): o cartão é só a página web. Para ligar, coloque WALLET_ATIVO=true
+ * nas variáveis de ambiente da Vercel e faça um novo deploy. Nada mais muda no código.
+ */
+export function walletVisivel() {
+  return process.env.WALLET_ATIVO === "true";
+}

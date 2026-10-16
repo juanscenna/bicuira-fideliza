@@ -1,10 +1,11 @@
 // Botão "Adicionar ao Apple Wallet": baixa o .pkpass do cliente. ?e=slug
 import { dadosPorToken } from "@/lib/wallet/dados";
 import { gerarPkpass } from "@/lib/wallet/apple";
-import { appleConfigurado } from "@/lib/wallet/config";
+import { appleConfigurado, walletVisivel } from "@/lib/wallet/config";
 
 export async function GET(req: Request, { params }: RouteContext<"/api/wallet/apple/pass/[token]">) {
   const { token } = await params;
+  if (!walletVisivel()) return new Response("Não encontrado", { status: 404 });
   if (!appleConfigurado()) return new Response("Wallet ainda não configurado", { status: 503 });
   const d = await dadosPorToken(token, new URL(req.url).searchParams.get("e") ?? "");
   if (!d) return new Response("Cartão não encontrado", { status: 404 });

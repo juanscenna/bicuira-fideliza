@@ -11,7 +11,7 @@ Documentos:
 - `docs/PLANO.md`: plano, telas, modelo de dados e ordem de construção
 - `docs/DECISOES.md`: decisões tomadas no caminho
 
-> **Andamento:** as 7 etapas do piloto estão prontas. Falta publicar (Supabase + Vercel) e configurar as contas Apple e Google.
+> **Andamento:** as 7 etapas do piloto estão prontas. **Para publicar sem terminal, siga `docs/PUBLICAR.md`.** No piloto o cartão é só a página web (`WALLET_ATIVO=false`).
 
 ---
 
