@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
-import { AlertTriangle, Check, CheckCircle2, Gift, Minus, Pencil, Plus, Undo2, X } from "lucide-react";
+import { AlertTriangle, Check, CheckCircle2, Gift, Minus, Pencil, Plus, Trash2, Undo2, X } from "lucide-react";
 import { Botao } from "@/components/ui/Botao";
 import { formatarReais, lerReais } from "@/lib/dominio/dinheiro";
 import { formatarDiaHora } from "@/lib/dominio/datas";
@@ -12,6 +12,7 @@ import {
   desfazerVisita,
   editarVisita,
   registrarVisita,
+  removerVisita,
   resgatar,
   trocarPlano,
   type Resultado,
@@ -234,6 +235,21 @@ export function FichaCliente({
         historico={historico}
         gastoMinimo={gastoMinimo}
         pendente={pendente}
+        aoRemover={(visitaId, fechar) =>
+          executar(() => removerVisita(visitaId), (r) => {
+            fechar();
+            const e = r.estado;
+            setAviso({
+              tipo: e.aviso ? "atencao" : "ok",
+              texto:
+                e.aviso === "resgate_posterior"
+                  ? "Visita removida. O cartão não mudou porque esse carimbo já foi usado num resgate."
+                  : e.delta === -1
+                    ? `Visita removida e carimbo retirado. ${primeiroNome} tem ${e.carimbos} de ${e.meta}.`
+                    : "Visita removida.",
+            });
+          })
+        }
         aoEditar={(visitaId, valor, descricao, fechar) =>
           executar(() => editarVisita(visitaId, valor, descricao), (r) => {
             fechar();
@@ -554,13 +570,16 @@ function Historico({
   gastoMinimo,
   pendente,
   aoEditar,
+  aoRemover,
 }: {
   historico: ItemHistorico[];
   gastoMinimo: number;
   pendente: boolean;
   aoEditar: (visitaId: string, valor: string, descricao: string, fechar: () => void) => void;
+  aoRemover: (visitaId: string, fechar: () => void) => void;
 }) {
   const [editando, setEditando] = useState<string | null>(null);
+  const [removendo, setRemovendo] = useState<Extract<ItemHistorico, { tipo: "visita" }> | null>(null);
   const [tudo, setTudo] = useState(false);
   const visiveis = tudo ? historico : historico.slice(0, 15);
   if (historico.length === 0) {
@@ -595,7 +614,7 @@ function Historico({
                     {item.descricao ? <p className="text-carvao/90">{item.descricao}</p> : null}
                     <p className="mt-1 flex flex-wrap gap-2 text-sm">
                       {item.desfeita_em ? (
-                        <Etiqueta>desfeita</Etiqueta>
+                        <Etiqueta>removida</Etiqueta>
                       ) : item.gerou_carimbo ? (
                         <Etiqueta positiva>+1 carimbo</Etiqueta>
                       ) : (
@@ -605,14 +624,24 @@ function Historico({
                     </p>
                   </div>
                   {!item.desfeita_em ? (
-                    <button
-                      type="button"
-                      onClick={() => setEditando(item.id)}
-                      aria-label={`Corrigir visita de ${formatarReais(item.valor_centavos)}`}
-                      className="flex size-11 shrink-0 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
-                    >
-                      <Pencil aria-hidden className="size-5" />
-                    </button>
+                    <div className="flex shrink-0 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setEditando(item.id)}
+                        aria-label={`Corrigir visita de ${formatarReais(item.valor_centavos)}`}
+                        className="flex size-11 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
+                      >
+                        <Pencil aria-hidden className="size-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRemovendo(item)}
+                        aria-label={`Remover visita de ${formatarReais(item.valor_centavos)}`}
+                        className="flex size-11 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
+                      >
+                        <Trash2 aria-hidden className="size-5" />
+                      </button>
+                    </div>
                   ) : null}
                 </div>
               )
@@ -622,6 +651,27 @@ function Historico({
           </li>
         ))}
       </ol>
+      <Dialogo aberto={removendo !== null} aoFechar={() => setRemovendo(null)} titulo="Remover esta visita?">
+        {removendo ? (
+          <div className="flex flex-col gap-4">
+            <p className="text-lg">
+              Visita de <strong>{formatarReais(removendo.valor_centavos)}</strong> em {formatarDiaHora(removendo.criado_em)}.
+            </p>
+            <p className="text-carvao/80">
+              Ela sai das métricas e fica riscada no histórico.
+              {removendo.gerou_carimbo ? " O carimbo dessa visita também sai do cartão." : ""}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Botao disabled={pendente} onClick={() => aoRemover(removendo.id, () => setRemovendo(null))}>
+                Remover visita
+              </Botao>
+              <Botao variante="secundario" onClick={() => setRemovendo(null)}>
+                Cancelar
+              </Botao>
+            </div>
+          </div>
+        ) : null}
+      </Dialogo>
       {visiveis.length < historico.length ? (
         <Botao variante="secundario" onClick={() => setTudo(true)}>
           Mostrar histórico completo ({historico.length})
@@ -653,7 +703,10 @@ function LinhaEvento({ item }: { item: Extract<ItemHistorico, { tipo: "evento" }
       if (d.aviso === "resgate_posterior") texto += " (carimbo mantido: houve resgate depois)";
       break;
     case "desfazer":
-      texto = `Desfeito (${item.delta > 0 ? "+" : "−"}${Math.abs(item.delta)} carimbo)`;
+      texto =
+        item.motivo === "visita removida"
+          ? "Carimbo retirado (visita removida)"
+          : `Desfeito (${item.delta > 0 ? "+" : "−"}${Math.abs(item.delta)} carimbo)`;
       break;
     default:
       texto = item.tipo_evento;
@@ -664,7 +717,7 @@ function LinhaEvento({ item }: { item: Extract<ItemHistorico, { tipo: "evento" }
         <p className={`font-semibold ${item.tipo_evento === "resgate" ? "text-restinga" : ""}`}>{texto}</p>
         <p className="text-sm text-carvao/80">
           {formatarDiaHora(item.criado_em)} · ficou com {item.saldo_apos}
-          {item.motivo ? ` · ${item.motivo}` : ""}
+          {item.motivo && item.motivo !== "visita removida" ? ` · ${item.motivo}` : ""}
         </p>
       </div>
     </div>

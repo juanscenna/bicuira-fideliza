@@ -182,6 +182,18 @@ describe("desfazer", () => {
     expect(await deveFalhar(db, "select desfazer_visita($1)", [v.visita_id])).toMatch(/nao_encontrado/);
   });
 
+  it("remove uma visita antiga (depois dos 10 min) e o carimbo dela", async () => {
+    const v = await visita(morador, 2000);
+    await comoSistema(db);
+    await db.query("update visitas set criado_em = now() - interval '2 days' where id = $1", [v.visita_id]);
+    await comoUsuario(db, DONO);
+    expect(await deveFalhar(db, "select desfazer_visita($1)", [v.visita_id])).toMatch(/expirado/);
+    const r = await chamar("remover_visita($1)", [v.visita_id]);
+    expect(r.carimbos).toBe(0);
+    expect(r.delta).toBe(-1);
+    expect(await deveFalhar(db, "select remover_visita($1)", [v.visita_id])).toMatch(/nao_encontrado/);
+  });
+
   it("desfaz um +1 manual uma única vez", async () => {
     const r = await ajustar(morador, 1);
     expect((await chamar("desfazer_ajuste($1)", [r.evento_id])).carimbos).toBe(0);
@@ -207,6 +219,7 @@ describe("isolamento das operações", () => {
     await comoUsuario(db, DONO);
     expect(await deveFalhar(db, "select editar_visita($1, 0, null)", [v.visita_id])).toMatch(/nao_encontrado/);
     expect(await deveFalhar(db, "select desfazer_visita($1)", [v.visita_id])).toMatch(/nao_encontrado/);
+    expect(await deveFalhar(db, "select remover_visita($1)", [v.visita_id])).toMatch(/nao_encontrado/);
   });
 
   it("estabelecimento desativado não opera", async () => {

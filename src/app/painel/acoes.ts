@@ -68,6 +68,11 @@ export async function desfazerVisita(visitaId: string): Promise<Resultado> {
   return operar("desfazer_visita", { p_visita: visitaId });
 }
 
+/** Remove uma visita lançada por engano (a qualquer momento); o selo dela sai junto, se ainda estiver no cartão. */
+export async function removerVisita(visitaId: string): Promise<Resultado> {
+  return operar("remover_visita", { p_visita: visitaId }, ["/painel/metricas"]);
+}
+
 export async function desfazerAjuste(eventoId: string): Promise<Resultado> {
   return operar("desfazer_ajuste", { p_evento: eventoId });
 }
