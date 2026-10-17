@@ -55,3 +55,32 @@ export async function cadastrar(slug: string, _anterior: EstadoCadastro, form: F
   if (r.status === "plano_invalido") return { erros: { plano: "Escolha uma das opções." } };
   return { mensagem: "Estabelecimento não encontrado." };
 }
+
+export type EstadoAbrir = { erro?: string };
+
+/** "Já tenho cartão": abre o cartão pelo celular (mesma regra do cadastro com telefone já usado). */
+export async function abrirCartao(slug: string, _anterior: EstadoAbrir, form: FormData): Promise<EstadoAbrir> {
+  const telefone = normalizarTelefone(String(form.get("telefone") ?? ""));
+  if (!telefone) return { erro: "Confira o número: DDD + celular com 9 dígitos." };
+
+  const { ipHash } = await origemDaRequisicao();
+  const admin = supabaseAdmin();
+  const { data: permitido } = await admin.rpc("consumir_limite", {
+    p_chave: `abrir:${slug}:${ipHash ?? "sem-ip"}`,
+    p_maximo: LIMITE_POR_IP,
+    p_janela_segundos: JANELA_SEGUNDOS,
+  });
+  if (permitido === false) return { erro: "Muitas tentativas seguidas. Espere alguns minutos e tente de novo." };
+
+  const { data: estab } = await admin.from("estabelecimentos").select("id").eq("slug", slug).eq("ativo", true).maybeSingle();
+  if (!estab) return { erro: "Estabelecimento não encontrado." };
+  const { data: cliente } = await admin
+    .from("clientes")
+    .select("token_cartao")
+    .eq("estabelecimento_id", estab.id)
+    .eq("telefone", telefone)
+    .is("anonimizado_em", null)
+    .maybeSingle();
+  if (!cliente) return { erro: "Não achamos um cartão com esse celular. Crie o seu logo abaixo — leva 30 segundos." };
+  redirect(`/${slug}/cartao/${cliente.token_cartao}?recuperado=1`);
+}

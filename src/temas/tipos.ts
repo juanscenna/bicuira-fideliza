@@ -19,7 +19,12 @@ export type PropsCartao = {
 };
 
 /** Página de cadastro completa de um tema (opcional). Recebe o formulário pronto. */
-export type PropsCadastro = { estab: EstabTema; formulario: React.ReactNode };
+export type PropsCadastro = {
+  estab: EstabTema;
+  formulario: React.ReactNode;
+  /** "Já tenho cartão" (abrir pelo celular) e a abertura automática do cartão guardado no aparelho */
+  jaTenho: React.ReactNode;
+};
 
 /** Página do cartão completa de um tema (opcional). Recebe as peças prontas. */
 export type PropsPaginaCartao = {
@@ -32,4 +37,6 @@ export type PropsPaginaCartao = {
   guardar: React.ReactNode;
   regras: { codigo: string; gastoMinimo: string; meta: number | null; recompensa: string | null };
   privacidadeHref: string;
+  /** "Não é o seu cartão? Criar outro" */
+  outroCartaoHref: string;
 };

@@ -13,7 +13,7 @@ const FOTO = "/temas/rosa-norte";
  * Página de cadastro da Comida Caseira Rosa Norte: foto do lugar, adesivos, faixa animada,
  * cartão demonstrativo girando e o formulário numa folha creme. Celular e computador.
  */
-export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
+export function CadastroRosaNorte({ estab, formulario, jaTenho }: PropsCadastro) {
   const cores = {
     "--estab-primaria": ROSA.preto,
     "--estab-texto-primaria": ROSA.creme,
@@ -22,7 +22,7 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
   } as CSSProperties;
 
   return (
-    <div style={cores} className={`${fonteRosa.variable} min-h-dvh overflow-x-hidden bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}>
+    <div style={cores} className={`${fonteRosa.variable} min-h-dvh overflow-x-clip bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}>
       {/* ---------- Abertura compacta: foto do salão + logo + adesivos ---------- */}
       <section className="relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -74,9 +74,10 @@ export function CadastroRosaNorte({ estab, formulario }: PropsCadastro) {
         >
           <Rosa className="absolute -top-5 -right-3 size-12 rotate-12 rounded-full bg-[#0A0A0A] p-2 text-[#E8115A]" />
           <h2 className="mb-1 text-3xl font-black uppercase">Crie seu cartão</h2>
-          <p className="mb-6 font-semibold text-[#0A0A0A]/75">
+          <p className="mb-3 font-semibold text-[#0A0A0A]/75">
             Grátis, sem aplicativo. <span className="text-[#C40E4C]">Leva 30 segundos.</span>
           </p>
+          <div className="mb-6">{jaTenho}</div>
           {formulario}
         </section>
         <section aria-labelledby="titulo-como" className="flex flex-col gap-6 lg:col-start-2 lg:row-start-2">

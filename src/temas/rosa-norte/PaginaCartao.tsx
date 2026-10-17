@@ -11,7 +11,7 @@ const FOTO = "/temas/rosa-norte";
  * Página do cartão da Comida Caseira Rosa Norte: mesma linguagem da página de cadastro
  * (foto do salão, adesivos, faixa amarela), agora com o cartão de verdade no centro.
  */
-export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, guardar, regras, privacidadeHref }: PropsPaginaCartao) {
+export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, guardar, regras, privacidadeHref, outroCartaoHref }: PropsPaginaCartao) {
   const cores = {
     "--estab-primaria": ROSA.preto,
     "--estab-texto-primaria": ROSA.creme,
@@ -30,7 +30,7 @@ export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, gua
   ];
 
   return (
-    <div style={cores} className={`${fonteRosa.variable} min-h-dvh overflow-x-hidden bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}>
+    <div style={cores} className={`${fonteRosa.variable} min-h-dvh overflow-x-clip bg-[#0A0A0A] font-[family-name:var(--fonte-rosa)] text-[#F3EEE5]`}>
       {/* ---------- Abertura: foto do salão + logo + saudação ---------- */}
       <section className="relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -115,6 +115,9 @@ export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, gua
       <footer className="flex flex-col items-center gap-3 pb-10 text-center">
         <Link href={privacidadeHref} className="text-sm font-bold underline underline-offset-4">
           Política de privacidade
+        </Link>
+        <Link href={outroCartaoHref} className="text-sm text-[#F3EEE5]/70 underline underline-offset-4">
+          Não é o seu cartão? Criar outro
         </Link>
         <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#F3EEE5]/60">por Bicuíra Digital</p>
       </footer>

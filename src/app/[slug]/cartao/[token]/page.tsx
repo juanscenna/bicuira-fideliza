@@ -12,6 +12,7 @@ import { BotoesWallet, SalvarNaTelaInicial } from "@/components/publico/BotoesWa
 import { PAGINAS_CARTAO } from "@/temas/paginas-cartao";
 import { iconesDo } from "@/temas/config";
 import { AtivarAvisos } from "@/components/publico/AtivarAvisos";
+import { GuardarCartaoNoAparelho } from "@/components/publico/CartaoNoAparelho";
 import { pushConfigurado } from "@/lib/push";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
@@ -45,12 +46,17 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   const plano = estab.planos.find((p) => p.tipo === cartao.plano);
   const svg = await qrSvg(cartao.codigo);
   const chavePush = pushConfigurado() ? process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY! : null;
+  // guarda o cartão neste aparelho; no Android, logo depois de criar, abre o "Salvar no Google Wallet"
+  const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={Boolean(novo) && walletVisivel() && googleConfigurado()} />;
 
   // Tema com página do cartão própria (ex.: Rosa Norte)
   const PaginaDoTema = PAGINAS_CARTAO[estab.tema];
   if (PaginaDoTema) {
     return (
+      <>
+      {guardar}
       <PaginaDoTema
+        outroCartaoHref={`/${slug}?novo=1`}
         estab={{ nome: estab.nome, logoUrl: estab.logoUrl }}
         primeiroNome={cartao.nome.split(" ")[0]}
         status={novo ? "novo" : recuperado ? "recuperado" : null}
@@ -93,11 +99,13 @@ export default async function PaginaCartao({ params, searchParams }: P) {
         }}
         privacidadeHref={`/${slug}/privacidade`}
       />
+      </>
     );
   }
 
   return (
     <MolduraPublica estab={estab}>
+      {guardar}
       <div className="flex flex-col gap-6">
         {novo ? (
           <p role="status" className="rounded-2xl border-2 border-neutral-900 bg-white p-4 text-lg font-semibold">
@@ -148,6 +156,9 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           </p>
           <Link href={`/${slug}/privacidade`} className="mt-2 self-start text-sm font-semibold underline underline-offset-2">
             Política de privacidade
+          </Link>
+          <Link href={`/${slug}?novo=1`} className="self-start text-sm underline underline-offset-2">
+            Não é o seu cartão? Criar outro
           </Link>
         </section>
       </div>

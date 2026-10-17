@@ -4,7 +4,9 @@ import { estabelecimentoPorSlug } from "@/lib/publico";
 import { textoConsentimento } from "@/lib/dominio/consentimento";
 import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { FormCadastro } from "@/components/publico/FormCadastro";
-import { cadastrar } from "./acoes";
+import { abrirCartao, cadastrar } from "./acoes";
+import { JaTenhoCartao } from "@/components/publico/JaTenhoCartao";
+import { AbrirCartaoSalvo } from "@/components/publico/CartaoNoAparelho";
 import { CADASTROS } from "@/temas/cadastros";
 
 export async function generateMetadata({ params }: PageProps<"/[slug]">): Promise<Metadata> {
@@ -34,7 +36,16 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
   // Tema com página de cadastro própria (ex.: Rosa Norte)
   const CadastroDoTema = CADASTROS[estab.tema];
   if (CadastroDoTema && estab.ativo && estab.planos.length > 0) {
-    return <CadastroDoTema estab={{ nome: estab.nome, logoUrl: estab.logoUrl }} formulario={formulario} />;
+    const jaTenho = (
+      <>
+        <AbrirCartaoSalvo slug={slug} classe="bg-[#0A0A0A] text-[#F3EEE5] font-[family-name:var(--fonte-rosa)] uppercase" />
+        <JaTenhoCartao
+          acao={abrirCartao.bind(null, slug)}
+          classes={{ link: "text-[#C40E4C]", campo: "border-[#0A0A0A]/30 bg-white text-[#0A0A0A]", botao: "bg-[#0A0A0A] text-[#F3EEE5]", erro: "text-[#C40E4C]" }}
+        />
+      </>
+    );
+    return <CadastroDoTema estab={{ nome: estab.nome, logoUrl: estab.logoUrl }} formulario={formulario} jaTenho={jaTenho} />;
   }
 
   return (
@@ -47,6 +58,8 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
               Junte carimbos a cada visita e ganhe recompensas. Leva menos de um minuto, sem baixar aplicativo.
             </p>
           </div>
+          <AbrirCartaoSalvo slug={slug} />
+          <JaTenhoCartao acao={abrirCartao.bind(null, slug)} />
           {formulario}
         </div>
       ) : (
