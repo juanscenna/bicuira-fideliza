@@ -3,6 +3,7 @@ import { ChevronRight, Plus } from "lucide-react";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { classesBotao } from "@/components/ui/Botao";
 import { supabaseServidor } from "@/lib/supabase/servidor";
+import { formatarReais } from "@/lib/dominio/dinheiro";
 
 export default async function AdminInicio() {
   await exigirSuperAdmin();
@@ -11,6 +12,16 @@ export default async function AdminInicio() {
     .from("estabelecimentos")
     .select("id, nome, slug, ativo, clientes(count)")
     .order("nome");
+  // resumo de cada um (desde o início): visitas e gasto registrado
+  const resumos = new Map(
+    await Promise.all(
+      (estabelecimentos ?? []).map(async (e) => {
+        const { data } = await supabase.rpc("metricas", { p_desde: null, p_plano: null, p_estab: e.id });
+        const m = data as { total_visitas: number; gasto_total_centavos: number } | null;
+        return [e.id, m] as const;
+      }),
+    ),
+  );
 
   return (
     <div className="flex flex-col gap-6">
@@ -35,7 +46,8 @@ export default async function AdminInicio() {
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-sm">
-                  {total} {total === 1 ? "cliente" : "clientes"}
+                  {total} {total === 1 ? "cliente" : "clientes"} · {resumos.get(e.id)?.total_visitas ?? 0} visitas ·{" "}
+                  <strong>{formatarReais(resumos.get(e.id)?.gasto_total_centavos ?? 0)}</strong>
                 </span>
                 <span
                   className={`rounded-full px-3 py-1 text-sm font-semibold ${

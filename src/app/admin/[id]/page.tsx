@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, Download, ExternalLink } from "lucide-react";
+import { BarChart3, ChevronLeft, Download, ExternalLink } from "lucide-react";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { carregarEstabelecimento, donosDoEstabelecimento } from "@/lib/admin/dados";
 import { temaDo } from "@/temas/config";
@@ -37,6 +37,9 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
         <a href={urlPublica} target="_blank" rel="noreferrer" className="flex items-center gap-1 self-start font-semibold text-restinga underline underline-offset-4">
           {urlPublica.replace(/^https?:\/\//, "")} <ExternalLink aria-hidden className="size-4" />
         </a>
+        <Link href={`/admin/${id}/clientes`} className={`${classesBotao("principal")} self-start`}>
+          <BarChart3 aria-hidden className="size-5" /> Clientes e métricas
+        </Link>
         <p className="text-sm text-carvao/80">
           Design da página e do cartão: <strong>{temaDo(estab.slug) === "basico" ? "básico (preto e branco)" : temaDo(estab.slug)}</strong>
         </p>
