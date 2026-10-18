@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Bicuíra Fideliza — Apresentação comercial</title>
+<link rel="stylesheet" href="fontes/g.css">
+<style>
+  /* Paleta oficial Bicuíra */
+  :root{--restinga:#25433D;--sol:#C35E2F;--areia:#F2EBDD;--oceano:#4E889A;--carvao:#292A29;--lima:#B4CD64}
+  @page{size:297mm 210mm;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#777}
+  body{font-family:Sora,sans-serif;color:var(--carvao);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .p{width:297mm;height:210mm;position:relative;overflow:hidden;background:var(--areia);page-break-after:always;break-after:page;padding:16mm 18mm}
+  .p:last-child{page-break-after:auto}
+  h1,h2,h3,.d{font-family:'Baloo 2',sans-serif;font-weight:800;line-height:.95;letter-spacing:-.01em}
+  h2{font-size:46pt;color:var(--restinga)}
+  h3{font-size:19pt;color:var(--restinga)}
+  p,li{font-size:11.5pt;line-height:1.45}
+  .eti{display:inline-block;font-size:9pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--restinga);border:1.5px solid var(--restinga);border-radius:99px;padding:1.2mm 4mm;margin-bottom:6mm}
+  .escuro{background:var(--restinga);color:var(--areia)}
+  .escuro h2,.escuro h3{color:var(--areia)}
+  .escuro .eti{color:var(--lima);border-color:var(--lima)}
+  .carvao{background:var(--carvao);color:var(--areia)}
+  .carvao h2,.carvao h3{color:var(--areia)}
+  .carvao .eti{color:var(--lima);border-color:var(--lima)}
+  .num{position:absolute;bottom:9mm;right:18mm;font-size:8.5pt;font-weight:600;opacity:.7}
+  .marca{position:absolute;bottom:8mm;left:18mm;height:7mm;opacity:.9}
+  .rab{position:absolute;pointer-events:none;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .sol{color:var(--sol)} .lima{color:var(--lima)} .oce{color:var(--oceano)}
+  .mk{position:relative;white-space:nowrap}
+  .mk svg{position:absolute;left:-4%;bottom:-3mm;width:108%;height:5mm}
+  .tel{border-radius:7mm;border:2.2mm solid #111;background:#111;overflow:hidden;box-shadow:0 4mm 10mm rgba(0,0,0,.25)}
+  .tel img{display:block;width:100%}
+  .pc{border-radius:3mm;overflow:hidden;border:1.2mm solid #111;background:#111;box-shadow:0 4mm 10mm rgba(0,0,0,.25)}
+  .pc .barra{height:4mm;background:#222;display:flex;gap:1.2mm;align-items:center;padding-left:2mm}
+  .pc .barra i{width:1.6mm;height:1.6mm;border-radius:50%;background:#555}
+  .pc img{display:block;width:100%}
+  .nota{font-size:8.5pt;opacity:.75}
+  .ilus{position:absolute;font-size:7.5pt;font-weight:600;background:rgba(0,0,0,.6);color:#fff;padding:.8mm 2.5mm;border-radius:99px}
+</style>
+</head>
+<body>
+
+<!-- 1 · CAPA -->
+<section class="p escuro" style="padding:0">
+  <img src="img/salao-1600.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35">
+  <div style="position:absolute;inset:0;background:linear-gradient(100deg,var(--restinga) 38%,rgba(37,67,61,.55))"></div>
+  <div style="position:absolute;left:18mm;top:22mm;width:150mm">
+    <div style="background:var(--areia);display:inline-block;padding:5mm 7mm;border-radius:4mm;margin-bottom:14mm"><img src="img/bicuira-logo-horizontal.png" alt="Bicuíra Digital" style="height:13mm;display:block"></div>
+    <h1 style="font-size:78pt;color:var(--areia)">Bicuíra<br><span class="lima">Fideliza</span></h1>
+    <p class="d" style="font-size:24pt;margin-top:7mm;color:var(--areia)">Fidelidade digital <span class="mk">com raiz local.<svg viewBox="0 0 300 24" preserveAspectRatio="none" class="rab" style="stroke:var(--sol)"><path stroke-width="5" d="M4 16C60 4 110 22 160 12s100-6 136 2"/></svg></span></p>
+    <p style="margin-top:12mm;font-size:12pt;max-width:120mm;opacity:.9">Cartão fidelidade no celular do seu cliente — para pousadas, bares e restaurantes de Garopaba, Praia do Rosa e Imbituba.</p>
+  </div>
+  <div style="position:absolute;right:22mm;top:28mm;width:68mm;transform:rotate(4deg)">
+    <div class="tel"><img src="img/cartao.png" alt="Cartão digital do piloto"></div>
+  </div>
+  <svg class="rab" viewBox="0 0 40 40" style="right:96mm;top:24mm;width:14mm;stroke:var(--lima)"><path stroke-width="3" d="M20 4v10M20 26v10M4 20h10M26 20h10M9 9l6 6M25 25l6 6M31 9l-6 6M9 31l6-6"/></svg>
+  <p style="position:absolute;bottom:10mm;left:18mm;font-size:9pt;letter-spacing:.14em;text-transform:uppercase;font-weight:700" class="lima">Apresentação comercial · 2026</p>
+</section>
+
+<!-- 2 · O PROBLEMA -->
+<section class="p">
+  <span class="eti">O problema</span>
+  <h2 style="max-width:190mm">O cliente gostou.<br>Mas <span class="mk sol">ele volta?<svg viewBox="0 0 300 24" preserveAspectRatio="none" class="rab" style="stroke:var(--sol)"><path stroke-width="5" d="M4 16C60 4 110 22 160 12s100-6 136 2"/></svg></span></h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8mm;margin-top:20mm">
+    <div><p class="d sol" style="font-size:54pt">01</p><h3 style="margin:3mm 0">Vem uma vez e some</h3><p>Muita gente aparece, gosta, e nunca mais volta — e você nem fica sabendo quem era.</p></div>
+    <div style="margin-top:12mm"><p class="d oce" style="font-size:54pt">02</p><h3 style="margin:3mm 0">O cartão de papel se perde</h3><p>Fica na carteira, molha na praia, esquece em casa. O carimbo some junto.</p></div>
+    <div style="margin-top:24mm"><p class="d" style="font-size:54pt;color:var(--restinga)">03</p><h3 style="margin:3mm 0">Você não enxerga quem retorna</h3><p>Sem registro, não dá para saber quem é cliente fiel, quanto gasta ou quando parou de vir.</p></div>
+  </div>
+  <svg class="rab" viewBox="0 0 300 120" style="right:12mm;top:12mm;width:70mm;stroke:var(--lima)"><path stroke-width="4" d="M160 10C240 6 294 30 290 62c-4 34-74 52-148 50C66 110 8 92 12 58 16 26 84 8 170 14c32 2 62 10 82 20"/></svg>
+  <img class="marca" src="img/bicuira-logo-horizontal.png" alt=""><span class="num">02</span>
+</section>
+
+<!-- 3 · POR QUE FIDELIZAR -->
+<section class="p carvao">
+  <span class="eti">Por que fidelizar</span>
+  <h2 style="max-width:220mm">Quem já conhece a casa <span class="lima">vale mais</span> do que quem ainda nem chegou.</h2>
+  <div style="display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:7mm;margin-top:14mm">
+    <div style="background:var(--areia);color:var(--carvao);border-radius:5mm;padding:7mm">
+      <p class="d sol" style="font-size:64pt">5 a 25×</p>
+      <p style="margin-top:3mm"><b>mais caro</b> conquistar um cliente novo do que manter um que já vem.</p>
+      <p class="nota" style="margin-top:4mm">Harvard Business Review, 2014</p>
+    </div>
+    <div style="border:1.5px solid rgba(242,235,221,.35);border-radius:5mm;padding:7mm">
+      <p class="d lima" style="font-size:46pt;white-space:nowrap">60–70%</p>
+      <p style="margin-top:3mm">é a chance de vender de novo para quem <b>já é cliente</b>. Para um desconhecido: <b>5–20%</b>.</p>
+      <p class="nota" style="margin-top:4mm">Marketing Metrics (Farris et al.)</p>
+    </div>
+    <div style="border:1.5px solid rgba(242,235,221,.35);border-radius:5mm;padding:7mm">
+      <p class="d lima" style="font-size:56pt">+5%</p>
+      <p style="margin-top:3mm">de clientes que ficam pode significar <b>25% a 95%</b> a mais de lucro.</p>
+      <p class="nota" style="margin-top:4mm">Bain &amp; Company (F. Reichheld)</p>
+    </div>
+  </div>
+  <p style="margin-top:10mm;max-width:230mm;font-size:13pt">O Fideliza é para isso: <b class="lima">valorizar quem já é seu</b> — o morador que almoça toda semana, o turista que volta todo verão — com uma recompensa direta e visível.</p>
+  <p class="nota" style="position:absolute;bottom:9mm;left:18mm">Dados de estudos de mercado gerais, citados como referência. Não são promessa de resultado.</p>
+  <span class="num">03</span>
+</section>
+
+<!-- 4 · COMO FUNCIONA -->
+<section class="p">
+  <span class="eti">Como funciona</span>
+  <h2>Cinco passos. <span class="sol">Nenhum aplicativo.</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5mm;margin-top:16mm;position:relative">
+    <svg class="rab" viewBox="0 0 1000 40" preserveAspectRatio="none" style="left:0;top:9mm;width:100%;height:10mm;stroke:var(--oceano)"><path stroke-width="3" stroke-dasharray="8 10" d="M40 20C200 0 300 40 500 20s300-20 460 0"/></svg>
+    <div><div class="d" style="width:18mm;height:18mm;border-radius:50%;background:var(--restinga);color:var(--lima);display:grid;place-items:center;font-size:24pt;position:relative">1</div><h3 style="margin:5mm 0 2mm">Escaneia o QR</h3><p>Na mesa, no balcão ou na recepção.</p></div>
+    <div><div class="d" style="width:18mm;height:18mm;border-radius:50%;background:var(--restinga);color:var(--lima);display:grid;place-items:center;font-size:24pt;position:relative">2</div><h3 style="margin:5mm 0 2mm">Cadastro rápido</h3><p>Só nome e celular. Leva uns 30 segundos.</p></div>
+    <div><div class="d" style="width:18mm;height:18mm;border-radius:50%;background:var(--restinga);color:var(--lima);display:grid;place-items:center;font-size:24pt;position:relative">3</div><h3 style="margin:5mm 0 2mm">Cartão no celular</h3><p>No navegador e no Google Wallet.</p></div>
+    <div><div class="d" style="width:18mm;height:18mm;border-radius:50%;background:var(--restinga);color:var(--lima);display:grid;place-items:center;font-size:24pt;position:relative">4</div><h3 style="margin:5mm 0 2mm">Selo a cada visita</h3><p>Mostra o código no caixa, a equipe registra.</p></div>
+    <div><div class="d" style="width:18mm;height:18mm;border-radius:50%;background:var(--sol);color:var(--areia);display:grid;place-items:center;font-size:24pt;position:relative">★</div><h3 style="margin:5mm 0 2mm">Recompensa</h3><p>Completou? Ganha o prêmio que você definiu.</p></div>
+  </div>
+  <div style="display:flex;gap:6mm;margin-top:12mm;align-items:flex-end">
+    <div class="tel" style="width:34mm"><img src="img/cadastro.png" alt=""></div>
+    <div class="tel" style="width:34mm"><img src="img/cartao.png" alt=""></div>
+    <div class="pc" style="width:96mm"><div class="barra"><i></i><i></i><i></i></div><img src="img/painel-pc-inicio.png" alt=""></div>
+    <p style="max-width:62mm;margin-left:4mm" class="d"><span style="font-size:20pt;color:var(--restinga)">O mesmo QR</span><br><span style="font-family:Sora;font-weight:400;font-size:10.5pt">cria o cartão de quem é novo e abre direto o cartão de quem já tem.</span></p>
+  </div>
+  <img class="marca" src="img/bicuira-logo-horizontal.png" alt=""><span class="num">04</span>
+</section>
+
+<!-- 5 · PARA O CLIENTE -->
+<section class="p escuro">
+  <div style="display:grid;grid-template-columns:1fr 1.05fr;gap:12mm;height:100%">
+    <div>
+      <span class="eti">Para o cliente</span>
+      <h2>Simples para quem está do <span class="lima">outro lado</span> do balcão.</h2>
+      <ul style="list-style:none;margin-top:10mm;display:grid;gap:4.5mm">
+        <li><b class="lima">→</b> Sem aplicativo para baixar: abre no navegador.</li>
+        <li><b class="lima">→</b> Guarda no Google Wallet<sup>*</sup>, ao lado dos cartões do banco.</li>
+        <li><b class="lima">→</b> Vê os selos e quanto falta para a recompensa.</li>
+        <li><b class="lima">→</b> Recebe avisos no celular com o nome e a logo da casa.</li>
+        <li><b class="lima">→</b> O celular lembra dele: no próximo QR, cai direto no cartão.</li>
+      </ul>
+      <p class="nota" style="margin-top:10mm">* Após a liberação do Google para o estabelecimento.</p>
+    </div>
+    <div style="position:relative">
+      <div class="tel" style="position:absolute;width:62mm;left:0;top:0;transform:rotate(-4deg)"><img src="img/cadastro.png" alt="Página de cadastro"></div>
+      <div class="tel" style="position:absolute;width:62mm;right:0;top:18mm;transform:rotate(4deg)"><img src="img/cartao.png" alt="Cartão digital"></div>
+      <svg class="rab" viewBox="0 0 120 80" style="left:50mm;top:118mm;width:30mm;stroke:var(--lima)"><path stroke-width="3.5" d="M6 70C28 24 66 10 106 22"/><path stroke-width="3.5" d="M90 9l17 13-15 15"/></svg>
+    </div>
+  </div>
+  <span class="num">05</span>
+</section>
+
+<!-- 6 · PARA O DONO -->
+<section class="p">
+  <span class="eti">Para o dono</span>
+  <h2>Registrar uma visita leva <span class="mk sol">segundos.<svg viewBox="0 0 300 24" preserveAspectRatio="none" class="rab" style="stroke:var(--lima)"><path stroke-width="5" d="M4 16C60 4 110 22 160 12s100-6 136 2"/></svg></span></h2>
+  <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:10mm;margin-top:12mm;align-items:start">
+    <div class="pc"><div class="barra"><i></i><i></i><i></i></div><img src="img/painel-pc-inicio.png" alt="Painel do dono"></div>
+    <div style="display:grid;gap:5mm">
+      <div><h3>Busca por código ou QR</h3><p>Digita o código do cartão ou escaneia com a câmera.</p></div>
+      <div><h3>Visita + valor</h3><p>Lança o gasto; o selo entra sozinho quando bate a regra.</p></div>
+      <div><h3>Corrige e remove</h3><p>Errou? Ajusta ou retira a visita, com histórico.</p></div>
+      <div><h3>Entrega a recompensa</h3><p>Um toque e o cartão recomeça.</p></div>
+      <p class="nota">Funciona no celular, tablet ou computador do caixa.</p>
+    </div>
+  </div>
+  <img class="marca" src="img/bicuira-logo-horizontal.png" alt=""><span class="num">06</span>
+</section>
+
+<!-- 7 · O QUE O DONO ENXERGA -->
+<section class="p carvao">
+  <div style="display:grid;grid-template-columns:1fr 1.45fr;gap:10mm">
+    <div>
+      <span class="eti">O que você enxerga</span>
+      <h2>Conhecer <span class="lima">quem volta.</span></h2>
+      <div style="display:grid;gap:5mm;margin-top:10mm">
+        <p><b class="lima">Clientes que retornaram</b><br>quem voltou e com que frequência.</p>
+        <p><b class="lima">Gasto registrado</b><br>total e ticket médio das visitas de retorno.</p>
+        <p><b class="lima">Clientes inativos</b><br>quem sumiu — para mandar um “sentimos sua falta”.</p>
+        <p><b class="lima">Morador × turista</b><br>métricas separadas por plano.</p>
+      </div>
+      <p class="nota" style="margin-top:9mm;border-left:2px solid var(--lima);padding-left:3mm">Valores registrados no painel pelo operador, não faturamento do restaurante.</p>
+    </div>
+    <div style="position:relative">
+      <div class="pc"><div class="barra"><i></i><i></i><i></i></div><img src="img/painel-pc-metricas.png" alt="Métricas do painel"></div>
+      <span class="ilus" style="left:4mm;bottom:4mm">Dados fictícios de demonstração</span>
+    </div>
+  </div>
+  <span class="num">07</span>
+</section>
+
+<!-- 8 · CASE -->
+<section class="p" style="padding:0;background:#0A0A0A;color:#F3EEE5">
+  <img src="img/salao-1600.webp" alt="" style="position:absolute;inset:0;width:100%;height:58mm;object-fit:cover;opacity:.55">
+  <div style="position:absolute;inset:0;height:58mm;background:linear-gradient(transparent,#0A0A0A)"></div>
+  <div style="position:relative;padding:14mm 18mm 0;display:flex;gap:6mm;align-items:center">
+    <img src="img/logo.png" alt="" style="width:30mm;height:30mm;border-radius:50%;border:1.2mm solid #E8115A">
+    <div><span class="eti" style="color:#F2B315;border-color:#F2B315;margin-bottom:2mm">Case · Piloto em andamento</span>
+    <h2 style="color:#F3EEE5;font-size:40pt">Comida Caseira Rosa Norte</h2>
+    <p style="font-size:10.5pt;opacity:.85">Praia do Rosa · identidade própria do restaurante em todo o sistema</p></div>
+  </div>
+  <div style="position:relative;display:grid;grid-template-columns:40mm 40mm 1fr 62mm;gap:6mm;padding:8mm 18mm 0;align-items:start">
+    <div><div class="tel"><img src="img/cadastro.png" alt=""></div><p style="font-size:9pt;margin-top:2mm;font-weight:600">Página de cadastro</p></div>
+    <div><div class="tel"><img src="img/cartao.png" alt=""></div><p style="font-size:9pt;margin-top:2mm;font-weight:600">Cartão com selos da logo</p></div>
+    <div><div class="pc"><div class="barra"><i></i><i></i><i></i></div><img src="img/painel-pc-inicio.png" alt=""></div><p style="font-size:9pt;margin-top:2mm;font-weight:600">Painel do dono no mesmo visual</p>
+      <p style="font-size:9pt;margin-top:4mm;opacity:.85">+ dois planos (morador 10 selos · turista 5) · Google Wallet · avisos no celular · QR único</p></div>
+    <div style="display:grid;gap:4mm">
+      <div style="border:1.5px dashed #F2B315;border-radius:4mm;padding:4mm"><p style="font-size:8pt;letter-spacing:.12em;text-transform:uppercase;color:#F2B315;font-weight:700">Números do piloto</p><p class="d" style="font-size:20pt;margin-top:1mm">Resultados em breve</p><p style="font-size:8pt;opacity:.6">[editável]</p></div>
+      <div style="border:1.5px dashed #E8115A;border-radius:4mm;padding:4mm"><p style="font-size:8pt;letter-spacing:.12em;text-transform:uppercase;color:#E8115A;font-weight:700">Depoimento</p><p style="font-size:10pt;margin-top:1mm;font-style:italic">“Resultados em breve.”</p><p style="font-size:8pt;opacity:.6">[editável]</p></div>
+    </div>
+  </div>
+  <span class="num">08</span>
+</section>
+
+<!-- 9 · UM CARTÃO PARA CADA NEGÓCIO -->
+<section class="p">
+  <span class="eti">Feito para o seu negócio</span>
+  <h2>A cara da sua casa. <span class="oce">A regra do seu jeito.</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7mm;margin-top:13mm">
+    <div style="background:var(--restinga);color:var(--areia);border-radius:5mm;padding:7mm;min-height:105mm">
+      <p class="d lima" style="font-size:30pt">Restaurante</p>
+      <div style="display:flex;gap:1.6mm;flex-wrap:wrap;margin:6mm 0">
+        <script>for(let i=0;i<10;i++)document.write(`<span style="width:9mm;height:9mm;border-radius:50%;${i<7?'background:var(--lima)':'border:1.5px dashed rgba(242,235,221,.6)'}"></span>`)</script>
+      </div>
+      <p><b>10 almoços = 1 prato grátis</b></p>
+      <p style="margin-top:3mm;font-size:10pt;opacity:.85">Plano morador para quem come toda semana e plano turista mais curto para a temporada.</p>
+    </div>
+    <div style="background:var(--carvao);color:var(--areia);border-radius:5mm;padding:7mm;margin-top:8mm">
+      <p class="d" style="font-size:30pt;color:var(--sol)">Bar</p>
+      <div style="display:flex;gap:1.6mm;flex-wrap:wrap;margin:6mm 0">
+        <script>for(let i=0;i<8;i++)document.write(`<span style="width:9mm;height:9mm;border-radius:50%;${i<5?'background:var(--sol)':'border:1.5px dashed rgba(242,235,221,.6)'}"></span>`)</script>
+      </div>
+      <p><b>8 visitas = 1 drink da casa</b></p>
+      <p style="margin-top:3mm;font-size:10pt;opacity:.85">Gasto mínimo por visita e aviso de “happy hour hoje” no celular de quem já vem.</p>
+    </div>
+    <div style="background:var(--oceano);color:#fff;border-radius:5mm;padding:7mm;margin-top:16mm">
+      <p class="d" style="font-size:30pt;color:var(--areia)">Pousada</p>
+      <div style="display:flex;gap:1.6mm;flex-wrap:wrap;margin:6mm 0">
+        <script>for(let i=0;i<3;i++)document.write(`<span style="width:9mm;height:9mm;border-radius:50%;${i<2?'background:var(--areia)':'border:1.5px dashed rgba(255,255,255,.7)'}"></span>`)</script>
+      </div>
+      <p><b>3 estadias = late checkout ou desconto</b></p>
+      <p style="margin-top:3mm;font-size:10pt">Lembrete para o hóspede da última temporada voltar na próxima.</p>
+    </div>
+  </div>
+  <p class="nota" style="margin-top:6mm">Exemplos ilustrativos. A meta de selos, a recompensa e o gasto mínimo são definidos por você.</p>
+  <img class="marca" src="img/bicuira-logo-horizontal.png" alt=""><span class="num">09</span>
+</section>
+
+<!-- 10 · PLANOS -->
+<section class="p" style="padding:13mm 15mm">
+  <span class="eti" style="margin-bottom:3mm">Planos e preços</span>
+  <h2 style="font-size:36pt">Escolha o tamanho certo.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:5mm;margin-top:7mm;align-items:stretch">
+    <div style="border:1.5px solid var(--restinga);border-radius:5mm;padding:6mm">
+      <p class="d" style="font-size:22pt;color:var(--restinga)">Essencial</p>
+      <p class="d" style="font-size:30pt;margin-top:2mm">R$ 39,99<span style="font-size:11pt;font-family:Sora;font-weight:600">/mês</span></p>
+      <p style="font-size:9.5pt">+ R$ 1 por selo · implantação R$ 490</p>
+      <ul style="margin-top:4mm;padding-left:4mm;display:grid;gap:1mm">
+        <li style="font-size:8.6pt;line-height:1.3">Cadastro com sua logo e cores</li>
+        <li style="font-size:8.6pt;line-height:1.3">Cartão com selos (navegador e Google Wallet, após liberação do Google)</li>
+        <li style="font-size:8.6pt;line-height:1.3">1 plano de fidelidade</li>
+        <li style="font-size:8.6pt;line-height:1.3">Painel: registro, correção e resgate</li>
+        <li style="font-size:8.6pt;line-height:1.3">Avisos automáticos: selo faltando e recompensa disponível</li>
+        <li style="font-size:8.6pt;line-height:1.3">Métricas básicas</li>
+        <li style="font-size:8.6pt;line-height:1.3">QR Code para impressão</li>
+        <li style="font-size:8.6pt;line-height:1.3">Suporte por e-mail em até 2 dias úteis</li>
+      </ul>
+    </div>
+    <div style="background:var(--restinga);color:var(--areia);border-radius:5mm;padding:6mm;position:relative;transform:translateY(-3mm)">
+      <span style="position:absolute;top:-3.5mm;right:6mm;background:var(--lima);color:var(--carvao);font-size:8pt;font-weight:700;letter-spacing:.1em;padding:1.2mm 3.5mm;border-radius:99px">RECOMENDADO</span>
+      <p class="d lima" style="font-size:22pt">Profissional</p>
+      <p class="d" style="font-size:30pt;margin-top:2mm">R$ 99<span style="font-size:11pt;font-family:Sora;font-weight:600">/mês</span></p>
+      <p style="font-size:9.5pt">+ R$ 1 por selo · implantação R$ 990</p>
+      <ul style="margin-top:4mm;padding-left:4mm;display:grid;gap:1mm">
+        <li style="font-size:8.6pt;line-height:1.3"><b>Tudo do Essencial</b></li>
+        <li style="font-size:8.6pt;line-height:1.3">2 planos: morador e turista</li>
+        <li style="font-size:8.6pt;line-height:1.3">Troca de plano pelo painel</li>
+        <li style="font-size:8.6pt;line-height:1.3">Dashboard completo separado por plano</li>
+        <li style="font-size:8.6pt;line-height:1.3">Mensagens personalizadas com limite de frequência</li>
+        <li style="font-size:8.6pt;line-height:1.3">Aviso de “sentimos sua falta”</li>
+        <li style="font-size:8.6pt;line-height:1.3">1 display e 1 adesivo impressos</li>
+        <li style="font-size:8.6pt;line-height:1.3">Suporte por WhatsApp em até 1 dia útil</li>
+        <li style="font-size:8.6pt;line-height:1.3">1 ajuste de identidade por trimestre</li>
+      </ul>
+    </div>
+    <div style="background:var(--carvao);color:var(--areia);border-radius:5mm;padding:6mm">
+      <p class="d" style="font-size:22pt;color:var(--areia)">Premium</p>
+      <p class="d" style="font-size:30pt;margin-top:2mm">R$ 349<span style="font-size:11pt;font-family:Sora;font-weight:600">/mês</span></p>
+      <p style="font-size:9.5pt">+ R$ 1 por selo · implantação R$ 1.990</p>
+      <ul style="margin-top:4mm;padding-left:4mm;display:grid;gap:1mm">
+        <li style="font-size:8.6pt;line-height:1.3"><b>Tudo do Profissional</b></li>
+        <li style="font-size:8.6pt;line-height:1.3">Página com design exclusivo</li>
+        <li style="font-size:8.6pt;line-height:1.3">Ajustes ilimitados no primeiro mês</li>
+        <li style="font-size:8.6pt;line-height:1.3">Treinamento presencial ou por vídeo</li>
+        <li style="font-size:8.6pt;line-height:1.3">2 displays e 3 adesivos</li>
+        <li style="font-size:8.6pt;line-height:1.3">Suporte no mesmo dia útil</li>
+      </ul>
+    </div>
+  </div>
+  <p class="nota" style="margin-top:4mm">Apple Wallet: adicional sob consulta, a partir de R$ 300 de implantação. Não incluído nos planos.</p>
+</section>
+
+<!-- 11 · A CONTA DO PILOTO -->
+<section class="p escuro">
+  <span class="eti">Condição de piloto · 3 meses</span>
+  <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:12mm">
+    <div>
+      <h2 style="font-size:40pt">Menos que <span class="lima">um café</span> por dia.</h2>
+      <div style="margin-top:9mm;display:flex;align-items:baseline;gap:4mm"><p class="d" style="font-size:84pt;color:var(--lima);white-space:nowrap">R$ 3,30</p><p style="font-size:12pt">por dia<br>de mensalidade</p></div>
+      <p style="margin-top:2mm">R$ 99 ÷ 30 dias. E o <b>R$ 1 por selo</b> só existe quando um cliente <b>veio e consumiu</b>.</p>
+      <div style="margin-top:9mm;background:var(--areia);color:var(--carvao);border-radius:5mm;padding:6mm">
+        <p class="d" style="font-size:20pt;color:var(--restinga)">Piloto</p>
+        <p style="font-size:12pt;margin-top:2mm"><b>Implantação R$ 299</b> <s style="opacity:.6">R$ 990</s> · <b>R$ 99/mês</b> · <b>R$ 1 por selo</b></p>
+        <p style="font-size:9.5pt;margin-top:2mm">Recursos do plano Profissional, por 3 meses.</p>
+      </div>
+    </div>
+    <div style="border:1.5px solid rgba(242,235,221,.35);border-radius:5mm;padding:7mm">
+      <p class="d" style="font-size:20pt;color:var(--areia)">Faça a conta com o seu ticket</p>
+      <p style="font-size:9.5pt;opacity:.8;margin-top:1mm">Exemplo com ticket médio de <b>R$ 50</b> — troque pelo seu.</p>
+      <div style="margin-top:6mm;display:grid;gap:5mm">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(242,235,221,.25);padding-bottom:3mm"><p>O selo custa</p><p class="d lima" style="font-size:28pt">2%</p></div>
+        <p style="font-size:9.5pt;margin-top:-3mm;opacity:.85">R$ 1 sobre uma visita de R$ 50.</p>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(242,235,221,.25);padding-bottom:3mm"><p>A mensalidade equivale a</p><p class="d lima" style="font-size:28pt">2 visitas</p></div>
+        <p style="font-size:9.5pt;margin-top:-3mm;opacity:.85">2 × R$ 50 = R$ 100 no mês.</p>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(242,235,221,.25);padding-bottom:3mm"><p>Um morador fiel por ano</p><p class="d lima" style="font-size:28pt">R$ 2.600</p></div>
+        <p style="font-size:9.5pt;margin-top:-3mm;opacity:.85">1 almoço por semana × 52 semanas × R$ 50.</p>
+      </div>
+      <p class="nota" style="margin-top:5mm">Simulação ilustrativa, não é promessa de faturamento.</p>
+    </div>
+  </div>
+  <span class="num">11</span>
+</section>
+
+<!-- 12 · IMPLANTAÇÃO -->
+<section class="p">
+  <span class="eti">Implantação e próximos passos</span>
+  <h2>Do <span class="sol">sim</span> ao primeiro selo.</h2>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:14mm">
+    <div style="border-top:2.5mm solid var(--restinga);padding-top:5mm"><p class="d" style="font-size:30pt;color:var(--restinga)">1</p><h3 style="font-size:15pt;margin:2mm 0">Conversa</h3><p style="font-size:10pt">Regras: meta de selos, recompensa, gasto mínimo, planos.</p></div>
+    <div style="border-top:2.5mm solid var(--oceano);padding-top:5mm"><p class="d oce" style="font-size:30pt">2</p><h3 style="font-size:15pt;margin:2mm 0">Identidade</h3><p style="font-size:10pt">Página e cartão com a cara da sua casa.</p></div>
+    <div style="border-top:2.5mm solid var(--lima);padding-top:5mm"><p class="d" style="font-size:30pt;color:var(--restinga)">3</p><h3 style="font-size:15pt;margin:2mm 0">Painel</h3><p style="font-size:10pt">Configuração e acesso do dono e da equipe.</p></div>
+    <div style="border-top:2.5mm solid var(--sol);padding-top:5mm"><p class="d sol" style="font-size:30pt">4</p><h3 style="font-size:15pt;margin:2mm 0">Treino e QR</h3><p style="font-size:10pt">Equipe treinada e material impresso com o QR.</p></div>
+    <div style="border-top:2.5mm solid var(--carvao);padding-top:5mm"><p class="d" style="font-size:30pt">5</p><h3 style="font-size:15pt;margin:2mm 0">Lançamento</h3><p style="font-size:10pt">Primeiros cartões e acompanhamento de perto.</p></div>
+  </div>
+  <div style="margin-top:14mm;display:inline-flex;gap:5mm;align-items:center;background:var(--restinga);color:var(--areia);border-radius:99px;padding:4mm 8mm">
+    <p class="d lima" style="font-size:18pt">Prazo</p><p style="font-size:11.5pt">[PRAZO] após a aprovação da identidade</p>
+  </div>
+  <img class="marca" src="img/bicuira-logo-horizontal.png" alt=""><span class="num">12</span>
+</section>
+
+<!-- 13 · CONTATO -->
+<section class="p escuro" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+  <div style="background:var(--areia);padding:7mm 9mm;border-radius:5mm"><img src="img/bicuira-logo-principal.png" alt="Bicuíra Digital" style="height:40mm;display:block"></div>
+  <h2 style="margin-top:10mm;font-size:44pt">Vamos fidelizar <span class="lima">quem já é seu?</span></h2>
+  <div style="margin-top:9mm;display:flex;gap:12mm;font-size:13pt">
+    <p><span class="lima" style="font-weight:700">Instagram</span><br>@bicuiradigital</p>
+    <p><span class="lima" style="font-weight:700">Site</span><br>site-bicuira.vercel.app</p>
+    <p><span class="lima" style="font-weight:700">Fale com</span><br>Samuel [SOBRENOME]</p>
+  </div>
+  <p style="margin-top:12mm;font-size:9pt;letter-spacing:.14em;text-transform:uppercase;font-weight:700">Tecnologia com raiz local.</p>
+</section>
+
+</body>
+</html>
