@@ -64,6 +64,25 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .onda path{fill:none;stroke:var(--oceano);stroke-width:3;stroke-linecap:round}
 .escuro .onda path{stroke:var(--lima)}
 .selo-num{font-family:'Baloo 2';font-weight:800;font-size:50pt;line-height:.9;white-space:nowrap}
+
+/* Página do case: identidade do cliente (Rosa Norte) */
+@font-face{font-family:Rosa;src:url(fontes/montserrat-900.woff) format("woff");font-weight:900}
+.rs{font-family:Rosa;font-weight:900;text-transform:uppercase;line-height:.95}
+.rs-adesivo{display:inline-block;background:#E8115A;color:#fff;font-family:Rosa;font-size:var(--t-xs);letter-spacing:.08em;text-transform:uppercase;padding:1.5mm 4mm;border-radius:1.5mm}
+.rs-faixa{background:#F2B315;color:#E8115A;height:11mm;display:flex;align-items:center;gap:5mm;padding:0 6mm;white-space:nowrap;overflow:hidden;font-size:8pt}
+.rs-faixa span{font-family:Rosa;font-size:11pt;color:#0A0A0A;text-transform:uppercase}
+.rs-brilho{border-color:#E8115A;box-shadow:0 0 8mm rgba(232,17,90,.45)}
+.rs-leg{font-family:Rosa;font-size:var(--t-xs);text-transform:uppercase;margin-top:3mm;text-align:center;color:#F2B315}
+.rs-chip{font-size:var(--t-xs);font-weight:700;border:1.5px solid #E8115A;border-radius:99px;padding:1mm 3mm}
+/* Página do piloto: conta visual */
+.conta{display:flex;align-items:center;justify-content:center;gap:5mm}
+.conta .bl{background:var(--restinga);border:1.5px solid rgba(242,235,221,.35);border-radius:var(--r);padding:5mm 6mm;text-align:center;min-width:42mm}
+.conta .bl .peq:first-child{font-weight:700;letter-spacing:.12em;color:var(--lima)}
+.conta .gr{font-size:var(--t-xl);margin:2mm 0 1mm}
+.conta .destaque{background:var(--lima);color:var(--restinga);border-color:var(--lima);transform:scale(1.12)}
+.conta .destaque .peq:first-child{color:var(--restinga)}
+.conta .destaque .gr{font-size:44pt}
+.conta .op{font-family:'Baloo 2';font-weight:800;font-size:var(--t-xl);color:var(--lima)}
 </style>
 </head>
 <body>
@@ -203,25 +222,36 @@ p,li{font-size:var(--t-s);line-height:1.45}
   <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Valores registrados no painel pelo operador, não faturamento do restaurante.</span><span>08</span></div>
 </section>
 
-<!-- 9 · CASE -->
-<section class="p" style="background:#0A0A0A;color:#F3EEE5">
-  <div class="cab" style="position:relative;flex-direction:row;align-items:flex-end;gap:6mm">
-    <img src="img/rosa-logo.png" alt="" style="width:24mm;height:24mm;border-radius:50%;border:1mm solid #E8115A">
-    <div><p class="eti" style="color:#F2B315">Case · piloto em andamento</p><h2 style="color:#F3EEE5">Comida Caseira Rosa Norte</h2></div>
-  </div>
-  <div class="corpo" style="position:relative">
-    <div style="display:grid;grid-template-columns:40mm 40mm 1fr 58mm;gap:7mm;align-items:center">
-      <div><div class="tel"><img src="img/cadastro.png" alt=""></div><p class="leg">Cadastro</p></div>
-      <div><div class="tel"><img src="img/cartao.png" alt=""></div><p class="leg">Cartão com selos da logo</p></div>
-      <div><div class="pc"><img src="img/painel-pc-inicio.png" alt=""></div><p class="leg">Painel no mesmo visual</p></div>
-      <div style="display:grid;gap:4mm">
-        <div style="border:1.5px dashed #F2B315;border-radius:var(--r);padding:5mm"><p class="peq" style="color:#F2B315;font-weight:700;letter-spacing:.12em">NÚMEROS DO PILOTO</p><p class="d" style="font-size:var(--t-l);margin-top:2mm">Resultados em breve</p></div>
-        <div style="border:1.5px dashed #E8115A;border-radius:var(--r);padding:5mm"><p class="peq" style="color:#E8115A;font-weight:700;letter-spacing:.12em">DEPOIMENTO</p><p style="margin-top:2mm;font-style:italic">“Resultados em breve.”</p></div>
+<!-- 9 · CASE (identidade do cliente: Comida Caseira Rosa Norte) -->
+<section class="p rosa" style="padding:0;background:#0A0A0A;color:#F3EEE5">
+  <div style="position:relative;height:74mm">
+    <img src="img/salao-1600.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:rgba(10,10,10,.55)"></div>
+    <div style="position:relative;height:100%;display:flex;align-items:center;gap:8mm;padding:0 18mm">
+      <img src="img/rosa-logo.png" alt="" style="width:48mm;height:48mm;border-radius:50%;border:1.6mm solid #E8115A;box-shadow:0 0 12mm rgba(232,17,90,.6)">
+      <div>
+        <span class="rs-adesivo" style="transform:rotate(-3deg)">Case · piloto em andamento</span>
+        <p class="rs" style="font-size:40pt;margin-top:4mm">Comida Caseira<br><span style="color:#E8115A">Rosa Norte</span></p>
+        <p style="margin-top:3mm;font-size:var(--t-s);font-weight:600">Uma identidade inteira criada para eles: página, cartão, selos e painel.</p>
       </div>
     </div>
   </div>
-  <div class="rod" style="position:relative;border-color:rgba(243,238,229,.15)"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="color:#F3EEE5;font-weight:400">Identidade do restaurante em tudo · 2 planos (morador e turista) · Google Wallet · avisos no celular · QR único</span><span style="color:#F3EEE5">09</span></div>
+  <div class="rs-faixa"><span>Cartão fidelidade</span>●<span>Junte selos</span>●<span>Ganhe recompensas</span>●<span>Rosa Norte</span>●<span>Comida caseira</span>●<span>Cartão fidelidade</span></div>
+  <div style="flex:1;display:grid;grid-template-columns:38mm 38mm 1fr 56mm;gap:7mm;padding:8mm 18mm 0;align-items:start">
+    <div><div class="tel rs-brilho"><img src="img/cadastro.png" alt=""></div><p class="rs-leg">Cadastro</p></div>
+    <div><div class="tel rs-brilho"><img src="img/cartao.png" alt=""></div><p class="rs-leg">Selos com a logo</p></div>
+    <div><div class="pc rs-brilho"><img src="img/painel-pc-inicio.png" alt=""></div><p class="rs-leg">Painel do dono</p>
+      <div style="display:flex;flex-wrap:wrap;gap:2mm;margin-top:4mm;justify-content:center">
+        <span class="rs-chip">2 planos</span><span class="rs-chip">Google Wallet</span><span class="rs-chip">Avisos no celular</span><span class="rs-chip">QR único</span>
+      </div></div>
+    <div style="display:grid;gap:4mm">
+      <div style="background:#F2B315;color:#0A0A0A;border-radius:var(--r);padding:5mm"><p class="peq" style="font-weight:800;letter-spacing:.12em">NÚMEROS DO PILOTO</p><p class="rs" style="font-size:17pt;margin-top:2mm">Resultados em breve</p></div>
+      <div style="background:#E8115A;color:#fff;border-radius:var(--r);padding:5mm"><p class="peq" style="font-weight:800;letter-spacing:.12em">DEPOIMENTO</p><p style="margin-top:2mm;font-style:italic">“Resultados em breve.”</p></div>
+    </div>
+  </div>
+  <div style="height:14mm;display:flex;align-items:center;justify-content:space-between;padding:0 18mm"><img src="img/simbolo-areia.png" alt="" style="height:6mm"><span class="peq" style="font-weight:600">Cada cliente ganha a própria identidade · 09</span></div>
 </section>
+
 
 <!-- 10 · PARA CADA NEGÓCIO -->
 <section class="p">
@@ -243,26 +273,24 @@ p,li{font-size:var(--t-s);line-height:1.45}
 <section class="p escuro">
   <div class="cab"><p class="eti">Condição de piloto · 3 meses</p><h2>Menos que <span class="lima">um café por dia.</span></h2></div>
   <div class="corpo">
-    <div class="g2" style="align-items:stretch">
-      <div class="card" style="justify-content:center">
-        <p class="selo-num lima" style="font-size:72pt">R$ 3,30</p>
-        <p>por dia de mensalidade (R$ 99 ÷ 30). E o <b>R$ 1 por selo</b> só existe quando um cliente <b>veio e consumiu</b>.</p>
-        <div style="background:var(--areia);color:var(--carvao);border-radius:var(--r);padding:5mm;margin-top:3mm">
-          <p class="peq" style="font-weight:700;letter-spacing:.12em;color:var(--restinga)">PILOTO · 3 MESES</p>
-          <p style="margin-top:1.5mm"><b>Implantação R$ 299</b> <s style="opacity:.55">R$ 990</s> · <b>R$ 99/mês</b> · <b>R$ 1 por selo</b></p>
-          <p class="peq" style="margin-top:1mm">Recursos do plano Profissional.</p>
-        </div>
-      </div>
-      <div class="card" style="justify-content:center;gap:0">
-        <h3>Faça a conta com o seu ticket</h3>
-        <p class="peq" style="opacity:.75;margin:1mm 0 4mm">Exemplo com ticket médio de R$ 50. Troque pelo seu.</p>
-        <div id="conta"></div>
-        <p class="peq" style="opacity:.7;margin-top:4mm">Simulação ilustrativa, não é promessa de faturamento.</p>
-      </div>
+    <div class="conta">
+      <div class="bl"><p class="peq">MENSALIDADE</p><p class="d gr">R$ 99</p><p class="peq">por mês</p></div>
+      <p class="op">÷</p>
+      <div class="bl"><p class="peq">DIAS NO MÊS</p><p class="d gr">30</p><p class="peq">dias</p></div>
+      <p class="op">=</p>
+      <div class="bl destaque"><p class="peq">POR DIA</p><p class="d gr">R$ 3,30</p><p class="peq">por dia</p></div>
+      <p class="op">&lt;</p>
+      <div class="bl"><span class="ic" style="margin:0 auto 1mm"><svg viewBox="0 0 24 24"><path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></svg></span><p class="d" style="font-size:var(--t-l)">1 cafezinho</p><p class="peq">no balcão</p></div>
+    </div>
+    <div class="g3" style="margin-top:9mm">
+      <div class="card"><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><h3>+ R$ 1 por selo</h3><p class="peq">Só paga quando o cliente <b>voltou e consumiu</b>. Numa conta de R$ 50, é 2%.</p></div>
+      <div class="card"><span class="ic sm"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><h3>2 visitas pagam o mês</h3><p class="peq">Com uma conta média de R$ 50, duas visitas de retorno já cobrem os R$ 99.</p></div>
+      <div class="card" style="background:var(--lima);border-color:var(--lima);color:var(--restinga)"><span class="ic sm" style="background:var(--restinga);color:var(--lima)"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span><h3 style="color:var(--restinga)">Implantação R$ 299</h3><p class="peq">No lugar de <s>R$ 990</s>. Recursos do plano Profissional por 3 meses.</p></div>
     </div>
   </div>
-  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span>12</span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Exemplo com conta média de R$ 50. Simulação ilustrativa, não é promessa de faturamento.</span><span>12</span></div>
 </section>
+
 
 <!-- 13 · IMPLANTAÇÃO -->
 <section class="p">
@@ -320,7 +348,7 @@ document.getElementById('planos').innerHTML = PLANOS.map(p => `<div class="card"
   <ul style="list-style:none;display:grid;gap:1.6mm;margin-top:1mm;border-top:1px solid ${p.rec?'rgba(242,235,221,.2)':'rgba(37,67,61,.12)'};padding-top:3mm">${p.itens.map((t,i)=>`<li class="peq" style="display:flex;gap:2mm;${i===0&&p.n!=='Essencial'?'font-weight:700':''}"><svg viewBox="0 0 24 24" style="width:3.6mm;height:3.6mm;flex:none;margin-top:.3mm;fill:none;stroke:${p.rec?'var(--lima)':'var(--oceano)'};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">${IC.ok}</svg>${t}</li>`).join('')}</ul>
 </div>`).join('');
 
-document.getElementById('conta').innerHTML = [
+if(0)document.getElementById('conta').innerHTML = [
   ['O selo custa','2%','R$ 1 sobre uma visita de R$ 50'],
   ['A mensalidade equivale a','2 visitas','2 × R$ 50 = R$ 100 no mês'],
   ['Um morador fiel por ano','R$ 2.600','1 almoço por semana × 52 × R$ 50'],
