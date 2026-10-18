@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Bicuíra Fideliza — Apresentação comercial</title>
+<title>Bicuíra Fideliza · Apresentação comercial</title>
 <link rel="stylesheet" href="fontes/g.css">
 <style>
 /* ── Sistema visual ──
@@ -25,12 +25,12 @@ p,li{font-size:var(--t-s);line-height:1.45}
 /* cabeçalho */
 .cab{height:30mm;display:flex;flex-direction:column;justify-content:flex-end}
 .eti{font-size:var(--t-xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--oceano);margin-bottom:3mm;display:flex;align-items:center;gap:2.5mm}
-.eti::before{content:"";width:8mm;height:2px;background:currentColor}
+
 /* corpo e rodapé */
 .corpo{flex:1;display:flex;flex-direction:column;justify-content:center;padding:6mm 0}
-.rod{height:16mm;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(37,67,61,.15)}
+.rod{height:16mm;display:flex;align-items:center;gap:5mm;border-top:1px solid rgba(37,67,61,.15)}
 .rod img{height:6mm}
-.rod span{font-size:var(--t-xs);font-weight:600;color:var(--restinga)}
+.rod>span:last-child{margin-left:auto}.rod span{font-size:var(--t-xs);font-weight:600;color:var(--restinga)}
 /* variantes escuras */
 .escuro{background:var(--restinga);color:var(--areia)}
 .escuro h2,.escuro h3{color:var(--areia)}
@@ -43,7 +43,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:5mm}
 /* cartões */
 .card{background:#fff;border-radius:var(--r);padding:7mm;display:flex;flex-direction:column;gap:3mm}
-.escuro .card{background:rgba(242,235,221,.07);border:1px solid rgba(242,235,221,.16)}
+.escuro .card{background:var(--restinga);border:1.5px solid var(--lima)}
 /* ícone padrão: sempre 12mm, círculo, traço 1.75 */
 .ic{width:12mm;height:12mm;border-radius:50%;display:grid;place-items:center;background:var(--restinga);color:var(--lima);flex:none}
 .ic svg{width:6mm;height:6mm;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -53,9 +53,9 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .lista{list-style:none;display:grid;gap:4.5mm}
 .lista li{display:flex;gap:4mm;align-items:center}
 /* dispositivos */
-.tel{border-radius:6mm;border:2mm solid #111;background:#111;overflow:hidden;box-shadow:0 3mm 8mm rgba(0,0,0,.22)}
+.tel{border-radius:6mm;border:2mm solid #111;background:#111;overflow:hidden;box-shadow:none}
 .tel img,.pc img{display:block;width:100%}
-.pc{border-radius:3mm;overflow:hidden;border:1.2mm solid #111;background:#111;box-shadow:0 3mm 8mm rgba(0,0,0,.22)}
+.pc{border-radius:3mm;overflow:hidden;border:1.2mm solid #111;background:#111;box-shadow:none}
 .pc::before{content:"";display:block;height:3.5mm;background:#222}
 .leg{font-size:var(--t-xs);font-weight:600;margin-top:3mm;text-align:center}
 .lima{color:var(--lima)}.sol{color:var(--sol)}.oce{color:var(--oceano)}
@@ -70,15 +70,13 @@ p,li{font-size:var(--t-s);line-height:1.45}
 
 <!-- 1 · CAPA -->
 <section class="p escuro" style="padding:0">
-  <img src="img/salao-1600.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22">
-  <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--restinga) 45%,rgba(37,67,61,.7))"></div>
   <div style="position:relative;display:grid;grid-template-columns:1.25fr 1fr;height:100%;align-items:center;padding:0 18mm">
     <div>
       <img src="img/logo-selo.png" alt="Bicuíra Digital" style="width:30mm;display:block;margin-bottom:10mm">
       <h1 style="font-size:72pt;color:var(--areia)">Bicuíra<br><span class="lima">Fideliza</span></h1>
       <p class="d" style="font-size:var(--t-l);margin-top:6mm">Fidelidade digital com raiz local.</p>
       <svg class="onda" viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2 6c8-6 16-6 24 0s16 6 24 0 16-6 24 0 16 6 24 0"/></svg>
-      <p style="margin-top:8mm;max-width:115mm;opacity:.9">O cartão fidelidade no celular do seu cliente — para pousadas, bares e restaurantes de Garopaba, Praia do Rosa e Imbituba.</p>
+      <p style="margin-top:8mm;max-width:115mm;opacity:.9">O cartão fidelidade no celular do seu cliente, para pousadas, bares e restaurantes de Garopaba, Praia do Rosa e Imbituba.</p>
     </div>
     <div style="display:flex;justify-content:center"><div class="tel" style="width:66mm"><img src="img/cartao.png" alt=""></div></div>
   </div>
@@ -100,7 +98,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       <div class="c"><img src="img/logo-principal.png" alt="Bicuíra Digital" style="width:92mm"></div>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-horizontal.png" alt=""><span>02</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span>02</span></div>
 </section>
 
 <!-- 3 · O PROBLEMA -->
@@ -108,12 +106,12 @@ p,li{font-size:var(--t-s);line-height:1.45}
   <div class="cab"><p class="eti">O problema</p><h2>O cliente gostou. Mas <span class="sol">ele volta?</span></h2></div>
   <div class="corpo">
     <div class="g3">
-      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><h3>Vem uma vez e some</h3><p>Muita gente aparece, gosta e não volta — e você nem fica sabendo quem era.</p></div>
+      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><h3>Vem uma vez e some</h3><p>Muita gente aparece, gosta e não volta. E você nem fica sabendo quem era.</p></div>
       <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h.01M11 15h2"/></svg></span><h3>O cartão de papel se perde</h3><p>Fica na carteira, molha na praia, esquece em casa. Os carimbos somem junto.</p></div>
       <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13 13 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61M2 2l20 20"/></svg></span><h3>Você não vê quem retorna</h3><p>Sem registro, não dá para saber quem é fiel, quanto gasta ou quando parou de vir.</p></div>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-horizontal.png" alt=""><span>03</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span>03</span></div>
 </section>
 
 <!-- 4 · POR QUE FIDELIZAR -->
@@ -121,13 +119,13 @@ p,li{font-size:var(--t-s);line-height:1.45}
   <div class="cab"><p class="eti">Por que fidelizar</p><h2>Quem já conhece a casa <span class="lima">vale mais.</span></h2></div>
   <div class="corpo">
     <div class="g3">
-      <div class="card"><p class="selo-num lima">5–25×</p><p>mais caro <b>conquistar um cliente novo</b> do que manter quem já vem.</p><p class="peq" style="opacity:.7">Harvard Business Review, 2014</p></div>
-      <div class="card"><p class="selo-num lima">60–70%</p><p>de chance de vender de novo para <b>quem já é cliente</b>. Para um desconhecido: 5–20%.</p><p class="peq" style="opacity:.7">Marketing Metrics (Farris et al.)</p></div>
+      <div class="card"><p class="selo-num lima">5 a 25×</p><p>mais caro <b>conquistar um cliente novo</b> do que manter quem já vem.</p><p class="peq" style="opacity:.7">Harvard Business Review, 2014</p></div>
+      <div class="card"><p class="selo-num lima">60 a 70%</p><p>de chance de vender de novo para <b>quem já é cliente</b>. Para um desconhecido: 5 a 20%.</p><p class="peq" style="opacity:.7">Marketing Metrics (Farris et al.)</p></div>
       <div class="card"><p class="selo-num lima">+5%</p><p>de clientes que ficam pode significar <b>25% a 95%</b> a mais de lucro.</p><p class="peq" style="opacity:.7">Bain &amp; Company (F. Reichheld)</p></div>
     </div>
-    <p class="c" style="margin-top:10mm;font-size:var(--t-m)">Fidelizar é <b class="lima">valorizar quem já é seu</b> — o morador de toda semana, o turista de todo verão.</p>
+    <p class="c" style="margin-top:10mm;font-size:var(--t-m)">Fidelizar é <b class="lima">valorizar quem já é seu</b>: o morador de toda semana, o turista de todo verão.</p>
   </div>
-  <div class="rod"><span class="peq" style="font-weight:400;opacity:.7">Estudos de mercado gerais, citados como referência. Não são promessa de resultado.</span><span>04</span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.7">Estudos de mercado gerais, citados como referência. Não são promessa de resultado.</span><span>04</span></div>
 </section>
 
 <!-- 5 · COMO FUNCIONA -->
@@ -146,7 +144,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       <p><b class="lima">Um QR só:</b> cria o cartão de quem é novo e abre direto o cartão de quem já tem.</p>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-horizontal.png" alt=""><span>05</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span>05</span></div>
 </section>
 
 <!-- 6 · PARA O CLIENTE -->
@@ -168,7 +166,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       </div>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-simbolo.png" alt=""><span>06</span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span>06</span></div>
 </section>
 
 <!-- 7 · PARA O DONO -->
@@ -185,7 +183,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       </ul>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-horizontal.png" alt=""><span>07</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span>07</span></div>
 </section>
 
 <!-- 8 · MÉTRICAS -->
@@ -202,13 +200,11 @@ p,li{font-size:var(--t-s);line-height:1.45}
       <div><div class="pc"><img src="img/painel-pc-metricas.png" alt="Métricas"></div><p class="leg">Dados fictícios de demonstração</p></div>
     </div>
   </div>
-  <div class="rod"><span class="peq" style="font-weight:400">Valores registrados no painel pelo operador, não faturamento do restaurante.</span><span>08</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Valores registrados no painel pelo operador, não faturamento do restaurante.</span><span>08</span></div>
 </section>
 
 <!-- 9 · CASE -->
 <section class="p" style="background:#0A0A0A;color:#F3EEE5">
-  <img src="img/salao-1600.webp" alt="" style="position:absolute;inset:0;width:100%;height:70mm;object-fit:cover;opacity:.4">
-  <div style="position:absolute;inset:0;height:70mm;background:linear-gradient(rgba(10,10,10,.2),#0A0A0A)"></div>
   <div class="cab" style="position:relative;flex-direction:row;align-items:flex-end;gap:6mm">
     <img src="img/rosa-logo.png" alt="" style="width:24mm;height:24mm;border-radius:50%;border:1mm solid #E8115A">
     <div><p class="eti" style="color:#F2B315">Case · piloto em andamento</p><h2 style="color:#F3EEE5">Comida Caseira Rosa Norte</h2></div>
@@ -224,7 +220,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       </div>
     </div>
   </div>
-  <div class="rod" style="position:relative;border-color:rgba(243,238,229,.15)"><span class="peq" style="color:#F3EEE5;font-weight:400">Identidade do restaurante em tudo · 2 planos (morador e turista) · Google Wallet · avisos no celular · QR único</span><span style="color:#F3EEE5">09</span></div>
+  <div class="rod" style="position:relative;border-color:rgba(243,238,229,.15)"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="color:#F3EEE5;font-weight:400">Identidade do restaurante em tudo · 2 planos (morador e turista) · Google Wallet · avisos no celular · QR único</span><span style="color:#F3EEE5">09</span></div>
 </section>
 
 <!-- 10 · PARA CADA NEGÓCIO -->
@@ -233,14 +229,14 @@ p,li{font-size:var(--t-s);line-height:1.45}
   <div class="corpo">
     <div class="g3" id="negocios"></div>
   </div>
-  <div class="rod"><span class="peq" style="font-weight:400">Exemplos ilustrativos: meta de selos, recompensa e gasto mínimo são definidos por você.</span><span>10</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Exemplos ilustrativos: meta de selos, recompensa e gasto mínimo são definidos por você.</span><span>10</span></div>
 </section>
 
 <!-- 11 · PLANOS -->
 <section class="p">
   <div class="cab"><p class="eti">Planos e preços</p><h2>Escolha o tamanho certo.</h2></div>
   <div class="corpo"><div class="g3" id="planos" style="align-items:stretch"></div></div>
-  <div class="rod"><span class="peq" style="font-weight:400">Apple Wallet: adicional sob consulta, a partir de R$ 300 de implantação. Não incluído nos planos.</span><span>11</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Apple Wallet: adicional sob consulta, a partir de R$ 300 de implantação. Não incluído nos planos.</span><span>11</span></div>
 </section>
 
 <!-- 12 · PILOTO -->
@@ -259,13 +255,13 @@ p,li{font-size:var(--t-s);line-height:1.45}
       </div>
       <div class="card" style="justify-content:center;gap:0">
         <h3>Faça a conta com o seu ticket</h3>
-        <p class="peq" style="opacity:.75;margin:1mm 0 4mm">Exemplo com ticket médio de R$ 50 — troque pelo seu.</p>
+        <p class="peq" style="opacity:.75;margin:1mm 0 4mm">Exemplo com ticket médio de R$ 50. Troque pelo seu.</p>
         <div id="conta"></div>
         <p class="peq" style="opacity:.7;margin-top:4mm">Simulação ilustrativa, não é promessa de faturamento.</p>
       </div>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-simbolo.png" alt=""><span>12</span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span>12</span></div>
 </section>
 
 <!-- 13 · IMPLANTAÇÃO -->
@@ -277,7 +273,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
       <span class="d lima" style="font-size:var(--t-m)">Prazo</span><p>[PRAZO] após a aprovação da identidade</p>
     </div>
   </div>
-  <div class="rod"><img src="img/logo-horizontal.png" alt=""><span>13</span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span>13</span></div>
 </section>
 
 <!-- 14 · CONTATO -->
