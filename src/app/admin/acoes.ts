@@ -10,6 +10,7 @@ import { registrarAuditoria } from "@/lib/auditoria";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { lerReais } from "@/lib/dominio/dinheiro";
+import type { TipoNegocio } from "@/lib/dominio/negocio";
 import { validarEstabelecimento, type DadosEstabelecimento, type ErrosForm } from "@/lib/dominio/estabelecimento";
 import { carregarEstabelecimento, donosDoEstabelecimento } from "@/lib/admin/dados";
 
@@ -30,7 +31,9 @@ function lerFormulario(form: FormData): DadosEstabelecimento {
   return {
     nome: texto(form, "nome"),
     slug: texto(form, "slug").toLowerCase(),
-    gasto_minimo_centavos: lerReais(texto(form, "gasto_minimo")) ?? NaN,
+    tipo_negocio: texto(form, "tipo_negocio") as TipoNegocio,
+    // pousada: 1 selo por estadia, sem gasto mínimo
+    gasto_minimo_centavos: texto(form, "tipo_negocio") === "pousada" ? 0 : (lerReais(texto(form, "gasto_minimo")) ?? NaN),
     dias_inatividade: form.get("inatividade_sem_limite") === "on" ? null : inteiro(form, "dias_inatividade"),
     max_personalizadas_semana: inteiro(form, "max_personalizadas_semana"),
     contato_privacidade: opcional(form, "contato_privacidade"),

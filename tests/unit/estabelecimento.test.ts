@@ -5,6 +5,7 @@ import { avaliarCor, contraste, textoSobre, TEXTO_CLARO, TEXTO_ESCURO } from "@/
 const base: DadosEstabelecimento = {
   nome: "Restaurante Teste",
   slug: "restaurante-teste",
+  tipo_negocio: "restaurante",
   gasto_minimo_centavos: 1500,
   dias_inatividade: 30,
   max_personalizadas_semana: 2,

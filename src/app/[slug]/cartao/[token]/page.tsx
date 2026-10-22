@@ -143,7 +143,13 @@ export default async function PaginaCartao({ params, searchParams }: P) {
             <li>
               Mostre o código <strong className="font-mono">{cartao.codigo}</strong> no caixa a cada visita.
             </li>
-            <li>Visitas a partir de {formatarReais(estab.gasto_minimo_centavos)} ganham 1 carimbo.</li>
+            <li>
+              {estab.porEstadia
+                ? "Cada hospedagem ganha 1 carimbo."
+                : estab.gasto_minimo_centavos > 0
+                  ? `Visitas a partir de ${formatarReais(estab.gasto_minimo_centavos)} ganham 1 carimbo.`
+                  : "Cada visita ganha 1 carimbo."}
+            </li>
             {plano ? (
               <li>
                 Com {plano.carimbos_meta} carimbos você ganha: <strong>{plano.recompensa_texto}</strong>.

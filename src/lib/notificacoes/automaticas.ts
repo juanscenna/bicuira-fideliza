@@ -4,6 +4,7 @@ import type { EstadoOperacao } from "@/lib/painel/apos-mudanca";
 import { enviarMensagens } from "./enviar";
 import type { TipoAutomatica } from "./regras";
 import { termosDo, textoAutomaticoDo } from "@/temas/vocabulario";
+import { ehTipoNegocio } from "@/lib/dominio/negocio";
 
 async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "morador" | "turista") {
   const { data } = await supabaseAdmin()
@@ -17,8 +18,8 @@ async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "mo
 
 /** Texto da automática no vocabulário do estabelecimento (ex.: pousada: "na recepção"). */
 async function textoNoVocabulario(estabelecimentoId: string) {
-  const { data } = await supabaseAdmin().from("estabelecimentos").select("slug").eq("id", estabelecimentoId).single();
-  const termos = termosDo(data?.slug ?? "");
+  const { data } = await supabaseAdmin().from("estabelecimentos").select("slug, tipo_negocio").eq("id", estabelecimentoId).single();
+  const termos = termosDo({ slug: data?.slug ?? "", tipo_negocio: ehTipoNegocio(data?.tipo_negocio) ? data.tipo_negocio : "restaurante" });
   return (tipo: TipoAutomatica, c: { recompensa: string; carimbos: number; meta: number }) => textoAutomaticoDo(tipo, c, termos);
 }
 

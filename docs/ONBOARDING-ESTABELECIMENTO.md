@@ -17,10 +17,14 @@ Use este roteiro sempre que entrar um restaurante, bar ou pousada (com área de 
 
 1. Entre em `/admin` com a conta de super admin.
 2. Clique em Novo estabelecimento e preencha nome e endereço (o endereço é sugerido pelo nome; confira).
-3. Preencha os dois planos (carimbos e recompensa), o gasto mínimo, os dias de inatividade e o limite de mensagens por cliente por semana. Os selos nunca vencem: os dias de inatividade só marcam o cliente como inativo e disparam o aviso "Sentimos sua falta". Para negócios de retorno raro (pousadas), marque "Sem limite".
-4. Preencha o contato de privacidade.
-5. Em "Status e cobrança", deixe "ativo" marcado. Os campos de cobrança são só controle interno.
-6. Clique em Criar estabelecimento. O sistema leva para `/admin/<id>` com a mensagem "Estabelecimento criado".
+3. Escolha o tipo de negócio. Ele já preenche uma configuração básica e define a linguagem do painel do dono:
+   - **Restaurante**: selo por gasto mínimo (R$ 15,00), morador 10 selos = 1 prato, turista 5 selos = 1 sobremesa.
+   - **Bar**: selo por gasto mínimo (R$ 20,00), morador 10 selos = 1 porção, turista 5 selos = 1 drink.
+   - **Pousada**: 1 selo por estadia, sem valor nem gasto mínimo; só o plano de hóspedes (3 selos = 1 café da manhã) e inatividade sem limite. O painel fala de hospedagem e recepção e não pede valores.
+4. Ajuste os planos (carimbos e recompensa), o gasto mínimo, os dias de inatividade e o limite de mensagens por cliente por semana. Os selos nunca vencem: os dias de inatividade só marcam o cliente como inativo e disparam o aviso "Sentimos sua falta". Para negócios de retorno raro (pousadas), marque "Sem limite".
+5. Preencha o contato de privacidade.
+6. Em "Status e cobrança", deixe "ativo" marcado. Os campos de cobrança são só controle interno.
+7. Clique em Criar estabelecimento. O sistema leva para `/admin/<id>` com a mensagem "Estabelecimento criado".
 
 ## 2. Criar o login do dono (`/admin/<id>` → Login do dono)
 

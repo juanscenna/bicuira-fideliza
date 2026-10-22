@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PADRAO_POR_NEGOCIO } from "@/lib/dominio/negocio";
 import { ChevronLeft } from "lucide-react";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { FormEstabelecimento } from "@/components/admin/FormEstabelecimento";
@@ -20,16 +21,14 @@ export default async function NovoEstabelecimento() {
         inicial={{
           nome: "",
           slug: "",
-          gasto_minimo_centavos: 1500,
-          dias_inatividade: 30,
+          tipo_negocio: "restaurante",
+          ...PADRAO_POR_NEGOCIO.restaurante,
           max_personalizadas_semana: 2,
           contato_privacidade: null,
           ativo: true,
           cobranca_plano: null,
           cobranca_status: null,
           cobranca_vencimento: null,
-          morador: { ativo: true, carimbos_meta: 10, recompensa_texto: "1 prato" },
-          turista: { ativo: true, carimbos_meta: 5, recompensa_texto: "1 sobremesa" },
         }}
       />
     </div>

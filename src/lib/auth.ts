@@ -4,11 +4,14 @@ import { redirect } from "next/navigation";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 
+import type { TipoNegocio } from "@/lib/dominio/negocio";
+
 export type Estabelecimento = {
   id: string;
   slug: string;
   nome: string;
   ativo: boolean;
+  tipo_negocio: TipoNegocio;
 };
 
 export type Sessao =
@@ -28,7 +31,7 @@ export const obterSessao = cache(async (): Promise<Sessao | null> => {
 export async function carregarPerfil(supabase: SupabaseClient, userId: string, email: string): Promise<Sessao | null> {
   const { data: perfil } = await supabase
     .from("perfis")
-    .select("papel, estabelecimento:estabelecimentos (id, slug, nome, ativo)")
+    .select("papel, estabelecimento:estabelecimentos (id, slug, nome, ativo, tipo_negocio)")
     .eq("user_id", userId)
     .maybeSingle();
   if (!perfil) return null;

@@ -26,6 +26,7 @@ const dados: DadosPass = {
   meta: 10,
   recompensa: "1 prato",
   gastoMinimoCentavos: 1500,
+  porEstadia: false,
   serial: "abc123",
   appleAuthToken: "t".repeat(48),
   googleObjectId: null,

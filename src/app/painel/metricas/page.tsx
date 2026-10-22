@@ -28,7 +28,8 @@ const media = (soma: number, n: number) => (n > 0 ? formatarReais(Math.round(som
 
 export default async function Metricas({ searchParams }: PageProps<"/painel/metricas">) {
   const { estabelecimento } = await exigirDono();
-  const t = (texto: string) => traduzir(texto, termosDo(estabelecimento.slug));
+  const termos = termosDo(estabelecimento);
+  const t = (texto: string) => traduzir(texto, termos);
   const sp = await searchParams;
   const periodo: Periodo = typeof sp.periodo === "string" && sp.periodo in PERIODOS ? (sp.periodo as Periodo) : "30";
   const publico: Publico = typeof sp.publico === "string" && sp.publico in PUBLICOS ? (sp.publico as Publico) : "todos";
@@ -78,7 +79,10 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
       explicacao: "Sem visita há mais dias que o limite do programa. Não depende do período.",
       valor: (x) => String(x.clientes_inativos),
     },
-  ] as { rotulo: string; explicacao: string; valor: (x: M) => string }[]).map((i) => ({ ...i, rotulo: t(i.rotulo), explicacao: t(i.explicacao) }));
+  ] as { rotulo: string; explicacao: string; valor: (x: M) => string }[])
+    // pousada: selo por estadia, sem valores gastos
+    .filter((i) => !(termos.porEstadia && /Gasto|Ticket/.test(i.rotulo)))
+    .map((i) => ({ ...i, rotulo: t(i.rotulo), explicacao: t(i.explicacao) }));
 
   return (
     <div className="flex flex-col gap-6">
@@ -131,6 +135,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
         </section>
       ) : null}
 
+      {termos.porEstadia ? null : (
       <p className="flex items-start gap-2 rounded-2xl border-2 border-restinga/20 bg-white/60 p-4">
         <Info aria-hidden className="mt-0.5 size-5 shrink-0 text-restinga" />
         <span>
@@ -138,6 +143,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
           aconteceu, não o motivo: um cliente que retornou pode ter voltado por vários motivos.
         </span>
       </p>
+      )}
     </div>
   );
 }

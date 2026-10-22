@@ -15,7 +15,7 @@ const STATUS: Record<string, string> = { agendada: "Agendada", enviando: "Envian
 
 export default async function Avisos({ searchParams }: PageProps<"/painel/avisos">) {
   const { estabelecimento } = await exigirDono();
-  const termos = termosDo(estabelecimento.slug);
+  const termos = termosDo(estabelecimento);
   const publicos = Object.fromEntries(
     Object.entries(PUBLICOS)
       .filter(([k]) => termos.mostrarPlanos || (k !== "moradores" && k !== "turistas"))

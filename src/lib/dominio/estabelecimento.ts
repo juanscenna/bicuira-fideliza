@@ -29,9 +29,12 @@ export const corValida = (cor: string) => /^#[0-9A-Fa-f]{6}$/.test(cor);
 
 export type PlanoForm = { ativo: boolean; carimbos_meta: number; recompensa_texto: string };
 
+import { ehTipoNegocio, type TipoNegocio } from "./negocio";
+
 export type DadosEstabelecimento = {
   nome: string;
   slug: string;
+  tipo_negocio: TipoNegocio;
   gasto_minimo_centavos: number;
   /** null = sem limite (o cliente nunca vira inativo) */
   dias_inatividade: number | null;
@@ -53,6 +56,7 @@ export function validarEstabelecimento(d: DadosEstabelecimento): ErrosForm {
   if (d.nome.trim().length < 2 || d.nome.trim().length > 80) erros.nome = "Informe um nome entre 2 e 80 caracteres.";
   const erroSlug = validarSlug(d.slug);
   if (erroSlug) erros.slug = erroSlug;
+  if (!ehTipoNegocio(d.tipo_negocio)) erros.tipo_negocio = "Escolha restaurante, bar ou pousada.";
   if (!Number.isInteger(d.gasto_minimo_centavos) || d.gasto_minimo_centavos < 0)
     erros.gasto_minimo = "Informe um valor em reais, como 15,00.";
   if (d.dias_inatividade !== null && (!Number.isInteger(d.dias_inatividade) || d.dias_inatividade < 1 || d.dias_inatividade > 3650))

@@ -28,6 +28,7 @@ export async function carregarEstabelecimento(id: string): Promise<Estabelecimen
     id: e.id,
     nome: e.nome,
     slug: e.slug,
+    tipo_negocio: e.tipo_negocio,
     logo_path: e.logo_path,
     gasto_minimo_centavos: e.gasto_minimo_centavos,
     dias_inatividade: e.dias_inatividade,

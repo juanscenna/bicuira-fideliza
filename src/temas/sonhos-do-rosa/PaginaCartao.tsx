@@ -21,7 +21,7 @@ export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, 
 
   const passos = [
     { Icone: QrCode, t: "Mostre na recepção", d: <>Seu código <strong className="text-[#065DA0]">{regras.codigo}</strong> a cada hospedagem.</> },
-    { Icone: Stamp, t: "Ganhe um selo", d: <>Hospedagens a partir de {regras.gastoMinimo} valem 1 selo.</> },
+    { Icone: Stamp, t: "Ganhe um selo", d: <>Cada hospedagem vale 1 selo.</> },
     {
       Icone: Gift,
       t: "Recompensa",

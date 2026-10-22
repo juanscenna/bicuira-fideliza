@@ -15,6 +15,8 @@ export type EstabelecimentoPublico = {
   cor_secundaria: string;
   ativo: boolean;
   gasto_minimo_centavos: number;
+  /** pousada: 1 selo por estadia (sem gasto mínimo) */
+  porEstadia: boolean;
   contato_privacidade: string | null;
   versao_politica: number;
   planos: PlanoPublico[];
@@ -26,7 +28,7 @@ export const estabelecimentoPorSlug = cache(async (slug: string): Promise<Estabe
   const { data } = await supabaseAdmin()
     .from("estabelecimentos")
     .select(
-      "id, slug, nome, ativo, gasto_minimo_centavos, contato_privacidade, versao_politica, planos (tipo, ativo, carimbos_meta, recompensa_texto)",
+      "id, slug, nome, ativo, gasto_minimo_centavos, tipo_negocio, contato_privacidade, versao_politica, planos (tipo, ativo, carimbos_meta, recompensa_texto)",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -46,6 +48,7 @@ export const estabelecimentoPorSlug = cache(async (slug: string): Promise<Estabe
     cor_secundaria: TEMAS[temaDo(data.slug)].cor_secundaria,
     ativo: data.ativo,
     gasto_minimo_centavos: data.gasto_minimo_centavos,
+    porEstadia: data.tipo_negocio === "pousada",
     contato_privacidade: data.contato_privacidade,
     versao_politica: data.versao_politica,
     planos,

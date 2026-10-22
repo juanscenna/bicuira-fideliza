@@ -5,6 +5,7 @@ import { AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Botao } from "@/components/ui/Botao";
 import { Campo } from "@/components/ui/Campo";
 import { gerarSlug, type DadosEstabelecimento } from "@/lib/dominio/estabelecimento";
+import { PADRAO_POR_NEGOCIO, selaPorEstadia, TIPOS_NEGOCIO, type TipoNegocio } from "@/lib/dominio/negocio";
 import type { EstadoForm } from "@/app/admin/acoes";
 
 type Props = {
@@ -28,6 +29,20 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
   const [morador, setMorador] = useState(inicial.morador);
   const [turista, setTurista] = useState(inicial.turista);
   const [semLimite, setSemLimite] = useState(inicial.dias_inatividade === null);
+  const [tipo, setTipo] = useState<TipoNegocio>(inicial.tipo_negocio);
+  // ao criar, cada tipo já vem com uma configuração básica (dá para ajustar tudo)
+  const [padrao, setPadrao] = useState({ gasto: inicial.gasto_minimo_centavos, dias: inicial.dias_inatividade });
+  const porEstadia = selaPorEstadia(tipo);
+
+  function escolherTipo(novoTipo: TipoNegocio) {
+    setTipo(novoTipo);
+    if (!novo) return;
+    const p = PADRAO_POR_NEGOCIO[novoTipo];
+    setMorador(p.morador);
+    setTurista(p.turista);
+    setSemLimite(p.dias_inatividade === null);
+    setPadrao({ gasto: p.gasto_minimo_centavos, dias: p.dias_inatividade });
+  }
 
   return (
     <form
@@ -70,28 +85,57 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
           />
         </Secao>
 
+        <Secao
+          titulo="Tipo de negócio"
+          descricao={novo ? "Define a configuração inicial e a linguagem do painel do dono." : "Define a linguagem do painel do dono. Mudar aqui não altera as regras abaixo."}
+        >
+          {erros.tipo_negocio ? <Aviso>{erros.tipo_negocio}</Aviso> : null}
+          <div role="radiogroup" aria-label="Tipo de negócio" className="grid gap-3 sm:grid-cols-3">
+            {(Object.keys(TIPOS_NEGOCIO) as TipoNegocio[]).map((t) => (
+              <label
+                key={t}
+                className={`flex min-h-14 cursor-pointer flex-col justify-center rounded-xl border-2 bg-white px-4 py-2 ${tipo === t ? "border-restinga" : "border-restinga/20"}`}
+              >
+                <span className="flex items-center gap-3 text-lg font-semibold">
+                  <input type="radio" name="tipo_negocio" value={t} checked={tipo === t} onChange={() => escolherTipo(t)} className="size-5 accent-restinga" />
+                  {TIPOS_NEGOCIO[t]}
+                </span>
+                <span className="pl-8 text-sm text-carvao/80">{selaPorEstadia(t) ? "1 selo por estadia" : "Selo por gasto mínimo"}</span>
+              </label>
+            ))}
+          </div>
+        </Secao>
+
         <Secao titulo="Planos e regras" descricao="O dono vê estas regras, mas não pode mudá-las.">
           {erros.planos ? <Aviso>{erros.planos}</Aviso> : null}
           <div className="grid gap-4 sm:grid-cols-2">
             <EditorPlano tipo="morador" titulo="Moradores" plano={morador} onChange={setMorador} erros={erros} />
-            <EditorPlano tipo="turista" titulo="Turistas" plano={turista} onChange={setTurista} erros={erros} />
+            <EditorPlano tipo="turista" titulo={porEstadia ? "Hóspedes" : "Turistas"} plano={turista} onChange={setTurista} erros={erros} />
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <Campo
-              id="gasto_minimo"
-              name="gasto_minimo"
-              rotulo="Gasto mínimo por visita (R$)"
-              inputMode="decimal"
-              defaultValue={centavosParaTexto(inicial.gasto_minimo_centavos)}
-              erro={erros.gasto_minimo}
-            />
+            {porEstadia ? (
+              <p className="self-end rounded-xl bg-white px-4 py-3 text-sm">
+                <strong>1 selo por estadia.</strong> Sem valor nem gasto mínimo.
+              </p>
+            ) : (
+              <Campo
+                key={`gasto-${padrao.gasto}`}
+                id="gasto_minimo"
+                name="gasto_minimo"
+                rotulo="Gasto mínimo por visita (R$)"
+                inputMode="decimal"
+                defaultValue={centavosParaTexto(padrao.gasto)}
+                erro={erros.gasto_minimo}
+              />
+            )}
             <div className="flex flex-col gap-2">
               <Campo
                 id="dias_inatividade"
                 name="dias_inatividade"
                 rotulo="Inativo após (dias)"
                 inputMode="numeric"
-                defaultValue={inicial.dias_inatividade ?? ""}
+                key={`dias-${padrao.dias}`}
+                defaultValue={padrao.dias ?? ""}
                 disabled={semLimite}
                 ajuda={semLimite ? "Ninguém vira inativo e o aviso “Sentimos sua falta” não sai." : "Os selos nunca vencem; isto só marca o cliente como inativo."}
                 erro={erros.dias_inatividade}

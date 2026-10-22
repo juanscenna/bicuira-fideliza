@@ -19,6 +19,8 @@ export type DadosPass = {
   meta: number;
   recompensa: string;
   gastoMinimoCentavos: number;
+  /** pousada: 1 selo por estadia (sem gasto mínimo) */
+  porEstadia: boolean;
   serial: string;
   appleAuthToken: string;
   googleObjectId: string | null;
@@ -31,7 +33,7 @@ export type DadosPass = {
 
 const CAMPOS =
   "id, nome, codigo, plano_tipo, carimbos_atuais, token_cartao, anonimizado_em, estabelecimento_id, " +
-  "estabelecimentos (slug, nome, logo_path, cor_primaria, cor_secundaria, gasto_minimo_centavos, ativo), " +
+  "estabelecimentos (slug, nome, logo_path, cor_primaria, cor_secundaria, gasto_minimo_centavos, tipo_negocio, ativo), " +
   "passes (serial, apple_auth_token, google_object_id, versao, atualizado_em, mensagem_atual)";
 
 type Linha = {
@@ -43,7 +45,7 @@ type Linha = {
   token_cartao: string;
   anonimizado_em: string | null;
   estabelecimento_id: string;
-  estabelecimentos: { slug: string; nome: string; logo_path: string | null; cor_primaria: string; cor_secundaria: string; gasto_minimo_centavos: number; ativo: boolean };
+  estabelecimentos: { slug: string; nome: string; logo_path: string | null; cor_primaria: string; cor_secundaria: string; gasto_minimo_centavos: number; tipo_negocio: string; ativo: boolean };
   passes: PassLinha | PassLinha[] | null;
 };
 type PassLinha = { serial: string; apple_auth_token: string; google_object_id: string | null; versao: number; atualizado_em: string; mensagem_atual: string | null };
@@ -75,6 +77,7 @@ async function montar(linha: Linha | null): Promise<DadosPass | null> {
     meta,
     recompensa: plano?.recompensa_texto ?? "",
     gastoMinimoCentavos: e.gasto_minimo_centavos,
+    porEstadia: e.tipo_negocio === "pousada",
     serial: p.serial,
     appleAuthToken: p.apple_auth_token,
     googleObjectId: p.google_object_id,

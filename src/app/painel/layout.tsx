@@ -26,7 +26,7 @@ export default async function PainelLayout({ children }: LayoutProps<"/painel">)
   return (
     <Moldura titulo={estabelecimento.nome} subtitulo="Painel do estabelecimento" itens={MENU} raiz="/painel" tema={PAINEIS[temaDo(estabelecimento.slug)]}>
       {estabelecimento.ativo ? (
-        <ProvedorTermos termos={termosDo(estabelecimento.slug)}>{children}</ProvedorTermos>
+        <ProvedorTermos termos={termosDo(estabelecimento)}>{children}</ProvedorTermos>
       ) : (
         <section className="rounded-2xl border-2 border-sol bg-white p-6">
           <h1 className="font-display text-3xl text-restinga">Estabelecimento desativado</h1>
