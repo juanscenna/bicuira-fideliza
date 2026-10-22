@@ -9,7 +9,7 @@
 
 import { SITE_URL } from "@/lib/env";
 
-export type IdTema = "basico" | "rosa-norte";
+export type IdTema = "basico" | "rosa-norte" | "sonhos-do-rosa";
 
 export type ConfigTema = {
   /** cor de fundo do cartão / cabeçalho (também usada no Wallet e no ícone) */
@@ -36,12 +36,19 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
     badge: "/temas/rosa-norte/badge.png",
     wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
   },
+  // Pousada Sonhos do Rosa (Praia do Rosa, SC) — preto-marrom, azul do mar, laranja do sol, creme
+  "sonhos-do-rosa": { cor_primaria: "#2F2115", cor_secundaria: "#065DA0", logoUrl: `${SITE_URL}/temas/sonhos-do-rosa/logo.png`, favicon: "/temas/sonhos-do-rosa/logo-256.png",
+    selos: { feito: "/temas/sonhos-do-rosa/selo-160.png", vazio: "/temas/sonhos-do-rosa/selo-cinza-160.png" },
+    badge: "/temas/sonhos-do-rosa/badge.png",
+    wallet: { titulo: "Junte selos. Ganhe recompensas." },
+  },
 };
 
 /** endereço do estabelecimento → tema. Ex.: "bar-do-ze": "bar-do-ze" */
 const TEMA_POR_SLUG: Record<string, IdTema> = {
   comidacaseirarosanorte: "rosa-norte",
   "comida-caseira-rosa-norte": "rosa-norte",
+  pousadasonhosdorosa: "sonhos-do-rosa",
 };
 
 export function temaDo(slug: string): IdTema {
