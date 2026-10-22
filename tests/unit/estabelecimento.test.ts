@@ -39,6 +39,13 @@ describe("estabelecimento", () => {
     expect(e.planos).toBeDefined();
   });
 
+  it("aceita inatividade sem limite (null) e até 3650 dias", () => {
+    expect(validarEstabelecimento({ ...base, dias_inatividade: null }).dias_inatividade).toBeUndefined();
+    expect(validarEstabelecimento({ ...base, dias_inatividade: 3650 }).dias_inatividade).toBeUndefined();
+    expect(validarEstabelecimento({ ...base, dias_inatividade: 3651 }).dias_inatividade).toBeDefined();
+    expect(validarEstabelecimento({ ...base, dias_inatividade: 0 }).dias_inatividade).toBeDefined();
+  });
+
   it("limita carimbos por plano entre 1 e 30", () => {
     expect(validarEstabelecimento({ ...base, turista: { ...base.turista, carimbos_meta: 0 } }).turista_meta).toBeDefined();
     expect(validarEstabelecimento({ ...base, morador: { ...base.morador, carimbos_meta: 31 } }).morador_meta).toBeDefined();

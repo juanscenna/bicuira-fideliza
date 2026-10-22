@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { exigirDono } from "@/lib/auth";
-import { termosDo, traduzir, type Termos } from "@/temas/vocabulario";
+import { automaticaDo, termosDo, traduzir, type Termos } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { AUTOMATICAS, PUBLICOS, type TipoAutomatica, type TipoPublico } from "@/lib/notificacoes/regras";
 import { LIMITE_MENSAGEM } from "@/lib/wallet/conteudo";
@@ -104,7 +104,7 @@ async function Historico({ supabase, termos }: { supabase: Supa; termos: Termos 
             {(automaticas ?? []).map((e) => (
               <li key={e.id} className="p-4">
                 <p className="font-semibold">
-                  {AUTOMATICAS[e.automacao_tipo as TipoAutomatica]?.titulo} · {(e.clientes as unknown as { nome: string } | null)?.nome}
+                  {AUTOMATICAS[e.automacao_tipo as TipoAutomatica] ? automaticaDo(e.automacao_tipo as TipoAutomatica, termos).titulo : null} · {(e.clientes as unknown as { nome: string } | null)?.nome}
                 </p>
                 <p className="text-sm text-carvao/80">
                   {formatarDiaHora(e.criado_em)} · {e.status === "enviado" ? "enviado" : "pulado"}
@@ -131,8 +131,8 @@ async function Automaticas({ supabase, estabelecimentoId, termos }: { supabase: 
         return (
           <li key={tipo} className="flex flex-col gap-3 rounded-2xl bg-white p-5">
             <div>
-              <p className="text-lg font-semibold text-restinga">{AUTOMATICAS[tipo].titulo}</p>
-              <p className="text-carvao/80">{traduzir(AUTOMATICAS[tipo].quando, termos)}</p>
+              <p className="text-lg font-semibold text-restinga">{automaticaDo(tipo, termos).titulo}</p>
+              <p className="text-carvao/80">{automaticaDo(tipo, termos).quando}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {tipos.has("morador") ? <InterruptorAutomacao tipo={tipo} plano="morador" ativa={Boolean(a?.ativa_morador)} /> : null}

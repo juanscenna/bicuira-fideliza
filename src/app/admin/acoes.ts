@@ -31,7 +31,7 @@ function lerFormulario(form: FormData): DadosEstabelecimento {
     nome: texto(form, "nome"),
     slug: texto(form, "slug").toLowerCase(),
     gasto_minimo_centavos: lerReais(texto(form, "gasto_minimo")) ?? NaN,
-    dias_inatividade: inteiro(form, "dias_inatividade"),
+    dias_inatividade: form.get("inatividade_sem_limite") === "on" ? null : inteiro(form, "dias_inatividade"),
     max_personalizadas_semana: inteiro(form, "max_personalizadas_semana"),
     contato_privacidade: opcional(form, "contato_privacidade"),
     ativo: form.get("ativo") === "on",

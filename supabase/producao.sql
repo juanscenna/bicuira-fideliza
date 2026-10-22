@@ -26,7 +26,7 @@ create table public.estabelecimentos (
   cor_primaria text not null default '#3F3F46' check (cor_primaria ~ '^#[0-9A-Fa-f]{6}$'),
   cor_secundaria text not null default '#F4F4F5' check (cor_secundaria ~ '^#[0-9A-Fa-f]{6}$'),
   gasto_minimo_centavos int not null default 1500 check (gasto_minimo_centavos >= 0),
-  dias_inatividade int not null default 30 check (dias_inatividade between 1 and 365),
+  dias_inatividade int default 30 check (dias_inatividade is null or dias_inatividade between 1 and 3650), -- null = sem limite
   max_personalizadas_semana int not null default 2 check (max_personalizadas_semana between 0 and 14),
   contato_privacidade text,             -- e-mail/telefone para pedidos LGPD (aparece na política)
   versao_politica int not null default 1 check (versao_politica >= 1),

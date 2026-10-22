@@ -27,6 +27,7 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
   const [slugEditado, setSlugEditado] = useState(!novo);
   const [morador, setMorador] = useState(inicial.morador);
   const [turista, setTurista] = useState(inicial.turista);
+  const [semLimite, setSemLimite] = useState(inicial.dias_inatividade === null);
 
   return (
     <form
@@ -84,14 +85,28 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
               defaultValue={centavosParaTexto(inicial.gasto_minimo_centavos)}
               erro={erros.gasto_minimo}
             />
-            <Campo
-              id="dias_inatividade"
-              name="dias_inatividade"
-              rotulo="Inativo após (dias)"
-              inputMode="numeric"
-              defaultValue={inicial.dias_inatividade}
-              erro={erros.dias_inatividade}
-            />
+            <div className="flex flex-col gap-2">
+              <Campo
+                id="dias_inatividade"
+                name="dias_inatividade"
+                rotulo="Inativo após (dias)"
+                inputMode="numeric"
+                defaultValue={inicial.dias_inatividade ?? ""}
+                disabled={semLimite}
+                ajuda={semLimite ? "Ninguém vira inativo e o aviso “Sentimos sua falta” não sai." : "Os selos nunca vencem; isto só marca o cliente como inativo."}
+                erro={erros.dias_inatividade}
+              />
+              <label className="flex min-h-11 items-center gap-2 font-semibold">
+                <input
+                  type="checkbox"
+                  name="inatividade_sem_limite"
+                  checked={semLimite}
+                  onChange={(e) => setSemLimite(e.target.checked)}
+                  className="size-5 accent-restinga"
+                />
+                Sem limite
+              </label>
+            </div>
             <Campo
               id="max_personalizadas_semana"
               name="max_personalizadas_semana"

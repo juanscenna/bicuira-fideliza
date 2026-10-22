@@ -2,8 +2,8 @@ import "server-only";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import type { EstadoOperacao } from "@/lib/painel/apos-mudanca";
 import { enviarMensagens } from "./enviar";
-import { textoAutomatico, type TipoAutomatica } from "./regras";
-import { termosDo, traduzir } from "@/temas/vocabulario";
+import type { TipoAutomatica } from "./regras";
+import { termosDo, textoAutomaticoDo } from "@/temas/vocabulario";
 
 async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "morador" | "turista") {
   const { data } = await supabaseAdmin()
@@ -19,7 +19,7 @@ async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "mo
 async function textoNoVocabulario(estabelecimentoId: string) {
   const { data } = await supabaseAdmin().from("estabelecimentos").select("slug").eq("id", estabelecimentoId).single();
   const termos = termosDo(data?.slug ?? "");
-  return (tipo: TipoAutomatica, c: { recompensa: string; carimbos: number; meta: number }) => traduzir(textoAutomatico(tipo, c), termos);
+  return (tipo: TipoAutomatica, c: { recompensa: string; carimbos: number; meta: number }) => textoAutomaticoDo(tipo, c, termos);
 }
 
 /** Já saiu esta automática para o cliente neste ciclo do cartão? (evita repetir após −1/+1) */

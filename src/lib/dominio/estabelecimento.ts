@@ -33,7 +33,8 @@ export type DadosEstabelecimento = {
   nome: string;
   slug: string;
   gasto_minimo_centavos: number;
-  dias_inatividade: number;
+  /** null = sem limite (o cliente nunca vira inativo) */
+  dias_inatividade: number | null;
   max_personalizadas_semana: number;
   contato_privacidade: string | null;
   ativo: boolean;
@@ -54,8 +55,8 @@ export function validarEstabelecimento(d: DadosEstabelecimento): ErrosForm {
   if (erroSlug) erros.slug = erroSlug;
   if (!Number.isInteger(d.gasto_minimo_centavos) || d.gasto_minimo_centavos < 0)
     erros.gasto_minimo = "Informe um valor em reais, como 15,00.";
-  if (!Number.isInteger(d.dias_inatividade) || d.dias_inatividade < 1 || d.dias_inatividade > 365)
-    erros.dias_inatividade = "Entre 1 e 365 dias.";
+  if (d.dias_inatividade !== null && (!Number.isInteger(d.dias_inatividade) || d.dias_inatividade < 1 || d.dias_inatividade > 3650))
+    erros.dias_inatividade = "Entre 1 e 3650 dias, ou marque sem limite.";
   if (!Number.isInteger(d.max_personalizadas_semana) || d.max_personalizadas_semana < 0 || d.max_personalizadas_semana > 14)
     erros.max_personalizadas_semana = "Entre 0 e 14 mensagens.";
   if (!d.morador.ativo && !d.turista.ativo) erros.planos = "Deixe pelo menos um plano ativo.";

@@ -17,7 +17,7 @@ Use este roteiro sempre que entrar um restaurante, bar ou pousada (com área de 
 
 1. Entre em `/admin` com a conta de super admin.
 2. Clique em Novo estabelecimento e preencha nome e endereço (o endereço é sugerido pelo nome; confira).
-3. Preencha os dois planos (carimbos e recompensa), o gasto mínimo, os dias de inatividade e o limite de mensagens por cliente por semana.
+3. Preencha os dois planos (carimbos e recompensa), o gasto mínimo, os dias de inatividade e o limite de mensagens por cliente por semana. Os selos nunca vencem: os dias de inatividade só marcam o cliente como inativo e disparam o aviso "Sentimos sua falta". Para negócios de retorno raro (pousadas), marque "Sem limite".
 4. Preencha o contato de privacidade.
 5. Em "Status e cobrança", deixe "ativo" marcado. Os campos de cobrança são só controle interno.
 6. Clique em Criar estabelecimento. O sistema leva para `/admin/<id>` com a mensagem "Estabelecimento criado".
@@ -59,6 +59,7 @@ O painel do dono e os avisos automáticos falam como restaurante por padrão (vi
 - `trocas`: palavras trocadas em todos os textos do painel e dos avisos automáticos (ex.: pousada: visita → hospedagem, caixa → recepção, turista → hóspede). Ponha as expressões mais longas primeiro.
 - `mostrarPlanos`: `false` esconde os filtros de moradores e turistas (para quem usa só um plano).
 - `descricao` e `exemploMensagem`: o rótulo do campo de descrição e o exemplo de nova mensagem.
+- `automaticas`: título, explicação e texto próprios de cada aviso automático (no texto, use `{recompensa}`, `{carimbos}` e `{meta}`).
 
 Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<id>/`.
 

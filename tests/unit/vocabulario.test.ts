@@ -5,7 +5,7 @@ vi.hoisted(() => {
   process.env.NEXT_PUBLIC_SUPABASE_URL ??= "http://localhost";
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??= "teste";
 });
-import { termosDo, traduzir } from "@/temas/vocabulario";
+import { automaticaDo, termosDo, textoAutomaticoDo, traduzir } from "@/temas/vocabulario";
 
 describe("vocabulário do painel", () => {
   const pousada = termosDo("pousadasonhosdorosa");
@@ -28,5 +28,18 @@ describe("vocabulário do painel", () => {
     expect(traduzir("Registrar visita", restaurante)).toBe("Registrar visita");
     expect(restaurante.exemploMensagem).toBe("Ex.: Hoje tem moqueca no almoço!");
     expect(restaurante.mostrarPlanos).toBe(true);
+  });
+
+  it("avisos automáticos da pousada usam textos próprios", () => {
+    const c = { recompensa: "1 café da manhã", carimbos: 2, meta: 3 };
+    expect(textoAutomaticoDo("falta_pouco", c, pousada)).toBe("Falta só 1 hospedagem para você ganhar 1 café da manhã! Esperamos você de volta na Praia do Rosa.");
+    expect(textoAutomaticoDo("sentimos_falta", c, pousada)).toContain("2 de 3");
+    expect(automaticaDo("recompensa_esquecida", pousada).titulo).toBe("Recompensa guardada");
+  });
+
+  it("avisos automáticos do restaurante não mudam", () => {
+    const c = { recompensa: "1 prato", carimbos: 9, meta: 10 };
+    expect(textoAutomaticoDo("recompensa_disponivel", c, restaurante)).toBe("Cartão completo! Mostre no caixa para ganhar 1 prato.");
+    expect(automaticaDo("sentimos_falta", restaurante).titulo).toBe("Sentimos sua falta");
   });
 });
