@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Selo } from "./Selo";
 
-const META = 10;
+const META = 3; // regra da pousada: 3 selos = 1 café da manhã
 // começa devagar e acelera até completar; depois uma pausa para ver a recompensa
-const ESPERA_MS = [1100, 950, 800, 650, 520, 420, 340, 280, 230, 210];
+const ESPERA_MS = [1300, 1100, 900];
 const PAUSA_COMPLETO_MS = 3200;
 
 function useMovimentoReduzido() {
@@ -47,7 +47,7 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
     return () => clearTimeout(t);
   }, [reduzido, visivel, passo]);
 
-  const carimbos = reduzido ? 7 : Math.min(passo, META);
+  const carimbos = reduzido ? 2 : Math.min(passo, META);
   const completo = !reduzido && passo >= META;
 
   return (
@@ -83,14 +83,14 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
                 <span className="text-sm text-[#756657]">/{META}</span>
               </p>
             </div>
-            <ol className="mt-3 grid grid-cols-5 gap-2">
+            <ol className="mx-auto mt-4 grid max-w-[15rem] grid-cols-3 gap-4">
               {Array.from({ length: META }, (_, i) => {
                 const feito = i < carimbos;
                 const novo = !reduzido && i === carimbos - 1 && !completo;
                 return (
                   <li key={i} className="relative flex justify-center">
                     <span
-                      className={`flex aspect-square w-full max-w-10 items-center justify-center rounded-full ${
+                      className={`flex aspect-square w-full max-w-16 items-center justify-center rounded-full ${
                         feito ? "shadow-[0_0_0_2px_#E46A00]" : "bg-[#F3EAD9] outline-1 outline-dashed outline-[#756657]/40"
                       } ${novo ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                     >
