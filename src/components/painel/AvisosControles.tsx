@@ -3,12 +3,14 @@
 import { useOptimistic, useTransition } from "react";
 import { alternarAutomacao, cancelarCampanha } from "@/app/painel/avisos/acoes";
 import type { TipoAutomatica } from "@/lib/notificacoes/regras";
+import { useTermos } from "./Termos";
 
 /** Interruptor liga/desliga de uma automática para um plano. */
 export function InterruptorAutomacao({ tipo, plano, ativa }: { tipo: TipoAutomatica; plano: "morador" | "turista"; ativa: boolean }) {
   const [pendente, iniciar] = useTransition();
   const [ligada, setLigada] = useOptimistic(ativa);
-  const rotulo = plano === "morador" ? "Moradores" : "Turistas";
+  const { t } = useTermos();
+  const rotulo = t(plano === "morador" ? "Moradores" : "Turistas");
   return (
     <button
       type="button"

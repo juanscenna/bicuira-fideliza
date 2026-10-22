@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition, type ReactNode } from "react";
+import { useTermos } from "./Termos";
 import { AlertTriangle, Check, CheckCircle2, Gift, Minus, Pencil, Plus, Trash2, Undo2, X } from "lucide-react";
 import { Botao } from "@/components/ui/Botao";
 import { formatarReais, lerReais } from "@/lib/dominio/dinheiro";
@@ -74,6 +75,7 @@ export function FichaCliente({
   historico: ItemHistorico[];
   focarValor: boolean;
 }) {
+  const { t } = useTermos();
   const [aviso, setAviso] = useState<Aviso | null>(null);
   const [visitaFeita, setVisitaFeita] = useState<Aviso | null>(null);
   const [pendente, iniciar] = useTransition();
@@ -112,14 +114,14 @@ export function FichaCliente({
           <TrocarPlano cliente={cliente} planos={planos} pendente={pendente} aoTrocar={(p) =>
             executar(() => trocarPlano(cliente.id, p), (r) =>
               setAviso({
-                texto: `Plano trocado para ${NOME_PLANO[p]}. ${primeiroNome} tem ${r.estado.carimbos} de ${r.estado.meta}.${r.estado.completou ? " Recompensa disponível!" : ""}`,
+                texto: `Plano trocado para ${t(NOME_PLANO[p])}. ${primeiroNome} tem ${r.estado.carimbos} de ${r.estado.meta}.${r.estado.completou ? " Recompensa disponível!" : ""}`,
                 tipo: "ok",
               }),
             )
           } />
         </p>
         <p className="text-sm text-carvao/80">
-          {cliente.totalVisitas} {cliente.totalVisitas === 1 ? "visita" : "visitas"} · {formatarReais(cliente.totalGasto)} registrados
+          {cliente.totalVisitas} {cliente.totalVisitas === 1 ? t("visita") : t("visitas")} · {formatarReais(cliente.totalGasto)} registrados
         </p>
       </header>
 
@@ -203,13 +205,13 @@ export function FichaCliente({
                   tipo: "ok",
                   desfazer,
                   texto: e.completou
-                    ? `Visita registrada — cartão completo! ${primeiroNome} ganhou: ${e.recompensa}.`
-                    : `Visita registrada — ${primeiroNome} agora tem ${e.carimbos} de ${e.meta}.`,
+                    ? t("Visita registrada") + ` — cartão completo! ${primeiroNome} ganhou: ${e.recompensa}.`
+                    : t("Visita registrada") + ` — ${primeiroNome} agora tem ${e.carimbos} de ${e.meta}.`,
                 });
               } else if (e.motivo === "abaixo_minimo") {
-                setVisitaFeita({ tipo: "atencao", desfazer, texto: `Abaixo do mínimo de ${formatarReais(gastoMinimo)} — visita registrada sem carimbo.` });
+                setVisitaFeita({ tipo: "atencao", desfazer, texto: t(`Abaixo do mínimo de ${formatarReais(gastoMinimo)} — visita registrada sem carimbo.`) });
               } else {
-                setVisitaFeita({ tipo: "atencao", desfazer, texto: "Visita registrada sem carimbo: o cartão já está completo. Resgate a recompensa." });
+                setVisitaFeita({ tipo: "atencao", desfazer, texto: t("Visita registrada sem carimbo: o cartão já está completo. Resgate a recompensa.") });
               }
             })
           }
@@ -243,10 +245,10 @@ export function FichaCliente({
               tipo: e.aviso ? "atencao" : "ok",
               texto:
                 e.aviso === "resgate_posterior"
-                  ? "Visita removida. O cartão não mudou porque esse carimbo já foi usado num resgate."
+                  ? t("Visita removida. O cartão não mudou porque esse carimbo já foi usado num resgate.")
                   : e.delta === -1
-                    ? `Visita removida e carimbo retirado. ${primeiroNome} tem ${e.carimbos} de ${e.meta}.`
-                    : "Visita removida.",
+                    ? t("Visita removida e carimbo retirado.") + ` ${primeiroNome} tem ${e.carimbos} de ${e.meta}.`
+                    : t("Visita removida."),
             });
           })
         }
@@ -258,14 +260,14 @@ export function FichaCliente({
               tipo: e.aviso ? "atencao" : "ok",
               texto:
                 e.aviso === "resgate_posterior"
-                  ? "Valor corrigido. O carimbo não mudou porque já houve um resgate depois desta visita."
+                  ? t("Valor corrigido. O carimbo não mudou porque já houve um resgate depois desta visita.")
                   : e.aviso === "cartao_cheio"
                     ? "Valor corrigido. Não ganhou carimbo porque o cartão já está completo."
                     : e.delta === 1
-                      ? "Valor corrigido: a visita passou a ganhar carimbo."
+                      ? t("Valor corrigido: a visita passou a ganhar carimbo.")
                       : e.delta === -1
-                        ? "Valor corrigido: a visita ficou abaixo do mínimo e perdeu o carimbo."
-                        : "Visita corrigida.",
+                        ? t("Valor corrigido: a visita ficou abaixo do mínimo e perdeu o carimbo.")
+                        : t("Visita corrigida."),
             });
           })
         }
@@ -314,6 +316,7 @@ function RegistrarVisita({
   pendente: boolean;
   aoRegistrar: (valor: string, descricao: string) => void;
 }) {
+  const { t, termos } = useTermos();
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
   const [comDescricao, setComDescricao] = useState(false);
@@ -322,7 +325,7 @@ function RegistrarVisita({
   const cheio = cliente.carimbos >= cliente.meta;
 
   let dica: { texto: string; ok: boolean } | null = null;
-  if (cheio) dica = { texto: "Cartão completo: a visita é registrada, mas sem carimbo.", ok: false };
+  if (cheio) dica = { texto: t("Cartão completo: a visita é registrada, mas sem carimbo."), ok: false };
   else if (centavos === null)
     dica = valor ? { texto: "Digite só o valor. Ex.: 42,50", ok: false } : { texto: `Gasto mínimo para carimbo: ${formatarReais(gastoMinimo)}`, ok: true };
   else if (centavos < gastoMinimo) dica = { texto: `Abaixo do mínimo de ${formatarReais(gastoMinimo)}: será registrada sem carimbo.`, ok: false };
@@ -338,7 +341,7 @@ function RegistrarVisita({
       }}
       className="flex flex-col gap-4 rounded-2xl bg-white p-5"
     >
-      <h2 className="font-display text-2xl text-restinga">Registrar visita</h2>
+      <h2 className="font-display text-2xl text-restinga">{t("Registrar visita")}</h2>
       <div className="flex flex-col gap-2">
         <label htmlFor="valor" className="font-semibold text-restinga">
           Valor gasto
@@ -368,7 +371,7 @@ function RegistrarVisita({
       {comDescricao ? (
         <div className="flex flex-col gap-2">
           <label htmlFor="descricao" className="font-semibold text-restinga">
-            O que foi consumido <span className="font-normal text-carvao/80">(opcional)</span>
+            {termos.descricao} <span className="font-normal text-carvao/80">(opcional)</span>
           </label>
           <input
             id="descricao"
@@ -385,7 +388,7 @@ function RegistrarVisita({
       )}
 
       <Botao type="submit" grande disabled={pendente} className={cheio ? "!bg-white border-2 border-restinga" : ""}>
-        {pendente ? "Registrando…" : "Registrar visita"}
+        {pendente ? "Registrando…" : t("Registrar visita")}
       </Botao>
     </form>
   );
@@ -517,11 +520,12 @@ function TrocarPlano({
   pendente: boolean;
   aoTrocar: (p: Plano) => void;
 }) {
+  const { t } = useTermos();
   const [aberto, setAberto] = useState(false);
   const outro = planos.find((p) => p.tipo !== cliente.plano);
   return (
     <>
-      <span className="font-semibold">{NOME_PLANO[cliente.plano]}</span>
+      <span className="font-semibold">{t(NOME_PLANO[cliente.plano])}</span>
       {outro ? (
         <button
           type="button"
@@ -532,7 +536,7 @@ function TrocarPlano({
         </button>
       ) : null}
       {outro ? (
-        <Dialogo aberto={aberto} aoFechar={() => setAberto(false)} titulo={`Trocar para ${NOME_PLANO[outro.tipo as Plano]}?`}>
+        <Dialogo aberto={aberto} aoFechar={() => setAberto(false)} titulo={`Trocar para ${t(NOME_PLANO[outro.tipo as Plano])}?`}>
           <ul className="list-disc pl-6 text-lg">
             <li>
               Nova regra: {outro.carimbos_meta} carimbos = {outro.recompensa_texto}.
@@ -578,12 +582,13 @@ function Historico({
   aoEditar: (visitaId: string, valor: string, descricao: string, fechar: () => void) => void;
   aoRemover: (visitaId: string, fechar: () => void) => void;
 }) {
+  const { t } = useTermos();
   const [editando, setEditando] = useState<string | null>(null);
   const [removendo, setRemovendo] = useState<Extract<ItemHistorico, { tipo: "visita" }> | null>(null);
   const [tudo, setTudo] = useState(false);
   const visiveis = tudo ? historico : historico.slice(0, 15);
   if (historico.length === 0) {
-    return <p className="rounded-2xl bg-white p-5 text-carvao/80">Nenhuma visita registrada ainda.</p>;
+    return <p className="rounded-2xl bg-white p-5 text-carvao/80">{t("Nenhuma visita registrada ainda.")}</p>;
   }
   return (
     <section aria-labelledby="titulo-historico" className="flex flex-col gap-3">
@@ -628,7 +633,7 @@ function Historico({
                       <button
                         type="button"
                         onClick={() => setEditando(item.id)}
-                        aria-label={`Corrigir visita de ${formatarReais(item.valor_centavos)}`}
+                        aria-label={t(`Corrigir visita de ${formatarReais(item.valor_centavos)}`)}
                         className="flex size-11 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
                       >
                         <Pencil aria-hidden className="size-5" />
@@ -636,7 +641,7 @@ function Historico({
                       <button
                         type="button"
                         onClick={() => setRemovendo(item)}
-                        aria-label={`Remover visita de ${formatarReais(item.valor_centavos)}`}
+                        aria-label={t(`Remover visita de ${formatarReais(item.valor_centavos)}`)}
                         className="flex size-11 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
                       >
                         <Trash2 aria-hidden className="size-5" />
@@ -651,19 +656,19 @@ function Historico({
           </li>
         ))}
       </ol>
-      <Dialogo aberto={removendo !== null} aoFechar={() => setRemovendo(null)} titulo="Remover esta visita?">
+      <Dialogo aberto={removendo !== null} aoFechar={() => setRemovendo(null)} titulo={t("Remover esta visita?")}>
         {removendo ? (
           <div className="flex flex-col gap-4">
             <p className="text-lg">
-              Visita de <strong>{formatarReais(removendo.valor_centavos)}</strong> em {formatarDiaHora(removendo.criado_em)}.
+              {t("Visita")} de <strong>{formatarReais(removendo.valor_centavos)}</strong> em {formatarDiaHora(removendo.criado_em)}.
             </p>
             <p className="text-carvao/80">
               Ela sai das métricas e fica riscada no histórico.
-              {removendo.gerou_carimbo ? " O carimbo dessa visita também sai do cartão." : ""}
+              {removendo.gerou_carimbo ? t(" O carimbo dessa visita também sai do cartão.") : ""}
             </p>
             <div className="flex flex-wrap gap-3">
               <Botao disabled={pendente} onClick={() => aoRemover(removendo.id, () => setRemovendo(null))}>
-                Remover visita
+                {t("Remover visita")}
               </Botao>
               <Botao variante="secundario" onClick={() => setRemovendo(null)}>
                 Cancelar
@@ -682,6 +687,7 @@ function Historico({
 }
 
 function LinhaEvento({ item }: { item: Extract<ItemHistorico, { tipo: "evento" }> }) {
+  const { t } = useTermos();
   const d = item.dados ?? {};
   let texto: string;
   switch (item.tipo_evento) {
@@ -695,17 +701,17 @@ function LinhaEvento({ item }: { item: Extract<ItemHistorico, { tipo: "evento" }
       texto = `Recompensa resgatada: ${String(d.recompensa ?? "")}`;
       break;
     case "troca_plano":
-      texto = `Plano trocado: ${NOME_PLANO[d.de as Plano]} → ${NOME_PLANO[d.para as Plano]}`;
+      texto = `Plano trocado: ${t(NOME_PLANO[d.de as Plano])} → ${t(NOME_PLANO[d.para as Plano])}`;
       break;
     case "ajuste_edicao":
-      texto = `Visita corrigida: ${formatarReais(Number(d.valor_antigo))} → ${formatarReais(Number(d.valor_novo))}`;
+      texto = t("Visita corrigida") + `: ${formatarReais(Number(d.valor_antigo))} → ${formatarReais(Number(d.valor_novo))}`;
       if (item.delta) texto += item.delta > 0 ? " (+1 carimbo)" : " (−1 carimbo)";
       if (d.aviso === "resgate_posterior") texto += " (carimbo mantido: houve resgate depois)";
       break;
     case "desfazer":
       texto =
         item.motivo === "visita removida"
-          ? "Carimbo retirado (visita removida)"
+          ? t("Carimbo retirado (visita removida)")
           : `Desfeito (${item.delta > 0 ? "+" : "−"}${Math.abs(item.delta)} carimbo)`;
       break;
     default:
@@ -745,6 +751,7 @@ function EditarVisita({
   aoCancelar: () => void;
   aoSalvar: (valor: string, descricao: string) => void;
 }) {
+  const { t } = useTermos();
   const [valor, setValor] = useState((item.valor_centavos / 100).toFixed(2).replace(".", ","));
   const [descricao, setDescricao] = useState(item.descricao ?? "");
   const centavos = lerReais(valor);
@@ -757,7 +764,7 @@ function EditarVisita({
       }}
       className="flex flex-col gap-3"
     >
-      <p className="font-semibold text-restinga">Corrigir visita de {formatarDiaHora(item.criado_em)}</p>
+      <p className="font-semibold text-restinga">{t("Corrigir visita de")} {formatarDiaHora(item.criado_em)}</p>
       <div className="grid gap-3 sm:grid-cols-[10rem_1fr]">
         <label className="flex flex-col gap-1">
           <span className="text-sm font-semibold">Valor (R$)</span>
@@ -777,7 +784,7 @@ function EditarVisita({
       {cruza ? (
         <p className="flex items-center gap-2 text-sm font-medium">
           <AlertTriangle aria-hidden className="size-4 text-sol" />
-          {item.gerou_carimbo ? "Com esse valor a visita perde o carimbo." : "Com esse valor a visita ganha carimbo."}
+          {t(item.gerou_carimbo ? "Com esse valor a visita perde o carimbo." : "Com esse valor a visita ganha carimbo.")}
         </p>
       ) : null}
       <div className="flex gap-3">

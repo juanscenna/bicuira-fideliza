@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { exigirDono } from "@/lib/auth";
+import { termosDo, traduzir, type Termos } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { AUTOMATICAS, PUBLICOS, type TipoAutomatica, type TipoPublico } from "@/lib/notificacoes/regras";
 import { LIMITE_MENSAGEM } from "@/lib/wallet/conteudo";
@@ -14,6 +15,12 @@ const STATUS: Record<string, string> = { agendada: "Agendada", enviando: "Envian
 
 export default async function Avisos({ searchParams }: PageProps<"/painel/avisos">) {
   const { estabelecimento } = await exigirDono();
+  const termos = termosDo(estabelecimento.slug);
+  const publicos = Object.fromEntries(
+    Object.entries(PUBLICOS)
+      .filter(([k]) => termos.mostrarPlanos || (k !== "moradores" && k !== "turistas"))
+      .map(([k, v]) => [k, traduzir(v, termos)]),
+  ) as typeof PUBLICOS;
   const sp = await searchParams;
   const aba: Aba = typeof sp.aba === "string" && sp.aba in ABAS ? (sp.aba as Aba) : "nova";
   const supabase = await supabaseServidor();
@@ -40,16 +47,16 @@ export default async function Avisos({ searchParams }: PageProps<"/painel/avisos
         ))}
       </nav>
 
-      {aba === "nova" ? <NovaMensagem limite={LIMITE_MENSAGEM} publicos={PUBLICOS} /> : null}
-      {aba === "historico" ? <Historico supabase={supabase} /> : null}
-      {aba === "automaticas" ? <Automaticas supabase={supabase} estabelecimentoId={estabelecimento.id} /> : null}
+      {aba === "nova" ? <NovaMensagem limite={LIMITE_MENSAGEM} publicos={publicos} /> : null}
+      {aba === "historico" ? <Historico supabase={supabase} termos={termos} /> : null}
+      {aba === "automaticas" ? <Automaticas supabase={supabase} estabelecimentoId={estabelecimento.id} termos={termos} /> : null}
     </div>
   );
 }
 
 type Supa = Awaited<ReturnType<typeof supabaseServidor>>;
 
-async function Historico({ supabase }: { supabase: Supa }) {
+async function Historico({ supabase, termos }: { supabase: Supa; termos: Termos }) {
   const [{ data: campanhas }, { data: automaticas }] = await Promise.all([
     supabase.from("campanhas").select("id, texto, publico, agendada_para, status, total_alvo, total_enviados, total_pulados").order("agendada_para", { ascending: false }).limit(30),
     supabase.from("envios").select("id, texto, automacao_tipo, status, criado_em, clientes (nome)").eq("origem", "automatica").order("criado_em", { ascending: false }).limit(20),
@@ -70,7 +77,7 @@ async function Historico({ supabase }: { supabase: Supa }) {
                     {STATUS[c.status]}
                   </span>
                   <span>{formatarDiaHora(c.agendada_para)}</span>
-                  <span>{PUBLICOS[(c.publico as { tipo: TipoPublico }).tipo]}</span>
+                  <span>{traduzir(PUBLICOS[(c.publico as { tipo: TipoPublico }).tipo] ?? "", termos)}</span>
                   {c.status === "enviada" ? (
                     <span>
                       {c.total_enviados} enviados{c.total_pulados ? ` · ${c.total_pulados} pulados (limite)` : ""}
@@ -111,7 +118,7 @@ async function Historico({ supabase }: { supabase: Supa }) {
   );
 }
 
-async function Automaticas({ supabase, estabelecimentoId }: { supabase: Supa; estabelecimentoId: string }) {
+async function Automaticas({ supabase, estabelecimentoId, termos }: { supabase: Supa; estabelecimentoId: string; termos: Termos }) {
   const [{ data: automacoes }, { data: planos }] = await Promise.all([
     supabase.from("automacoes").select("tipo, ativa_morador, ativa_turista").eq("estabelecimento_id", estabelecimentoId),
     supabase.from("planos").select("tipo").eq("ativo", true),
@@ -125,7 +132,7 @@ async function Automaticas({ supabase, estabelecimentoId }: { supabase: Supa; es
           <li key={tipo} className="flex flex-col gap-3 rounded-2xl bg-white p-5">
             <div>
               <p className="text-lg font-semibold text-restinga">{AUTOMATICAS[tipo].titulo}</p>
-              <p className="text-carvao/80">{AUTOMATICAS[tipo].quando}</p>
+              <p className="text-carvao/80">{traduzir(AUTOMATICAS[tipo].quando, termos)}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               {tipos.has("morador") ? <InterruptorAutomacao tipo={tipo} plano="morador" ativa={Boolean(a?.ativa_morador)} /> : null}

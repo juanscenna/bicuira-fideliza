@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronRight, Gift, Search } from "lucide-react";
 import { exigirDono } from "@/lib/auth";
+import { termosDo, traduzir } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { relativo } from "@/lib/dominio/datas";
@@ -27,7 +28,9 @@ type Filtro = keyof typeof FILTROS;
 type Ordem = keyof typeof ORDENS;
 
 export default async function Clientes({ searchParams }: PageProps<"/painel/clientes">) {
-  await exigirDono();
+  const { estabelecimento } = await exigirDono();
+  const termos = termosDo(estabelecimento.slug);
+  const t = (texto: string) => traduzir(texto, termos);
   const sp = await searchParams;
   const q = typeof sp.q === "string" ? sp.q.trim().slice(0, 60) : "";
   const filtro: Filtro = typeof sp.filtro === "string" && sp.filtro in FILTROS ? (sp.filtro as Filtro) : "todos";
@@ -93,7 +96,7 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
       </form>
 
       <nav aria-label="Filtros" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
-        {(Object.keys(FILTROS) as Filtro[]).map((f) => (
+        {(Object.keys(FILTROS) as Filtro[]).filter((f) => termos.mostrarPlanos || (f !== "moradores" && f !== "turistas")).map((f) => (
           <Link
             key={f}
             href={link({ filtro: f })}
@@ -121,7 +124,7 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
               aria-current={ordem === o ? "true" : undefined}
               className={`min-h-11 content-center rounded-lg px-2 font-semibold ${ordem === o ? "text-restinga underline underline-offset-4" : "text-carvao/80"}`}
             >
-              {ORDENS[o].rotulo}
+              {t(ORDENS[o].rotulo)}
             </Link>
           ))}
         </div>
@@ -146,12 +149,12 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
                     ) : null}
                   </p>
                   <p className="text-sm text-carvao/80">
-                    <span className="font-mono font-semibold text-carvao">{c.codigo}</span> · {formatarTelefone(c.telefone)} ·{" "}
-                    {c.plano_tipo === "morador" ? "Morador" : "Turista"}
+                    <span className="font-mono font-semibold text-carvao">{c.codigo}</span> · {formatarTelefone(c.telefone)}
+                    {termos.mostrarPlanos ? ` · ${c.plano_tipo === "morador" ? "Morador" : "Turista"}` : null}
                   </p>
                   <p className="text-sm text-carvao/80">
-                    Última visita: {relativo(c.ultima_visita_em)}
-                    {c.inativo ? " (inativo)" : ""} · {c.total_visitas} {c.total_visitas === 1 ? "visita" : "visitas"} ·{" "}
+                    {t("Última visita")}: {relativo(c.ultima_visita_em)}
+                    {c.inativo ? " (inativo)" : ""} · {c.total_visitas} {c.total_visitas === 1 ? t("visita") : t("visitas")} ·{" "}
                     {formatarReais(Number(c.total_gasto_centavos))}
                   </p>
                 </div>

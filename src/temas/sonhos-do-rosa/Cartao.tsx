@@ -62,7 +62,7 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
             cheio ? "motion-safe:animate-[destaque_1.4s_ease-in-out_infinite]" : ""
           }`}
         >
-          {cheio ? `Ganhou: ${recompensa}! Mostre no caixa` : `Faltam ${meta - carimbos} para ${recompensa}`}
+          {cheio ? `Ganhou: ${recompensa}! Mostre na recepção` : `Faltam ${meta - carimbos} para ${recompensa}`}
         </p>
       </section>
 
@@ -71,7 +71,7 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">{cliente.nome}</p>
           <p className="text-2xl font-bold tracking-wider text-[#065DA0] min-[360px]:text-3xl min-[360px]:tracking-widest">{cliente.codigo}</p>
-          <p className="text-xs text-[#756657]">Mostre no caixa a cada visita.</p>
+          <p className="text-xs text-[#756657]">Mostre na recepção a cada hospedagem.</p>
         </div>
       </div>
       {/* brilho passando, como no cartão de demonstração */}

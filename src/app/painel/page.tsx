@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Gift } from "lucide-react";
 import { exigirDono } from "@/lib/auth";
+import { termosDo, traduzir } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { inicioDoDia } from "@/lib/dominio/datas";
 import { BuscaCodigo } from "@/components/painel/BuscaCodigo";
 
 export default async function PainelInicio() {
-  await exigirDono();
+  const { estabelecimento } = await exigirDono();
+  const t = (texto: string) => traduzir(texto, termosDo(estabelecimento.slug));
   const supabase = await supabaseServidor();
   const hoje = inicioDoDia();
 
@@ -28,7 +30,7 @@ export default async function PainelInicio() {
   return (
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-4">
-        <h1 className="font-display text-4xl text-restinga">Registrar visita</h1>
+        <h1 className="font-display text-4xl text-restinga">{t("Registrar visita")}</h1>
         <BuscaCodigo />
       </section>
 
@@ -37,7 +39,7 @@ export default async function PainelInicio() {
           Hoje
         </h2>
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Numero rotulo="Visitas" valor={String(totalVisitas)} />
+          <Numero rotulo={t("Visitas")} valor={String(totalVisitas)} />
           <Numero rotulo="Gasto registrado" valor={formatarReais(gasto)} />
           <Numero rotulo="Carimbos dados" valor={String(Math.max(carimbosHoje, 0))} />
           <Numero rotulo="Novos clientes" valor={String(novos.count ?? 0)} />

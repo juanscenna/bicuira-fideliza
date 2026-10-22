@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import type { EstadoOperacao } from "@/lib/painel/apos-mudanca";
 import { enviarMensagens } from "./enviar";
 import { textoAutomatico, type TipoAutomatica } from "./regras";
+import { termosDo, traduzir } from "@/temas/vocabulario";
 
 async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "morador" | "turista") {
   const { data } = await supabaseAdmin()
@@ -12,6 +13,13 @@ async function ativa(estabelecimentoId: string, tipo: TipoAutomatica, plano: "mo
     .eq("tipo", tipo)
     .single();
   return plano === "morador" ? Boolean(data?.ativa_morador) : Boolean(data?.ativa_turista);
+}
+
+/** Texto da automática no vocabulário do estabelecimento (ex.: pousada: "na recepção"). */
+async function textoNoVocabulario(estabelecimentoId: string) {
+  const { data } = await supabaseAdmin().from("estabelecimentos").select("slug").eq("id", estabelecimentoId).single();
+  const termos = termosDo(data?.slug ?? "");
+  return (tipo: TipoAutomatica, c: { recompensa: string; carimbos: number; meta: number }) => traduzir(textoAutomatico(tipo, c), termos);
 }
 
 /** Já saiu esta automática para o cliente neste ciclo do cartão? (evita repetir após −1/+1) */
@@ -34,10 +42,11 @@ export async function automaticasDaOperacao(estabelecimentoId: string, e: Estado
   if (!tipo) return;
   if (!(await ativa(estabelecimentoId, tipo, e.plano))) return;
   if (await jaEnviadaNoCiclo(e.cliente_id, tipo)) return;
+  const texto = await textoNoVocabulario(estabelecimentoId);
   await enviarMensagens({
     estabelecimentoId,
     clienteIds: [e.cliente_id],
-    texto: textoAutomatico(tipo, e),
+    texto: texto(tipo, e),
     origem: "automatica",
     automacaoTipo: tipo,
   });
@@ -55,6 +64,7 @@ export async function processarAutomaticasDiarias() {
     for (const [estab, ids] of porEstab) {
       const { data: clientes } = await admin.from("clientes_resumo").select("id, carimbos_atuais, meta, recompensa").in("id", ids);
       const info = new Map((clientes ?? []).map((c) => [c.id, c]));
+      const texto = await textoNoVocabulario(estab);
       const r = await enviarMensagens({
         estabelecimentoId: estab,
         clienteIds: ids,
@@ -62,7 +72,7 @@ export async function processarAutomaticasDiarias() {
         automacaoTipo: tipo,
         texto: (id) => {
           const c = info.get(id);
-          return textoAutomatico(tipo, { recompensa: c?.recompensa ?? "", carimbos: c?.carimbos_atuais ?? 0, meta: c?.meta ?? 0 });
+          return texto(tipo, { recompensa: c?.recompensa ?? "", carimbos: c?.carimbos_atuais ?? 0, meta: c?.meta ?? 0 });
         },
       });
       enviados += r.enviados;

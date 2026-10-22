@@ -4,6 +4,8 @@ import { Moldura } from "@/components/painel/Moldura";
 import type { ItemMenu } from "@/components/painel/Navegacao";
 import { iconesDo, temaDo } from "@/temas/config";
 import { PAINEIS } from "@/temas/paineis";
+import { termosDo } from "@/temas/vocabulario";
+import { ProvedorTermos } from "@/components/painel/Termos";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { estabelecimento } = await exigirDono();
@@ -24,7 +26,7 @@ export default async function PainelLayout({ children }: LayoutProps<"/painel">)
   return (
     <Moldura titulo={estabelecimento.nome} subtitulo="Painel do estabelecimento" itens={MENU} raiz="/painel" tema={PAINEIS[temaDo(estabelecimento.slug)]}>
       {estabelecimento.ativo ? (
-        children
+        <ProvedorTermos termos={termosDo(estabelecimento.slug)}>{children}</ProvedorTermos>
       ) : (
         <section className="rounded-2xl border-2 border-sol bg-white p-6">
           <h1 className="font-display text-3xl text-restinga">Estabelecimento desativado</h1>

@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { CheckCircle2, ChevronLeft, Search } from "lucide-react";
 import { Botao } from "@/components/ui/Botao";
+import { useTermos } from "./Termos";
 import { buscarClientes, criarCampanha, preverPublico, type ResultadoCampanha } from "@/app/painel/avisos/acoes";
 import type { TipoPublico } from "@/lib/notificacoes/regras";
 
@@ -12,6 +13,7 @@ const PASSOS = ["Mensagem", "Para quem", "Quando", "Revisar"] as const;
 
 /** Mensagem personalizada em 4 passos curtos: texto → público → quando → revisar. */
 export function NovaMensagem({ limite, publicos }: { limite: number; publicos: Record<TipoPublico, string> }) {
+  const { t, termos } = useTermos();
   const [passo, setPasso] = useState(0);
   const [texto, setTexto] = useState("");
   const [tipo, setTipo] = useState<TipoPublico>("todos");
@@ -95,14 +97,14 @@ export function NovaMensagem({ limite, publicos }: { limite: number; publicos: R
             onChange={(e) => setTexto(e.target.value.slice(0, limite))}
             rows={3}
             maxLength={limite}
-            placeholder="Ex.: Hoje tem moqueca no almoço!"
+            placeholder={termos.exemploMensagem}
             className="rounded-xl border-2 border-restinga/30 p-4 text-lg focus:border-restinga"
             aria-describedby="contador"
           />
           <p id="contador" className={`self-end text-sm font-semibold ${texto.length > limite - 15 ? "text-carvao" : "text-carvao/70"}`}>
             {texto.length}/{limite}
           </p>
-          <p className="text-sm text-carvao/80">Mensagens curtas aparecem melhor no celular. O nome do restaurante vai junto.</p>
+          <p className="text-sm text-carvao/80">Mensagens curtas aparecem melhor no celular. {t("O nome do restaurante vai junto.")}</p>
         </div>
       ) : null}
 

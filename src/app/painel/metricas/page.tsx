@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Info } from "lucide-react";
 import { exigirDono } from "@/lib/auth";
+import { termosDo, traduzir } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { diasAtras } from "@/lib/dominio/datas";
@@ -27,6 +28,7 @@ const media = (soma: number, n: number) => (n > 0 ? formatarReais(Math.round(som
 
 export default async function Metricas({ searchParams }: PageProps<"/painel/metricas">) {
   const { estabelecimento } = await exigirDono();
+  const t = (texto: string) => traduzir(texto, termosDo(estabelecimento.slug));
   const sp = await searchParams;
   const periodo: Periodo = typeof sp.periodo === "string" && sp.periodo in PERIODOS ? (sp.periodo as Periodo) : "30";
   const publico: Publico = typeof sp.publico === "string" && sp.publico in PUBLICOS ? (sp.publico as Publico) : "todos";
@@ -46,7 +48,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
 
   const link = (mudar: Record<string, string>) => `/painel/metricas?${new URLSearchParams({ periodo, publico, ...mudar })}`;
 
-  const indicadores: { rotulo: string; explicacao: string; valor: (x: M) => string }[] = [
+  const indicadores: { rotulo: string; explicacao: string; valor: (x: M) => string }[] = ([
     { rotulo: "Clientes cadastrados", explicacao: "Novos cartões criados no período.", valor: (x) => String(x.clientes_cadastrados) },
     {
       rotulo: "Clientes que retornaram",
@@ -76,7 +78,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
       explicacao: "Sem visita há mais dias que o limite do programa. Não depende do período.",
       valor: (x) => String(x.clientes_inativos),
     },
-  ];
+  ] as { rotulo: string; explicacao: string; valor: (x: M) => string }[]).map((i) => ({ ...i, rotulo: t(i.rotulo), explicacao: t(i.explicacao) }));
 
   return (
     <div className="flex flex-col gap-6">
@@ -132,7 +134,7 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
       <p className="flex items-start gap-2 rounded-2xl border-2 border-restinga/20 bg-white/60 p-4">
         <Info aria-hidden className="mt-0.5 size-5 shrink-0 text-restinga" />
         <span>
-          Os valores são os <strong>registrados no painel</strong> a cada visita. Não representam o faturamento do restaurante. Os números mostram o que
+          Os valores são os <strong>registrados no painel</strong> {t("a cada visita. Não representam o faturamento do restaurante.")} Os números mostram o que
           aconteceu, não o motivo: um cliente que retornou pode ter voltado por vários motivos.
         </span>
       </p>

@@ -20,8 +20,8 @@ export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, 
   } as CSSProperties;
 
   const passos = [
-    { Icone: QrCode, t: "Mostre no caixa", d: <>Seu código <strong className="text-[#065DA0]">{regras.codigo}</strong> a cada visita.</> },
-    { Icone: Stamp, t: "Ganhe um selo", d: <>Visitas a partir de {regras.gastoMinimo} valem 1 selo.</> },
+    { Icone: QrCode, t: "Mostre na recepção", d: <>Seu código <strong className="text-[#065DA0]">{regras.codigo}</strong> a cada hospedagem.</> },
+    { Icone: Stamp, t: "Ganhe um selo", d: <>Hospedagens a partir de {regras.gastoMinimo} valem 1 selo.</> },
     {
       Icone: Gift,
       t: "Recompensa",
@@ -64,7 +64,7 @@ export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, 
       <main className="mx-auto -mt-6 flex max-w-xl flex-col gap-10 px-5 pb-12">
         {status ? (
           <p role="status" className={`relative z-10 self-center rounded-full border border-[#E4DDCF] bg-[#FFFFFC] px-5 py-2.5 text-center text-sm font-semibold text-[#2F2115] ${SOMBRA}`}>
-            {status === "novo" ? "Cartão criado! Mostre o código no caixa." : "Este telefone já tinha um cartão: aqui está ele."}
+            {status === "novo" ? "Cartão criado! Mostre o código na recepção." : "Este telefone já tinha um cartão: aqui está ele."}
           </p>
         ) : null}
 
@@ -93,7 +93,7 @@ export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, 
               </li>
             ))}
           </ol>
-          <p className="text-sm text-[#756657]">A recompensa é entregue no balcão e o cartão começa de novo.</p>
+          <p className="text-sm text-[#756657]">A recompensa é entregue na recepção e o cartão começa de novo.</p>
         </section>
 
         {/* ---------- Guardar no celular ---------- */}

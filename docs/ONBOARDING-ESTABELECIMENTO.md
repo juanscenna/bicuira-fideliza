@@ -52,6 +52,16 @@ Sem tema próprio, o estabelecimento usa o visual `basico` (preto e branco). Iss
 
 **Atenção:** o documento original do piloto (`prompt-bicuira-fideliza.md`) diz que logo e cores devem ser configuração, nunca código. A forma atual é código. Decida se isso muda antes do segundo cliente, senão cada novo restaurante exige deploy.
 
+### Vocabulário do painel (quando não é restaurante)
+
+O painel do dono e os avisos automáticos falam como restaurante por padrão (visita, caixa, moradores e turistas). Para outro tipo de negócio, adicione o tema em `POR_TEMA` em `src/temas/vocabulario.ts`:
+
+- `trocas`: palavras trocadas em todos os textos do painel e dos avisos automáticos (ex.: pousada: visita → hospedagem, caixa → recepção, turista → hóspede). Ponha as expressões mais longas primeiro.
+- `mostrarPlanos`: `false` esconde os filtros de moradores e turistas (para quem usa só um plano).
+- `descricao` e `exemploMensagem`: o rótulo do campo de descrição e o exemplo de nova mensagem.
+
+Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<id>/`.
+
 ## 5. Conferência final antes de entregar
 
 - [ ] Cadastro público funciona e devolve o cartão existente se o telefone repetir.

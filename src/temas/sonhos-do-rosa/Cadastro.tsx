@@ -86,13 +86,13 @@ export function CadastroSonhosDoRosa({ estab, formulario, jaTenho }: PropsCadast
             Como funciona
           </h2>
           <p className="max-w-md text-[#756657]">
-            A cada visita, um selo no seu cartão. Completou, a recompensa é sua. Tudo pelo celular, sem baixar aplicativo.
+            A cada hospedagem, um selo no seu cartão. Completou, a recompensa é sua. Tudo pelo celular, sem baixar aplicativo.
           </p>
 
           <ol className="grid gap-3 sm:grid-cols-3">
             {[
               { Icone: UserPlus, t: "Cadastre-se", d: "Nome e celular, aqui embaixo." },
-              { Icone: QrCode, t: "Mostre no caixa", d: "Seu código a cada visita." },
+              { Icone: QrCode, t: "Mostre na recepção", d: "Seu código a cada hospedagem." },
               { Icone: Smartphone, t: "Ganhe", d: "Cartão completo, recompensa liberada." },
             ].map(({ Icone, t, d }, i) => (
               <li key={t} className={`flex gap-3 rounded-2xl border border-[#E4DDCF] bg-[#FFFFFC] p-4 ${SOMBRA} sm:flex-col`}>
