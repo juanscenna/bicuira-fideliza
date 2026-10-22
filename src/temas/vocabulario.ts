@@ -9,7 +9,7 @@ export type Termos = {
   trocas: Record<string, string>;
   /** mostra os filtros e rótulos de morador/turista (pousada: só hóspedes) */
   mostrarPlanos: boolean;
-  /** 1 selo por estadia: o painel não pede nem mostra valores gastos */
+  /** 1 selo por estadia (gasto mínimo zero): o valor gasto vira opcional, só para as métricas */
   porEstadia: boolean;
   /** rótulo do campo de descrição ao registrar */
   descricao: string;
@@ -31,7 +31,7 @@ export const TERMOS_PADRAO: Termos = {
   automaticas: {},
 };
 
-/** Linguagem de pousada (genérica). Selo por estadia: sem valor gasto. */
+/** Linguagem de pousada (genérica). Selo por estadia; o valor é opcional. */
 const POUSADA: Partial<Termos> = {
   trocas: {
     "no caixa": "na recepção",

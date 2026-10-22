@@ -117,7 +117,7 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
         </p>
         <div className="flex items-center gap-2 text-sm">
           <span className="text-carvao/80">Ordenar:</span>
-          {(Object.keys(ORDENS) as Ordem[]).filter((o) => !(termos.porEstadia && o === "gasto")).map((o) => (
+          {(Object.keys(ORDENS) as Ordem[]).map((o) => (
             <Link
               key={o}
               href={link({ ordem: o })}
@@ -154,8 +154,8 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
                   </p>
                   <p className="text-sm text-carvao/80">
                     {t("Última visita")}: {relativo(c.ultima_visita_em)}
-                    {c.inativo ? " (inativo)" : ""} · {c.total_visitas} {c.total_visitas === 1 ? t("visita") : t("visitas")}
-                    {termos.porEstadia ? null : ` · ${formatarReais(Number(c.total_gasto_centavos))}`}
+                    {c.inativo ? " (inativo)" : ""} · {c.total_visitas} {c.total_visitas === 1 ? t("visita") : t("visitas")} ·{" "}
+                    {formatarReais(Number(c.total_gasto_centavos))}
                   </p>
                 </div>
                 <p className="shrink-0 text-right font-display text-2xl text-restinga tabular-nums">

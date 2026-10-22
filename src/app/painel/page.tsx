@@ -9,8 +9,7 @@ import { BuscaCodigo } from "@/components/painel/BuscaCodigo";
 
 export default async function PainelInicio() {
   const { estabelecimento } = await exigirDono();
-  const termos = termosDo(estabelecimento);
-  const t = (texto: string) => traduzir(texto, termos);
+  const t = (texto: string) => traduzir(texto, termosDo(estabelecimento));
   const supabase = await supabaseServidor();
   const hoje = inicioDoDia();
 
@@ -41,7 +40,7 @@ export default async function PainelInicio() {
         </h2>
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Numero rotulo={t("Visitas")} valor={String(totalVisitas)} />
-          {termos.porEstadia ? null : <Numero rotulo="Gasto registrado" valor={formatarReais(gasto)} />}
+          <Numero rotulo="Gasto registrado" valor={formatarReais(gasto)} />
           <Numero rotulo="Carimbos dados" valor={String(Math.max(carimbosHoje, 0))} />
           <Numero rotulo="Novos clientes" valor={String(novos.count ?? 0)} />
         </dl>

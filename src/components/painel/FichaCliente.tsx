@@ -75,7 +75,7 @@ export function FichaCliente({
   historico: ItemHistorico[];
   focarValor: boolean;
 }) {
-  const { t, termos } = useTermos();
+  const { t } = useTermos();
   const [aviso, setAviso] = useState<Aviso | null>(null);
   const [visitaFeita, setVisitaFeita] = useState<Aviso | null>(null);
   const [pendente, iniciar] = useTransition();
@@ -121,8 +121,7 @@ export function FichaCliente({
           } />
         </p>
         <p className="text-sm text-carvao/80">
-          {cliente.totalVisitas} {cliente.totalVisitas === 1 ? t("visita") : t("visitas")}
-          {termos.porEstadia ? null : ` · ${formatarReais(cliente.totalGasto)} registrados`}
+          {cliente.totalVisitas} {cliente.totalVisitas === 1 ? t("visita") : t("visitas")} · {formatarReais(cliente.totalGasto)} registrados
         </p>
       </header>
 
@@ -326,8 +325,12 @@ function RegistrarVisita({
   const cheio = cliente.carimbos >= cliente.meta;
 
   let dica: { texto: string; ok: boolean } | null = null;
-  if (termos.porEstadia) dica = cheio ? { texto: t("Cartão completo: a visita é registrada, mas sem carimbo."), ok: false } : { texto: `Gera carimbo — fica ${cliente.carimbos + 1} de ${cliente.meta}.`, ok: true };
-  else if (cheio) dica = { texto: t("Cartão completo: a visita é registrada, mas sem carimbo."), ok: false };
+  if (cheio) dica = { texto: t("Cartão completo: a visita é registrada, mas sem carimbo."), ok: false };
+  else if (termos.porEstadia)
+    dica =
+      valor && centavos === null
+        ? { texto: "Digite só o valor. Ex.: 420,00", ok: false }
+        : { texto: `1 selo por estadia (o valor é opcional) — fica ${cliente.carimbos + 1} de ${cliente.meta}.`, ok: true };
   else if (centavos === null)
     dica = valor ? { texto: "Digite só o valor. Ex.: 42,50", ok: false } : { texto: `Gasto mínimo para carimbo: ${formatarReais(gastoMinimo)}`, ok: true };
   else if (centavos < gastoMinimo) dica = { texto: `Abaixo do mínimo de ${formatarReais(gastoMinimo)}: será registrada sem carimbo.`, ok: false };
@@ -338,23 +341,17 @@ function RegistrarVisita({
       onSubmit={(e) => {
         e.preventDefault();
         setTentou(true);
-        // pousada: 1 selo por estadia, sem valor (vai como R$ 0,00; o gasto mínimo é zero)
-        if (termos.porEstadia) return aoRegistrar("0", comDescricao ? descricao : "");
+        // pousada: o selo vem pela estadia (gasto mínimo zero); o valor é opcional, só para as métricas
+        if (termos.porEstadia && !valor) return aoRegistrar("0", comDescricao ? descricao : "");
         if (centavos === null) return;
         aoRegistrar(valor, comDescricao ? descricao : "");
       }}
       className="flex flex-col gap-4 rounded-2xl bg-white p-5"
     >
       <h2 className="font-display text-2xl text-restinga">{t("Registrar visita")}</h2>
-      {termos.porEstadia ? (
-        <p aria-live="polite" className="flex items-center gap-2 font-medium">
-          {dica.ok ? <Check aria-hidden className="size-5 shrink-0 text-restinga" /> : <AlertTriangle aria-hidden className="size-5 shrink-0 text-sol" />}
-          {dica.texto}
-        </p>
-      ) : (
       <div className="flex flex-col gap-2">
         <label htmlFor="valor" className="font-semibold text-restinga">
-          Valor gasto
+          Valor gasto{termos.porEstadia ? <span className="font-normal text-carvao/80"> (opcional)</span> : null}
         </label>
         <div className="flex items-center rounded-2xl border-2 border-restinga/30 bg-white focus-within:border-restinga">
           <span aria-hidden className="pl-5 text-2xl text-carvao/70">R$</span>
@@ -377,7 +374,6 @@ function RegistrarVisita({
           {dica.texto}
         </p>
       </div>
-      )}
 
       {comDescricao ? (
         <div className="flex flex-col gap-2">
@@ -593,7 +589,7 @@ function Historico({
   aoEditar: (visitaId: string, valor: string, descricao: string, fechar: () => void) => void;
   aoRemover: (visitaId: string, fechar: () => void) => void;
 }) {
-  const { t, termos } = useTermos();
+  const { t } = useTermos();
   const [editando, setEditando] = useState<string | null>(null);
   const [removendo, setRemovendo] = useState<Extract<ItemHistorico, { tipo: "visita" }> | null>(null);
   const [tudo, setTudo] = useState(false);
@@ -623,7 +619,7 @@ function Historico({
                   <div className="min-w-0 flex-1">
                     <p className="flex flex-wrap items-baseline gap-x-2">
                       <span className={`text-lg font-semibold tabular-nums ${item.desfeita_em ? "line-through" : ""}`}>
-                        {termos.porEstadia ? t("Visita") : formatarReais(item.valor_centavos)}
+                        {formatarReais(item.valor_centavos)}
                       </span>
                       <span className="text-sm text-carvao/80">{formatarDiaHora(item.criado_em)}</span>
                     </p>
@@ -641,7 +637,6 @@ function Historico({
                   </div>
                   {!item.desfeita_em ? (
                     <div className="flex shrink-0 gap-1">
-                      {termos.porEstadia ? null : (
                       <button
                         type="button"
                         onClick={() => setEditando(item.id)}
@@ -650,11 +645,10 @@ function Historico({
                       >
                         <Pencil aria-hidden className="size-5" />
                       </button>
-                      )}
                       <button
                         type="button"
                         onClick={() => setRemovendo(item)}
-                        aria-label={t(`Remover visita de ${termos.porEstadia ? formatarDiaHora(item.criado_em) : formatarReais(item.valor_centavos)}`)}
+                        aria-label={t(`Remover visita de ${formatarReais(item.valor_centavos)}`)}
                         className="flex size-11 items-center justify-center rounded-xl text-restinga hover:bg-restinga/10"
                       >
                         <Trash2 aria-hidden className="size-5" />
@@ -673,11 +667,7 @@ function Historico({
         {removendo ? (
           <div className="flex flex-col gap-4">
             <p className="text-lg">
-              {termos.porEstadia ? (
-                <>{t("Visita")} de {formatarDiaHora(removendo.criado_em)}.</>
-              ) : (
-                <>{t("Visita")} de <strong>{formatarReais(removendo.valor_centavos)}</strong> em {formatarDiaHora(removendo.criado_em)}.</>
-              )}
+              {t("Visita")} de <strong>{formatarReais(removendo.valor_centavos)}</strong> em {formatarDiaHora(removendo.criado_em)}.
             </p>
             <p className="text-carvao/80">
               Ela sai das métricas e fica riscada no histórico.

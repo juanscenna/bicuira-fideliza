@@ -48,12 +48,8 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
   if (!estab) notFound();
 
   const periodo: Periodo = typeof sp.periodo === "string" && sp.periodo in PERIODOS ? (sp.periodo as Periodo) : "tudo";
-  // pousada: selo por estadia, sem valores gastos
-  const termos = termosDo(estab);
-  const t = (texto: string) => traduzir(texto, termos);
-  const semGasto = termos.porEstadia;
-  const ordem: Ordem =
-    typeof sp.ordem === "string" && sp.ordem in ORDENS && !(semGasto && sp.ordem === "gasto") ? (sp.ordem as Ordem) : semGasto ? "visitas" : "gasto";
+  const t = (texto: string) => traduzir(texto, termosDo(estab));
+  const ordem: Ordem = typeof sp.ordem === "string" && sp.ordem in ORDENS ? (sp.ordem as Ordem) : "gasto";
   const link = (mudar: Record<string, string>) => `/admin/${id}/clientes?${new URLSearchParams({ periodo, ordem, ...mudar })}`;
 
   const supabase = await supabaseServidor();
@@ -86,9 +82,7 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
     { rotulo: "Selos dados", valor: String(selosDados), nota: "Carimbos no período, já descontados os retirados." },
     { rotulo: "Recompensas resgatadas", valor: String(m.recompensas_resgatadas), nota: "Entregues no período." },
     { rotulo: "Clientes inativos (agora)", valor: String(m.clientes_inativos), nota: "Sem visita há mais dias que o limite." },
-  ]
-    .filter((c) => !(semGasto && /Gasto|Ticket/.test(c.rotulo)))
-    .map((c) => ({ ...c, rotulo: t(c.rotulo), nota: t(c.nota) }));
+  ].map((c) => ({ ...c, rotulo: t(c.rotulo), nota: t(c.nota) }));
 
   return (
     <div className="flex flex-col gap-8">
@@ -126,10 +120,10 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
         </div>
         <p className="text-sm text-carvao/80">
           Desde o início: {comVisita.length} {comVisita.length === 1 ? "cliente visitou" : "clientes visitaram"}
-          {semGasto ? "." : ` · ${formatarReais(gastoTotal)} registrados · média de ${media(gastoTotal, comVisita.length)} por cliente que visitou.`}
+          {` · ${formatarReais(gastoTotal)} registrados · média de ${media(gastoTotal, comVisita.length)} por cliente que visitou.`}
         </p>
         <nav aria-label="Ordenar" className="flex flex-wrap gap-2">
-          {(Object.keys(ORDENS) as Ordem[]).filter((k) => !(semGasto && k === "gasto")).map((k) => (
+          {(Object.keys(ORDENS) as Ordem[]).map((k) => (
             <Link
               key={k}
               href={link({ ordem: k })}
@@ -152,8 +146,8 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
                   <th scope="col" className="p-3 font-semibold">Cliente</th>
                   <th scope="col" className="p-3 font-semibold">Plano</th>
                   <th scope="col" className="p-3 text-right font-semibold">{t("Visitas")}</th>
-                  {semGasto ? null : <th scope="col" className="p-3 text-right font-semibold">Gasto total</th>}
-                  {semGasto ? null : <th scope="col" className="p-3 text-right font-semibold">Ticket médio</th>}
+                  <th scope="col" className="p-3 text-right font-semibold">Gasto total</th>
+                  <th scope="col" className="p-3 text-right font-semibold">Ticket médio</th>
                   <th scope="col" className="p-3 text-right font-semibold">Selos</th>
                   <th scope="col" className="p-3 text-right font-semibold">Resgates</th>
                   <th scope="col" className="p-3 font-semibold">Cadastro</th>
@@ -172,8 +166,8 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
                     </th>
                     <td className="p-3 text-sm">{t(c.plano === "morador" ? "Morador" : "Turista")}</td>
                     <td className="p-3 text-right tabular-nums">{c.visitas}</td>
-                    {semGasto ? null : <td className="p-3 text-right font-semibold tabular-nums">{formatarReais(c.gastoCentavos)}</td>}
-                    {semGasto ? null : <td className="p-3 text-right tabular-nums">{media(c.gastoCentavos, c.visitas)}</td>}
+                    <td className="p-3 text-right font-semibold tabular-nums">{formatarReais(c.gastoCentavos)}</td>
+                    <td className="p-3 text-right tabular-nums">{media(c.gastoCentavos, c.visitas)}</td>
                     <td className="p-3 text-right tabular-nums">{c.carimbos}</td>
                     <td className="p-3 text-right tabular-nums">{c.resgates}</td>
                     <td className="p-3 text-sm">{formatarDia(c.cadastroEm)}</td>

@@ -1,5 +1,5 @@
 // Tipo de negócio: define a configuração inicial e o vocabulário do painel.
-// Restaurante e bar dão selo por gasto mínimo; pousada dá selo por estadia (sem valor).
+// Restaurante e bar dão selo por gasto mínimo; pousada dá selo por estadia (valor opcional).
 import type { DadosEstabelecimento } from "./estabelecimento";
 
 export type TipoNegocio = "restaurante" | "bar" | "pousada";
@@ -12,7 +12,7 @@ export const TIPOS_NEGOCIO: Record<TipoNegocio, string> = {
 
 export const ehTipoNegocio = (v: unknown): v is TipoNegocio => typeof v === "string" && v in TIPOS_NEGOCIO;
 
-/** Pousada: 1 selo por estadia, sem valor nem gasto mínimo. */
+/** Pousada: 1 selo por estadia, sem gasto mínimo (o valor é opcional, só para métricas). */
 export const selaPorEstadia = (tipo: TipoNegocio) => tipo === "pousada";
 
 type Padrao = Pick<DadosEstabelecimento, "gasto_minimo_centavos" | "dias_inatividade" | "morador" | "turista">;

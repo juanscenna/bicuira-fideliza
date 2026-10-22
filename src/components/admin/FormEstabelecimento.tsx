@@ -115,7 +115,7 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
           <div className="grid gap-4 sm:grid-cols-3">
             {porEstadia ? (
               <p className="self-end rounded-xl bg-white px-4 py-3 text-sm">
-                <strong>1 selo por estadia.</strong> Sem valor nem gasto mínimo.
+                <strong>1 selo por estadia</strong>, sem gasto mínimo. O valor é opcional e serve para as métricas.
               </p>
             ) : (
               <Campo
