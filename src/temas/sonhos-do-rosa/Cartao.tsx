@@ -3,31 +3,32 @@ import type { PropsCartao } from "../tipos";
 import { fonteSonhos } from "./estilo";
 import { Selo } from "./Selo";
 
-/** Cartão Sonhos do Rosa: preto com borda rosa, logo do restaurante como selo e destaque amarelo do prato. */
+/** Cartão Sonhos do Rosa: bloco branco do site, faixa do sol no topo, logo da pousada como selo. */
 export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa, qrSvg, carimboNovo }: PropsCartao) {
   const cheio = carimbos >= meta;
   const colunas = meta <= 5 ? meta : meta <= 10 ? 5 : 6;
   return (
     <article
       aria-label={`Cartão fidelidade ${estab.nome}`}
-      className={`${fonteSonhos.variable} relative mx-auto w-full max-w-[380px] overflow-hidden rounded-[2rem] border-4 bg-[radial-gradient(120%_120%_at_0%_0%,#3D2E20_0%,#2F2115_55%)] ${
+      className={`${fonteSonhos.variable} relative mx-auto w-full max-w-[380px] overflow-hidden rounded-[1.75rem] border bg-[#FFFFFC] ${
         cheio
-          ? "border-[#E46A00] shadow-[0_0_0_4px_#065DA0,0_24px_70px_-10px_rgba(228,106,0,0.8)]"
-          : "border-[#065DA0] shadow-[0_24px_60px_-18px_rgba(6,93,160,0.65)]"
-      } font-[family-name:var(--fonte-sonhos)] text-[#FDFAF4]`}
+          ? "border-[#E46A00] shadow-[0_0_0_3px_#E46A00,0_24px_60px_-20px_rgba(228,106,0,0.6)]"
+          : "border-[#E4DDCF] shadow-[0_18px_40px_-24px_rgba(94,70,48,0.45)]"
+      } font-[family-name:var(--fonte-sonhos)] text-[#2F2115]`}
     >
+      <div aria-hidden className="h-2 bg-[linear-gradient(135deg,#EF8600,#DF5200)]" />
       <header className="flex items-center gap-3 px-5 pt-5">
         {estab.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={estab.logoUrl} alt="" className="size-14 rounded-full" />
+          <img src={estab.logoUrl} alt="" className="h-12 w-auto shrink-0" />
         ) : null}
-        <div className="min-w-0 flex-1 leading-none">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em]">Pousada</p>
-          <p className="text-2xl font-black uppercase text-[#065DA0]">Sonhos do Rosa</p>
+        <div className="min-w-0 flex-1 leading-tight">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#756657]">Pousada</p>
+          <p className="text-xl font-semibold tracking-tight">Sonhos do Rosa</p>
         </div>
-        <p className="text-right text-4xl font-black leading-none tabular-nums text-[#E46A00]">
+        <p className="text-right text-4xl leading-none font-semibold tabular-nums text-[#E46A00]">
           {Math.min(carimbos, meta)}
-          <span className="text-lg text-[#FDFAF4]/60">/{meta}</span>
+          <span className="text-lg text-[#756657]">/{meta}</span>
         </p>
       </header>
 
@@ -41,10 +42,10 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
                 <span
                   className={`flex aspect-square w-full max-w-14 items-center justify-center rounded-full ${
                     feito
-                      ? "shadow-[0_0_0_2px_#065DA0,0_0_12px_rgba(6,93,160,0.7)]"
+                      ? "shadow-[0_0_0_2px_#E46A00]"
                       : ultimo
-                        ? "border-2 border-[#E46A00] text-[#E46A00]"
-                        : "outline-2 outline-dashed outline-[#FDFAF4]/30"
+                        ? "border-2 border-[#065DA0] bg-[#F3EAD9] text-[#065DA0]"
+                        : "bg-[#F3EAD9] outline-1 outline-dashed outline-[#756657]/40"
                   } ${carimboNovo === i ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                 >
                   {ultimo && !feito ? <Gift className="size-1/2" aria-hidden /> : <Selo feito={feito} />}
@@ -57,7 +58,7 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
           })}
         </ol>
         <p
-          className={`mt-5 rounded-2xl bg-[#E46A00] px-4 py-3 text-center text-base font-extrabold uppercase text-[#2F2115] ${
+          className={`mt-5 rounded-full bg-[linear-gradient(135deg,#EF8600,#DF5200)] px-4 py-3 text-center text-base font-semibold text-white ${
             cheio ? "motion-safe:animate-[destaque_1.4s_ease-in-out_infinite]" : ""
           }`}
         >
@@ -65,16 +66,16 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
         </p>
       </section>
 
-      <div className="m-5 flex items-center gap-4 rounded-2xl bg-[#FDFAF4] p-3 text-[#2F2115]">
-        <div className="size-24 shrink-0 min-[360px]:size-28 [&_svg]:size-full" aria-hidden dangerouslySetInnerHTML={{ __html: qrSvg }} />
+      <div className="m-5 flex items-center gap-4 rounded-2xl border border-[#E4DDCF] bg-[#F3EAD9] p-3 text-[#2F2115]">
+        <div className="size-24 shrink-0 rounded-lg bg-white p-1 min-[360px]:size-28 [&_svg]:size-full" aria-hidden dangerouslySetInnerHTML={{ __html: qrSvg }} />
         <div className="min-w-0">
-          <p className="truncate text-sm font-bold">{cliente.nome}</p>
-          <p className="text-2xl font-black tracking-wider min-[360px]:text-3xl min-[360px]:tracking-widest">{cliente.codigo}</p>
-          <p className="text-xs font-medium">Mostre no caixa a cada visita.</p>
+          <p className="truncate text-sm font-semibold">{cliente.nome}</p>
+          <p className="text-2xl font-bold tracking-wider text-[#065DA0] min-[360px]:text-3xl min-[360px]:tracking-widest">{cliente.codigo}</p>
+          <p className="text-xs text-[#756657]">Mostre no caixa a cada visita.</p>
         </div>
       </div>
       {/* brilho passando, como no cartão de demonstração */}
-      <div aria-hidden className="pointer-events-none absolute inset-y-0 -left-full w-[300%] bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.12)_49%,rgba(228,106,0,0.08)_51%,transparent_58%)] motion-safe:animate-[brilho_5s_ease-in-out_infinite]" />
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 -left-full w-[300%] bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.5)_49%,rgba(239,134,0,0.06)_51%,transparent_58%)] motion-safe:animate-[brilho_5s_ease-in-out_infinite]" />
     </article>
   );
 }

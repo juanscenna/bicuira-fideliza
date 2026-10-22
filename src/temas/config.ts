@@ -36,11 +36,11 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
     badge: "/temas/rosa-norte/badge.png",
     wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
   },
-  // Pousada Sonhos do Rosa (Praia do Rosa, SC) — preto-marrom, azul do mar, laranja do sol, creme
-  "sonhos-do-rosa": { cor_primaria: "#2F2115", cor_secundaria: "#065DA0", logoUrl: `${SITE_URL}/temas/sonhos-do-rosa/logo.png`, favicon: "/temas/sonhos-do-rosa/logo-256.png",
+  // Pousada Sonhos do Rosa (Praia do Rosa, SC) — cores do site deles: laranja do sol, azul do mar, creme
+  "sonhos-do-rosa": { cor_primaria: "#FDFAF4", cor_secundaria: "#E46A00", logoUrl: `${SITE_URL}/temas/sonhos-do-rosa/logo.png`, favicon: "/temas/sonhos-do-rosa/logo-256.png",
     selos: { feito: "/temas/sonhos-do-rosa/selo-160.png", vazio: "/temas/sonhos-do-rosa/selo-cinza-160.png" },
     badge: "/temas/sonhos-do-rosa/badge.png",
-    wallet: { titulo: "Junte selos. Ganhe recompensas." },
+    wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "sonhos_do_rosa" },
   },
 };
 

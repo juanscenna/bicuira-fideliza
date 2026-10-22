@@ -58,8 +58,8 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
     >
       {/* luzes atrás do cartão */}
       {/* luzes feitas com gradiente (sem blur): leves em qualquer celular */}
-      <div className="absolute -inset-x-6 inset-y-0 bg-[radial-gradient(closest-side,rgba(6,93,160,0.85),rgba(6,93,160,0.35)_55%,transparent)] motion-safe:animate-[pulsar_3.2s_ease-in-out_infinite]" />
-      <div className="absolute -top-6 -right-6 size-44 bg-[radial-gradient(closest-side,rgba(228,106,0,0.6),transparent)] motion-safe:animate-[pulsar_4s_ease-in-out_infinite_1s]" />
+      <div className="absolute -inset-x-6 inset-y-0 bg-[radial-gradient(closest-side,rgba(239,134,0,0.28),rgba(239,134,0,0.1)_55%,transparent)] motion-safe:animate-[pulsar_3.2s_ease-in-out_infinite]" />
+      <div className="absolute -top-6 -right-6 size-44 bg-[radial-gradient(closest-side,rgba(6,93,160,0.18),transparent)] motion-safe:animate-[pulsar_4s_ease-in-out_infinite_1s]" />
 
       <div className="relative [transform-style:preserve-3d] will-change-transform motion-safe:animate-[balanco3d_7s_ease-in-out_infinite]">
         <div
@@ -67,19 +67,20 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
           className={`relative aspect-[1.58/1] w-full [transform-style:preserve-3d] ${completo ? "animate-[giro360_1.4s_cubic-bezier(.6,0,.3,1)]" : ""}`}
         >
           {/* frente */}
-          <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border-[3px] border-[#065DA0] bg-[radial-gradient(120%_120%_at_0%_0%,#3D2E20_0%,#2F2115_55%)] p-4 shadow-[0_30px_60px_-20px_rgba(6,93,160,0.7)] [backface-visibility:hidden]">
+          <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border border-[#E4DDCF] bg-[#FFFFFC] p-4 pt-5 shadow-[0_30px_60px_-24px_rgba(94,70,48,0.5)] [backface-visibility:hidden]">
+            <div aria-hidden className="absolute inset-x-0 top-0 h-1.5 bg-[linear-gradient(135deg,#EF8600,#DF5200)]" />
             <div className="flex items-center gap-2">
               {logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={logoUrl} alt="" className="size-10 rounded-full" />
+                <img src={logoUrl} alt="" className="h-9 w-auto" />
               ) : null}
               <div className="leading-none">
-                <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#FDFAF4]/80">Cartão fidelidade</p>
-                <p className="text-lg font-black uppercase text-[#065DA0]">Sonhos do Rosa</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#756657]">Cartão fidelidade</p>
+                <p className="text-lg font-semibold tracking-tight text-[#2F2115]">Sonhos do Rosa</p>
               </div>
-              <p className="ml-auto text-2xl font-black tabular-nums text-[#E46A00]">
+              <p className="ml-auto text-2xl font-semibold tabular-nums text-[#E46A00]">
                 {carimbos}
-                <span className="text-sm text-[#FDFAF4]/60">/{META}</span>
+                <span className="text-sm text-[#756657]">/{META}</span>
               </p>
             </div>
             <ol className="mt-3 grid grid-cols-5 gap-2">
@@ -90,7 +91,7 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
                   <li key={i} className="relative flex justify-center">
                     <span
                       className={`flex aspect-square w-full max-w-10 items-center justify-center rounded-full ${
-                        feito ? "shadow-[0_0_0_2px_#065DA0,0_0_14px_rgba(6,93,160,0.9)]" : "outline-2 outline-dashed outline-[#FDFAF4]/25"
+                        feito ? "shadow-[0_0_0_2px_#E46A00]" : "bg-[#F3EAD9] outline-1 outline-dashed outline-[#756657]/40"
                       } ${novo ? "animate-[carimbo_600ms_ease-out]" : ""}`}
                     >
                       <Selo feito={feito} />
@@ -101,27 +102,27 @@ export function CartaoDemo({ logoUrl }: { logoUrl: string | null }) {
               })}
             </ol>
             {completo ? (
-              <p className="absolute inset-x-4 bottom-3 rounded-xl bg-[#E46A00] py-1.5 text-center text-sm font-black uppercase text-[#2F2115]">
+              <p className="absolute inset-x-4 bottom-3 rounded-full bg-[linear-gradient(135deg,#EF8600,#DF5200)] py-1.5 text-center text-sm font-semibold text-white">
                 Recompensa liberada!
               </p>
             ) : null}
             {/* brilho holográfico passando */}
-            <div className="pointer-events-none absolute inset-y-0 -left-full w-[300%] bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.28)_49%,rgba(228,106,0,0.16)_51%,transparent_58%)] motion-safe:animate-[brilho_3.6s_ease-in-out_infinite]" />
+            <div className="pointer-events-none absolute inset-y-0 -left-full w-[300%] bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.6)_49%,rgba(239,134,0,0.08)_51%,transparent_58%)] motion-safe:animate-[brilho_3.6s_ease-in-out_infinite]" />
           </div>
 
           {/* verso (aparece no giro) */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-[1.6rem] border-[3px] border-[#E46A00] bg-[#065DA0] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-[1.6rem] border border-[#E4DDCF] bg-[#F3EAD9] [backface-visibility:hidden] [transform:rotateY(180deg)]">
             {logoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="" className="size-24 rounded-full shadow-xl" />
+              <img src={logoUrl} alt="" className="h-24 w-auto" />
             ) : null}
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#FDFAF4]">Pousada</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2F2115]">Pousada Sonhos do Rosa</p>
           </div>
         </div>
       </div>
 
       {/* sombra no "chão" */}
-      <div className="mx-auto mt-6 h-4 w-3/4 bg-[radial-gradient(closest-side,rgba(0,0,0,0.75),transparent)] motion-safe:animate-[sombra_7s_ease-in-out_infinite]" />
+      <div className="mx-auto mt-6 h-4 w-3/4 bg-[radial-gradient(closest-side,rgba(94,70,48,0.35),transparent)] motion-safe:animate-[sombra_7s_ease-in-out_infinite]" />
     </div>
   );
 }

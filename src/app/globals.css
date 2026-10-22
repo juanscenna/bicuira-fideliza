@@ -92,6 +92,18 @@ body {
    blocos #151515, ações amarelas e destaques rosa. Os tokens da Bicuíra são
    trocados aqui e todas as telas do painel herdam. */
 .tema-rosa-norte {
+  --painel-topo: #0A0A0A;
+  --painel-topo-veu: linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.7) 60%, #0A0A0A 100%);
+  --painel-texto-topo: #F3EEE5;
+  --painel-destaque: #E8115A;
+  --painel-faixa: #F2B315;
+  --painel-faixa-texto: #0A0A0A;
+  --painel-faixa-linha: #0A0A0A;
+  --painel-faixa-borda: 4px;
+  --painel-faixa-peso: 900;
+  --painel-faixa-caixa: uppercase;
+  --painel-lateral: #0A0A0A;
+  --painel-lateral-linha: rgb(232 17 90 / 0.4);
   --color-restinga: #F3EEE5; /* texto forte / contornos = creme */
   --color-carvao: #F3EEE5;
   --color-areia: #0A0A0A;    /* fundo = preto */
@@ -139,56 +151,61 @@ body {
   background: #E8115A;
 }
 
-/* ---- Painel do dono com a identidade do restaurante ----
-   Mesma pegada das páginas de cadastro e cartão: fundo preto, texto creme,
-   blocos #151515, ações amarelas e destaques rosa. Os tokens da Bicuíra são
-   trocados aqui e todas as telas do painel herdam. */
+/* ---- Painel do dono: Pousada Sonhos do Rosa ----
+   Claro, como o site da pousada (sonhosdorosa.lovable.app): fundo creme, blocos
+   brancos com borda areia, ações no laranja do sol, destaques no azul do mar. */
 .tema-sonhos-do-rosa {
-  --color-restinga: #FDFAF4; /* texto forte / contornos = creme */
-  --color-carvao: #FDFAF4;
-  --color-areia: #2F2115;    /* fundo = preto */
-  --color-lima: #E46A00;     /* ações = amarelo */
-  --color-sol: #065DA0;      /* destaques = rosa */
-  --color-oceano: #065DA0;
-  --font-display: var(--fonte-rosa), system-ui, sans-serif;
-  --font-sans: var(--fonte-rosa), system-ui, sans-serif;
-  background: #2F2115;
-  color: #FDFAF4;
-  color-scheme: dark;
+  --painel-topo: #2F2115;
+  --painel-topo-veu: linear-gradient(180deg, rgba(47,33,21,0.2) 0%, rgba(47,33,21,0.65) 100%);
+  --painel-texto-topo: #FDFAF4;
+  --painel-destaque: #E46A00;
+  --painel-faixa: #F3EAD9;
+  --painel-faixa-texto: #2F2115;
+  --painel-faixa-linha: #E4DDCF;
+  --painel-faixa-borda: 1px;
+  --painel-faixa-peso: 600;
+  --painel-faixa-caixa: none;
+  --painel-lateral: #FFFFFC;
+  --painel-lateral-linha: #E4DDCF;
+  --color-restinga: #2F2115; /* texto forte / contornos */
+  --color-carvao: #2F2115;
+  --color-areia: #FDFAF4;    /* fundo creme */
+  --color-lima: #E46A00;     /* ações = laranja do sol */
+  --color-sol: #E46A00;
+  --color-oceano: #065DA0;   /* destaques = azul do mar */
+  --font-display: var(--fonte-sonhos), system-ui, sans-serif;
+  --font-sans: var(--fonte-sonhos), system-ui, sans-serif;
+  background: #FDFAF4;
+  color: #2F2115;
+  color-scheme: light;
 }
 .tema-sonhos-do-rosa :focus-visible {
-  outline-color: #E46A00;
+  outline-color: #065DA0;
 }
-/* texto sobre amarelo sempre preto */
+/* texto sobre o laranja sempre branco (como os botões do site) */
 .tema-sonhos-do-rosa .bg-lima,
 .tema-sonhos-do-rosa .bg-lima * {
-  color: #2F2115;
+  color: #FFFFFF;
 }
-/* blocos brancos viram os cartões escuros das outras páginas */
 .tema-sonhos-do-rosa .bg-white {
-  background-color: #151515;
+  background-color: #FFFFFC;
 }
 .tema-sonhos-do-rosa .bg-white:not(input, textarea, select, button, [role="tablist"] *) {
-  border: 2px solid rgb(253 250 244 / 0.15);
-}
-.tema-sonhos-do-rosa input.bg-white,
-.tema-sonhos-do-rosa textarea.bg-white,
-.tema-sonhos-do-rosa select.bg-white {
-  background-color: #2F2115;
+  border: 1px solid #E4DDCF;
+  box-shadow: 0 18px 40px -24px rgba(94, 70, 48, 0.35);
 }
 .tema-sonhos-do-rosa .font-display {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 .tema-sonhos-do-rosa main h1.font-display::after {
   content: "";
   display: block;
   width: 3.5rem;
-  height: 0.35rem;
-  margin-top: 0.4rem;
+  height: 0.3rem;
+  margin-top: 0.5rem;
   border-radius: 999px;
-  background: #065DA0;
+  background: linear-gradient(135deg, #EF8600, #DF5200);
 }
 /* menu: preto com a página atual em amarelo */
 .tema-rosa-norte nav {

@@ -1,5 +1,5 @@
 /**
- * Selo do cartão = logo do restaurante. Ganho: logo colorida; ainda não: versão cinza apagada.
+ * Selo do cartão = logo da pousada (sem alteração) sobre um disco creme. Ainda não ganho: versão cinza.
  * A versão cinza é um arquivo pronto (sem `filter` CSS), mais leve para celulares antigos.
  */
 export function Selo({ feito }: { feito: boolean }) {
@@ -11,7 +11,7 @@ export function Selo({ feito }: { feito: boolean }) {
       aria-hidden
       draggable={false}
       decoding="async"
-      className={`size-full rounded-full object-cover ${feito ? "" : "opacity-25"}`}
+      className={`size-full rounded-full object-cover ${feito ? "" : "opacity-40"}`}
     />
   );
 }
