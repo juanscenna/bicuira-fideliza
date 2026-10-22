@@ -55,6 +55,7 @@ export async function exigirDono() {
 export async function exigirSuperAdmin() {
   const sessao = await obterSessao();
   if (!sessao) redirect("/entrar?erro=sem-perfil");
-  if (sessao.papel !== "super_admin") redirect(inicioDoPerfil(sessao));
+  // logado como dono: não leva ao painel dele sem avisar; mostra que é preciso trocar de login
+  if (sessao.papel !== "super_admin") redirect("/entrar?trocar=admin");
   return sessao;
 }

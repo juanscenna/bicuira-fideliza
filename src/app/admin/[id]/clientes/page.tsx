@@ -51,10 +51,20 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
   const link = (mudar: Record<string, string>) => `/admin/${id}/clientes?${new URLSearchParams({ periodo, ordem, ...mudar })}`;
 
   const supabase = await supabaseServidor();
-  const [{ data }, clientes] = await Promise.all([
-    supabase.rpc("metricas", { p_desde: periodo === "tudo" ? null : diasAtras(Number(periodo)), p_plano: null, p_estab: id }),
+  const desde = periodo === "tudo" ? null : diasAtras(Number(periodo));
+  // selos dados = mesma conta do painel do dono (visitas, ajustes à mão, correções e desfeitos)
+  let consultaSelos = supabase
+    .from("eventos_carimbo")
+    .select("delta")
+    .eq("estabelecimento_id", id)
+    .in("tipo", ["visita", "manual_mais", "manual_menos", "desfazer", "ajuste_edicao"]);
+  if (desde) consultaSelos = consultaSelos.gte("criado_em", desde);
+  const [{ data }, clientes, { data: eventosSelos }] = await Promise.all([
+    supabase.rpc("metricas", { p_desde: desde, p_plano: null, p_estab: id }),
     clientesDoEstabelecimento(id),
+    consultaSelos,
   ]);
+  const selosDados = Math.max((eventosSelos ?? []).reduce((soma, e) => soma + e.delta, 0), 0);
   const m = data as M;
   const lista = [...clientes].sort(ordenar[ordem]);
   const comVisita = clientes.filter((c) => c.visitas > 0);
@@ -67,6 +77,7 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
     { rotulo: "Ticket médio", valor: media(m.gasto_total_centavos, m.total_visitas), nota: "Gasto ÷ visitas." },
     { rotulo: "Taxa de retorno", valor: pct(m.clientes_que_retornaram, m.clientes_com_visita), nota: "Clientes com visita que já tinham vindo antes." },
     { rotulo: "Gasto em retornos", valor: formatarReais(m.gasto_retorno_centavos), nota: "Visitas que não foram a primeira do cliente." },
+    { rotulo: "Selos dados", valor: String(selosDados), nota: "Carimbos no período, já descontados os retirados." },
     { rotulo: "Recompensas resgatadas", valor: String(m.recompensas_resgatadas), nota: "Entregues no período." },
     { rotulo: "Clientes inativos (agora)", valor: String(m.clientes_inativos), nota: "Sem visita há mais dias que o limite." },
   ];
