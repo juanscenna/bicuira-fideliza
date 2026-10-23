@@ -18,42 +18,24 @@
   .faixa { position: absolute; inset: 0 0 auto; height: 8px; background: var(--grad); }
   .mar { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: var(--areia); border-top: 1px solid var(--borda); }
 
-  header { position: relative; padding: 22px 22px 0; }
-  .logo { height: 54px; display: block; }
+  header { position: relative; padding: 24px 22px 0; text-align: center; }
+  .logo { height: 58px; display: block; margin: 0 auto; }
   .eyebrow { margin-top: 10px; font-size: 9.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--suave); }
-  h1 { margin-top: 4px; max-width: 190px; font-size: 25px; line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
+  h1 { margin-top: 6px; font-size: 24px; line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
   h1 em { font-style: normal; color: var(--sol); }
 
-  /* cartão: cópia estática do CartaoDemo do site */
-  .cartao { position: absolute; top: 70px; right: 8px; width: 158px; aspect-ratio: 1.58/1; transform: rotate(6deg);
-    border-radius: 18px; border: 1px solid var(--borda); background: var(--cartao); padding: 12px 11px 0; overflow: hidden;
-    box-shadow: 0 22px 40px -18px rgba(94,70,48,.55); }
-  .cartao::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--grad); }
-  .c-topo { display: flex; align-items: center; gap: 6px; }
-  .c-topo img { height: 18px; }
-  .c-topo small { display: block; white-space: nowrap; font-size: 5.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--suave); }
-  .c-topo b { display: block; white-space: nowrap; font-size: 10px; font-weight: 600; letter-spacing: -.01em; }
-  .c-num { margin-left: auto; font-size: 14px; font-weight: 600; color: var(--sol); }
-  .c-num span { font-size: 9px; color: var(--suave); }
-  .selos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin: 8px auto 0; width: 108px; }
-  .selos span { aspect-ratio: 1; border-radius: 50%; display: block; overflow: hidden; }
-  .selos .feito { box-shadow: 0 0 0 1.5px var(--sol); }
-  .selos .vazio { background: var(--areia); outline: 1px dashed rgba(117,102,87,.4); }
-  .selos img { width: 100%; height: 100%; display: block; }
-  .selos .vazio img { opacity: .4; }
-
   /* bloco do QR = bloco "Crie seu cartão" do site */
-  .painel { position: absolute; left: 18px; right: 18px; top: 206px; border-radius: 20px; border: 1px solid var(--borda); background: var(--cartao);
+  .painel { position: absolute; left: 18px; right: 18px; top: 182px; border-radius: 20px; border: 1px solid var(--borda); background: var(--cartao);
     box-shadow: 0 18px 40px -24px rgba(94,70,48,.45); padding: 16px 16px 14px; text-align: center; }
   .badge { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--grad); color: #fff;
     font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(223,82,0,.7); }
-  .qr-box { margin: 14px auto 0; width: 196px; height: 196px; padding: 13px; border-radius: 16px; background: #fff; border: 3px solid var(--sol); }
+  .qr-box { margin: 14px auto 0; width: 200px; height: 200px; padding: 13px; border-radius: 16px; background: #fff; border: 3px solid var(--sol); }
   .qr { width: 100%; height: 100%; display: block; }
   .apoio { margin-top: 10px; font-size: 12px; color: var(--suave); }
   .apoio b { color: var(--mar); font-weight: 600; }
 
-  .passos { position: absolute; left: 18px; right: 18px; top: 488px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .passo { display: flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; line-height: 1.15; }
+  .passos { position: absolute; left: 18px; right: 18px; top: 466px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .passo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; font-size: 10.5px; font-weight: 600; line-height: 1.2; }
   .passo i { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--grad); color: #fff; font-style: normal; font-size: 11px; display: flex; align-items: center; justify-content: center; }
 
   footer { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; }
@@ -70,21 +52,8 @@
   <header>
     <img class="logo" src="{{LOGO}}" alt="Pousada Sonhos do Rosa">
     <p class="eyebrow">Cartão fidelidade</p>
-    <h1>Junte 3 selos,<br>ganhe um<br><em>café da manhã</em></h1>
+    <h1>Junte 3 selos e ganhe<br><em>um café da manhã</em></h1>
   </header>
-
-  <div class="cartao" aria-hidden="true">
-    <div class="c-topo">
-      <img src="{{LOGO}}" alt="">
-      <div><small>Cartão fidelidade</small><b>Sonhos do Rosa</b></div>
-      <p class="c-num">2<span>/3</span></p>
-    </div>
-    <div class="selos">
-      <span class="feito"><img src="{{SELO}}" alt=""></span>
-      <span class="feito"><img src="{{SELO}}" alt=""></span>
-      <span class="vazio"><img src="{{SELO_CINZA}}" alt=""></span>
-    </div>
-  </div>
 
   <section class="painel">
     <p class="badge">Aponte a câmera do celular</p>
@@ -93,9 +62,9 @@
   </section>
 
   <div class="passos">
-    <p class="passo"><i>1</i>Escaneie e crie seu cartão</p>
-    <p class="passo"><i>2</i>Mostre na recepção</p>
-    <p class="passo"><i>3</i>1 selo por estadia</p>
+    <p class="passo"><i>1</i>Escaneie e crie<br>seu cartão</p>
+    <p class="passo"><i>2</i>Mostre o cartão<br>na recepção</p>
+    <p class="passo"><i>3</i>Ganhe 1 selo<br>por estadia</p>
   </div>
 
   <footer>
