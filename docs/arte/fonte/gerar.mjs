@@ -12,9 +12,13 @@ const html = readFileSync('placa.html', 'utf8')
   .replace('{{QR}}', qr.replace('<svg', '<svg class="qr"'));
 writeFileSync('placa.build.html', html);
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
-const p = await b.newPage({ viewport: { width: 378, height: 567 }, deviceScaleFactor: 4 });
+const p = await b.newPage({ viewport: { width: 378, height: 567 }, deviceScaleFactor: 6.25 });
 await p.setContent(html, { waitUntil: 'networkidle' });
 await p.evaluate(() => document.fonts.ready);
 await p.screenshot({ path: '../placa-sonhos-do-rosa-10x15.png' });
-await p.pdf({ path: '../placa-sonhos-do-rosa-10x15.pdf', width: '10cm', height: '15cm', printBackground: true, pageRanges: '1' });
+// PDF a partir da imagem (600 dpi): fica idêntico em qualquer leitor de PDF, sem depender de fonte.
+const png = await p.screenshot({ type: 'png' });
+const p2 = await b.newPage();
+await p2.setContent(`<style>@page{size:10cm 15cm;margin:0}html,body{margin:0}img{display:block;width:10cm;height:15cm}</style><img src="data:image/png;base64,${png.toString('base64')}">`);
+await p2.pdf({ path: '../placa-sonhos-do-rosa-10x15.pdf', width: '10cm', height: '15cm', printBackground: true, pageRanges: '1' });
 await b.close();
