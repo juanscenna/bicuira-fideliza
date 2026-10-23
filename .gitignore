@@ -51,3 +51,5 @@ wallet-credenciais/
 # supabase local
 supabase/.branches
 supabase/.temp
+docs/arte/fonte/node_modules
+docs/arte/fonte/placa.build.html

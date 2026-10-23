@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Placa Sonhos do Rosa</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=block" rel="stylesheet">
+<style>
+  /* Tokens do site da pousada (src/temas/sonhos-do-rosa/estilo.ts) */
+  :root { --fundo:#FDFAF4; --areia:#F3EAD9; --cartao:#FFFFFC; --borda:#E4DDCF; --texto:#2F2115; --suave:#756657; --sol:#E46A00; --mar:#065DA0; --grad:linear-gradient(135deg,#EF8600,#DF5200); }
+  @page { size: 10cm 15cm; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 10cm; height: 15cm; }
+  body { font-family: Montserrat, sans-serif; color: var(--texto); background: var(--fundo); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .placa { position: relative; width: 378px; height: 567px; overflow: hidden; background: var(--fundo); }
+
+  /* fundo: sol suave e mar no rodapé, só formas */
+  .sol { position: absolute; top: -120px; right: -110px; width: 330px; height: 330px; border-radius: 50%; background: radial-gradient(closest-side, rgba(239,134,0,.30), rgba(239,134,0,.10) 60%, transparent); }
+  .faixa { position: absolute; inset: 0 0 auto; height: 8px; background: var(--grad); }
+  .mar { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: var(--areia); border-top: 1px solid var(--borda); }
+
+  header { position: relative; padding: 22px 22px 0; }
+  .logo { height: 54px; display: block; }
+  .eyebrow { margin-top: 10px; font-size: 9.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--suave); }
+  h1 { margin-top: 4px; max-width: 190px; font-size: 25px; line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
+  h1 em { font-style: normal; color: var(--sol); }
+
+  /* cartão: cópia estática do CartaoDemo do site */
+  .cartao { position: absolute; top: 70px; right: 8px; width: 158px; aspect-ratio: 1.58/1; transform: rotate(6deg);
+    border-radius: 18px; border: 1px solid var(--borda); background: var(--cartao); padding: 12px 11px 0; overflow: hidden;
+    box-shadow: 0 22px 40px -18px rgba(94,70,48,.55); }
+  .cartao::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--grad); }
+  .c-topo { display: flex; align-items: center; gap: 6px; }
+  .c-topo img { height: 18px; }
+  .c-topo small { display: block; white-space: nowrap; font-size: 5.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--suave); }
+  .c-topo b { display: block; white-space: nowrap; font-size: 10px; font-weight: 600; letter-spacing: -.01em; }
+  .c-num { margin-left: auto; font-size: 14px; font-weight: 600; color: var(--sol); }
+  .c-num span { font-size: 9px; color: var(--suave); }
+  .selos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin: 8px auto 0; width: 108px; }
+  .selos span { aspect-ratio: 1; border-radius: 50%; display: block; overflow: hidden; }
+  .selos .feito { box-shadow: 0 0 0 1.5px var(--sol); }
+  .selos .vazio { background: var(--areia); outline: 1px dashed rgba(117,102,87,.4); }
+  .selos img { width: 100%; height: 100%; display: block; }
+  .selos .vazio img { opacity: .4; }
+
+  /* bloco do QR = bloco "Crie seu cartão" do site */
+  .painel { position: absolute; left: 18px; right: 18px; top: 206px; border-radius: 20px; border: 1px solid var(--borda); background: var(--cartao);
+    box-shadow: 0 18px 40px -24px rgba(94,70,48,.45); padding: 16px 16px 14px; text-align: center; }
+  .badge { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--grad); color: #fff;
+    font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(223,82,0,.7); }
+  .qr-box { margin: 14px auto 0; width: 196px; height: 196px; padding: 13px; border-radius: 16px; background: #fff; border: 3px solid var(--sol); }
+  .qr { width: 100%; height: 100%; display: block; }
+  .apoio { margin-top: 10px; font-size: 12px; color: var(--suave); }
+  .apoio b { color: var(--mar); font-weight: 600; }
+
+  .passos { position: absolute; left: 18px; right: 18px; top: 488px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .passo { display: flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; line-height: 1.15; }
+  .passo i { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--grad); color: #fff; font-style: normal; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+
+  footer { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; }
+  footer .ig { font-size: 12px; font-weight: 600; color: var(--mar); }
+  footer .por { font-size: 8.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--suave); }
+</style>
+</head>
+<body>
+<div class="placa">
+  <div class="sol"></div>
+  <div class="faixa"></div>
+  <div class="mar"></div>
+
+  <header>
+    <img class="logo" src="{{LOGO}}" alt="Pousada Sonhos do Rosa">
+    <p class="eyebrow">Cartão fidelidade</p>
+    <h1>Junte 3 selos,<br>ganhe um<br><em>café da manhã</em></h1>
+  </header>
+
+  <div class="cartao" aria-hidden="true">
+    <div class="c-topo">
+      <img src="{{LOGO}}" alt="">
+      <div><small>Cartão fidelidade</small><b>Sonhos do Rosa</b></div>
+      <p class="c-num">2<span>/3</span></p>
+    </div>
+    <div class="selos">
+      <span class="feito"><img src="{{SELO}}" alt=""></span>
+      <span class="feito"><img src="{{SELO}}" alt=""></span>
+      <span class="vazio"><img src="{{SELO_CINZA}}" alt=""></span>
+    </div>
+  </div>
+
+  <section class="painel">
+    <p class="badge">Aponte a câmera do celular</p>
+    <div class="qr-box">{{QR}}</div>
+    <p class="apoio">Grátis, sem aplicativo. <b>Leva 30 segundos.</b></p>
+  </section>
+
+  <div class="passos">
+    <p class="passo"><i>1</i>Escaneie e crie seu cartão</p>
+    <p class="passo"><i>2</i>Mostre na recepção</p>
+    <p class="passo"><i>3</i>1 selo por estadia</p>
+  </div>
+
+  <footer>
+    <span class="ig">@sonhos_do_rosa</span>
+    <span class="por">por Bicuíra Digital</span>
+  </footer>
+</div>
+</body>
+</html>
