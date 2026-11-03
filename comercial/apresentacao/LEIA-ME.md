@@ -11,5 +11,5 @@
 - Fonte editável: `apresentacao-tela.html` (slides 16:10 um embaixo do outro, para rolar).
 - Arquivo para apresentar: `Bicuira-Fideliza-Apresentacao-Tela.html`, um arquivo só (imagens e fontes embutidas), abre offline em qualquer navegador.
 - Prints e fotos do case: Pousada Sonhos do Rosa (`img/sonhos/`). As telas são reais, geradas no sistema com hóspedes fictícios de demonstração.
-- Campos a preencher: `[PRAZO]` (implantação) e `[SOBRENOME]` (contato).
+- Campo a preencher: `[SOBRENOME]` (contato).
 - Regerar depois de editar: `node gerar-tela.mjs`
