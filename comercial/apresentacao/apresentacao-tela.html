@@ -23,11 +23,12 @@ body{padding:16px 0;font-family:Sora,sans-serif;color:var(--carvao);-webkit-prin
 .d,h1,h2,h3{font-family:'Baloo 2',sans-serif;font-weight:800;line-height:1;letter-spacing:-.01em}
 h2{font-size:var(--t-xl);color:var(--restinga)}
 h3{font-size:var(--t-m);color:var(--restinga);line-height:1.15}
-p,li{font-size:var(--t-s);line-height:1.45}
+p,li{font-size:var(--t-s);line-height:1.45;text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
 .peq{font-size:var(--t-xs);line-height:1.4}
 .c{text-align:center}
 .cab{height:30mm;display:flex;flex-direction:column;justify-content:flex-end}
-.eti{font-size:var(--t-xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--oceano);margin-bottom:3mm}
+.eti{font-size:var(--t-xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--restinga);margin-bottom:3mm}
 .corpo{flex:1;display:flex;flex-direction:column;justify-content:center;padding:6mm 0;min-height:0}
 .rod{height:16mm;flex:none;display:flex;align-items:center;gap:5mm;border-top:1px solid rgba(37,67,61,.15)}
 .rod img{height:6mm}
@@ -55,6 +56,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .pc{border-radius:3mm;overflow:hidden;border:1.2mm solid #111;background:#111}
 .pc::before{content:"";display:block;height:3.5mm;background:#222}
 .leg{font-size:var(--t-xs);font-weight:600;margin-top:3mm;text-align:center}
+sup{font-size:1em;vertical-align:.25em;line-height:0}
 .lima{color:var(--lima)}.sol{color:var(--sol)}.oce{color:var(--oceano)}
 .onda{display:block;width:38mm;height:5mm;margin-top:4mm}
 .onda path{fill:none;stroke:var(--oceano);stroke-width:3;stroke-linecap:round}
@@ -66,7 +68,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .aviso{background:#fff;border-radius:4mm;padding:4mm 5mm;display:grid;gap:1.2mm}
 .aviso b{font-size:var(--t-s);color:var(--restinga)}
 .aviso q{font-size:var(--t-xs);font-style:italic;line-height:1.4;quotes:"“" "”"}
-.aviso span{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--oceano)}
+.aviso span{font-size:var(--t-xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--restinga)}
 .escuro .aviso{background:rgba(242,235,221,.07);border:1.5px solid rgba(242,235,221,.18)}
 .escuro .aviso b{color:var(--areia)}.escuro .aviso span{color:var(--lima)}
 /* plano morador × turista */
@@ -93,7 +95,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
 .sr .pc{border-color:#2F2115}
 .sr .leg{color:var(--suave)}
 .sr .info{background:#fff;border:1px solid var(--borda);border-radius:var(--r);padding:4.5mm 5mm}
-.sr .info .peq:first-child{font-weight:800;letter-spacing:.12em;color:var(--sol-sr)}
+.sr .info .peq:first-child{font-weight:800;letter-spacing:.12em;color:#A84800}
 </style>
 </head>
 <body>
@@ -184,8 +186,8 @@ p,li{font-size:var(--t-s);line-height:1.45}
         <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><p>Cadastro só com nome e celular</p></li>
         <li><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><p>Vê os selos e quanto falta para o prêmio</p></li>
         <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p>Recebe avisos com o nome e a logo da casa</p></li>
-        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p>Guarda no Google Wallet<sup>*</sup></p></li>
-        <li><p class="peq" style="opacity:.7">* Após a liberação do Google para o estabelecimento.</p></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p>Guarda no Google e no Apple Wallet<sup>*</sup></p></li>
+        <li><p class="peq" style="opacity:.7">* Após a liberação do Google e da Apple para o estabelecimento.</p></li>
       </ul>
       <div style="display:flex;gap:8mm;justify-content:center">
         <div style="width:54mm"><div class="tel"><img src="img/sonhos/cadastro.webp" alt=""></div><p class="leg">Cadastro</p></div>
@@ -203,7 +205,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
     <div class="g2" style="grid-template-columns:1.15fr 1fr;gap:14mm">
       <div>
         <div style="background:#fff;border-radius:var(--r);padding:6mm 7mm;display:grid;gap:4mm">
-          <p class="peq oce" style="font-weight:700;letter-spacing:.12em">SELO DA POUSADA SONHOS DO ROSA</p>
+          <p class="peq" style="font-weight:700;letter-spacing:.12em;color:var(--restinga)">SELO DA POUSADA SONHOS DO ROSA</p>
           <div style="display:flex;align-items:center;gap:5mm">
             <img src="img/sonhos/selo.webp" alt="Selo ganho" style="width:25mm;border-radius:50%;border:.8mm solid #E46A00">
             <img src="img/sonhos/selo.webp" alt="Selo ganho" style="width:25mm;border-radius:50%;border:.8mm solid #E46A00">
@@ -213,9 +215,9 @@ p,li{font-size:var(--t-s);line-height:1.45}
           <p class="peq">O sol da logo da pousada vira o selo. O que ainda falta aparece apagado, para o hóspede ver quanto falta.</p>
         </div>
         <div class="g3" style="margin-top:6mm;gap:4mm">
-          <div class="card" style="padding:5mm;gap:2mm"><h3>Logo ou desenho</h3><p class="peq">Sua logo, um prato, um drink: o selo é desenhado para a casa.</p></div>
-          <div class="card" style="padding:5mm;gap:2mm"><h3>Cores e fotos</h3><p class="peq">Cadastro, cartão e painel com a identidade e as fotos do lugar.</p></div>
-          <div class="card" style="padding:5mm;gap:2mm"><h3>Jeito de falar</h3><p class="peq">Na pousada é “hospedagem” e “recepção”; no restaurante, “visita” e “caixa”.</p></div>
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Seu desenho</h3><p class="peq">Sua logo, um prato, um drink: o selo é desenhado para a&nbsp;casa.</p></div>
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Cores e fotos</h3><p class="peq">Cadastro, cartão e painel com a identidade e as fotos do&nbsp;lugar.</p></div>
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Jeito de falar</h3><p class="peq">Na pousada é “hospedagem” e “recepção”; no restaurante, “visita” e&nbsp;“caixa”.</p></div>
         </div>
       </div>
       <div style="display:flex;justify-content:center"><div style="width:54mm"><div class="tel"><img src="img/sonhos/cartao-mariana.webp" alt=""></div><p class="leg">Cartão completo: o prêmio aparece na hora</p></div></div>
@@ -256,7 +258,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
 <section class="p">
   <div class="cab"><p class="eti">Avisos · automáticos</p><h2>O cartão <span class="sol">chama o cliente de volta.</span></h2></div>
   <div class="corpo">
-    <div style="display:grid;grid-template-columns:60mm 1fr;gap:14mm;align-items:center">
+    <div style="display:grid;grid-template-columns:52mm 1fr;gap:14mm;align-items:center">
       <div><div class="tel"><img src="img/sonhos/cartao-joao.webp" alt="Aviso no cartão"></div><p class="leg">O aviso aparece no topo do cartão</p></div>
       <div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm">
@@ -297,7 +299,7 @@ p,li{font-size:var(--t-s);line-height:1.45}
           <ul class="lista" style="gap:2.5mm">
             <li><span class="ic sm"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span><p class="peq">No topo do cartão</p></li>
             <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p class="peq">Notificação no celular de quem ativou os avisos<sup>*</sup></p></li>
-            <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p class="peq">No Google Wallet, após a liberação do Google</p></li>
+            <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p class="peq">No Google e no Apple Wallet, após a liberação</p></li>
           </ul>
         </div>
         <p class="peq" style="opacity:.8;border-top:1px solid rgba(242,235,221,.18);padding-top:3mm">Até 150 caracteres e até 2 mensagens por semana (ajustável): o cliente recebe novidade, não spam.</p>
@@ -388,12 +390,12 @@ p,li{font-size:var(--t-s);line-height:1.45}
 <section class="p">
   <div class="cab"><p class="eti">Piloto · até 3 meses</p><h2>O que você recebe <span class="sol">no piloto.</span></h2></div>
   <div class="corpo">
-    <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:9mm;align-items:stretch">
+    <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:9mm;align-items:stretch">
       <div style="display:grid;gap:5mm">
         <div class="g3" style="gap:5mm">
-          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><h3>Site do cartão</h3><p class="peq">Página de cadastro e cartão com a identidade, as cores e as fotos da sua casa.</p></div>
-          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h.01M11 15h2"/></svg></span><h3>Cartão próprio</h3><p class="peq">Selo desenhado para a casa, meta e recompensa do seu jeito.</p></div>
-          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><h3>Google e Apple Wallet</h3><p class="peq">O cliente salva o cartão na carteira do celular, Android ou iPhone<sup>*</sup>.</p></div>
+          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><h3 style="min-height:2.3em">Site do cartão</h3><p class="peq">Página de cadastro e cartão com a identidade, as cores e as fotos da sua casa.</p></div>
+          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h.01M11 15h2"/></svg></span><h3 style="min-height:2.3em">Cartão próprio</h3><p class="peq">Selo desenhado para a casa, meta e recompensa do seu&nbsp;jeito.</p></div>
+          <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><h3 style="min-height:2.3em">Google e Apple Wallet</h3><p class="peq">O cliente salva o cartão na carteira do celular, Android ou iPhone<sup>*</sup>.</p></div>
         </div>
         <div style="display:flex;align-items:center;gap:6mm;background:#fff;border-radius:var(--r);padding:5mm 7mm">
           <p class="d sol" style="font-size:var(--t-xxl);line-height:.85">10</p>
@@ -479,7 +481,7 @@ document.getElementById('como').innerHTML = [
   ['Cartão no celular','Abre no navegador, sem baixar nada.','<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>'],
   ['Selo a cada visita','Mostra o código, a equipe registra.','<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'],
   ['Recompensa','Completou, ganha o prêmio que você definiu.','<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>'],
-].map(([t,d,ic],i,a) => { const ult = i === a.length - 1; return `<div><span class="ic" style="margin:0 auto;${ult?'background:var(--sol);color:var(--areia)':''}"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq ${ult?'sol':'oce'}" style="font-weight:700;margin-top:4mm">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`; }).join('');
+].map(([t,d,ic],i,a) => { const ult = i === a.length - 1; return `<div><span class="ic" style="margin:0 auto;${ult?'background:var(--sol);color:var(--areia)':''}"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq" style="font-weight:700;margin-top:4mm;color:var(--restinga);letter-spacing:.08em">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`; }).join('');
 
 const bolas = (n, f, cor) => Array.from({length:n}, (_,k) => `<i class="${k<f?'f':''}" style="${k<f?`background:${cor}`:''}"></i>`).join('');
 document.getElementById('b-morador').innerHTML = bolas(10, 7, 'var(--restinga)');
@@ -512,7 +514,7 @@ document.getElementById('passos').innerHTML = [
   ['Painel','Acesso do dono e da equipe configurado.','<path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/>'],
   ['Treino e QR','Equipe treinada e material impresso.','<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 20h1"/>'],
   ['Lançamento','Primeiros cartões e acompanhamento de perto.','<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>'],
-].map(([t,d,ic],i) => `<div><span class="ic" style="margin:0 auto"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq oce" style="font-weight:700;margin-top:4mm">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`).join('');
+].map(([t,d,ic],i) => `<div><span class="ic" style="margin:0 auto"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq" style="font-weight:700;margin-top:4mm;color:var(--restinga);letter-spacing:.08em">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`).join('');
 
 // numeração automática no rodapé
 document.querySelectorAll('section.p').forEach((s, i) => { const n = s.querySelector('.rod .n'); if (n) n.textContent = String(i + 1).padStart(2, '0'); });
