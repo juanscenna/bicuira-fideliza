@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bicuíra Fideliza · Apresentação</title>
+<link rel="stylesheet" href="fontes/g.css">
+<style>
+/* ── Apresentação para tela (rolar) ──
+   Slides 16:10 (320 × 200 mm), empilhados e ajustados à largura/altura da tela.
+   Paleta oficial · escala tipográfica fixa (9 / 12 / 16 / 22 / 34 / 60 pt).
+   Prints do case e do produto: Pousada Sonhos do Rosa (dados fictícios de demonstração). */
+:root{--restinga:#25433D;--sol:#C35E2F;--areia:#F2EBDD;--oceano:#4E889A;--carvao:#292A29;--lima:#B4CD64;
+  --t-xs:9pt;--t-s:12pt;--t-m:16pt;--t-l:22pt;--t-xl:34pt;--t-xxl:60pt;--r:5mm}
+@page{size:320mm 200mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#151716;scroll-snap-type:y proximity}
+body{padding:16px 0;font-family:Sora,sans-serif;color:var(--carvao);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.p{width:320mm;height:200mm;position:relative;overflow:hidden;background:var(--areia);break-after:page;display:flex;flex-direction:column;padding:16mm 20mm 0;
+  margin:0 auto;zoom:var(--s,1);scroll-snap-align:center}
+.p+.p{margin-top:calc(14px / var(--s,1))}
+.p:last-child{break-after:auto}
+.d,h1,h2,h3{font-family:'Baloo 2',sans-serif;font-weight:800;line-height:1;letter-spacing:-.01em}
+h2{font-size:var(--t-xl);color:var(--restinga)}
+h3{font-size:var(--t-m);color:var(--restinga);line-height:1.15}
+p,li{font-size:var(--t-s);line-height:1.45}
+.peq{font-size:var(--t-xs);line-height:1.4}
+.c{text-align:center}
+.cab{height:30mm;display:flex;flex-direction:column;justify-content:flex-end}
+.eti{font-size:var(--t-xs);font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--oceano);margin-bottom:3mm}
+.corpo{flex:1;display:flex;flex-direction:column;justify-content:center;padding:6mm 0;min-height:0}
+.rod{height:16mm;flex:none;display:flex;align-items:center;gap:5mm;border-top:1px solid rgba(37,67,61,.15)}
+.rod img{height:6mm}
+.rod>span:last-child{margin-left:auto}.rod span{font-size:var(--t-xs);font-weight:600;color:var(--restinga)}
+.escuro{background:var(--restinga);color:var(--areia)}
+.escuro h2,.escuro h3{color:var(--areia)}
+.escuro .eti{color:var(--lima)}
+.escuro .rod{border-color:rgba(242,235,221,.18)}
+.escuro .rod span{color:var(--areia)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12mm;align-items:center}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:7mm}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:5mm}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:5mm}
+.card{background:#fff;border-radius:var(--r);padding:7mm;display:flex;flex-direction:column;gap:3mm}
+.escuro .card{background:var(--restinga);border:1.5px solid var(--lima)}
+.ic{width:12mm;height:12mm;border-radius:50%;display:grid;place-items:center;background:var(--restinga);color:var(--lima);flex:none}
+.ic svg{width:6mm;height:6mm;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.escuro .ic{background:var(--lima);color:var(--restinga)}
+.ic.sm{width:9mm;height:9mm}.ic.sm svg{width:4.6mm;height:4.6mm}
+.lista{list-style:none;display:grid;gap:4.5mm}
+.lista li{display:flex;gap:4mm;align-items:center}
+.lista.top li{align-items:flex-start}
+.tel{border-radius:6mm;border:2mm solid #111;background:#111;overflow:hidden}
+.tel img,.pc img{display:block;width:100%}
+.pc{border-radius:3mm;overflow:hidden;border:1.2mm solid #111;background:#111}
+.pc::before{content:"";display:block;height:3.5mm;background:#222}
+.leg{font-size:var(--t-xs);font-weight:600;margin-top:3mm;text-align:center}
+.lima{color:var(--lima)}.sol{color:var(--sol)}.oce{color:var(--oceano)}
+.onda{display:block;width:38mm;height:5mm;margin-top:4mm}
+.onda path{fill:none;stroke:var(--oceano);stroke-width:3;stroke-linecap:round}
+.escuro .onda path{stroke:var(--lima)}
+.selo-num{font-family:'Baloo 2';font-weight:800;font-size:50pt;line-height:.9;white-space:nowrap}
+.chip{display:inline-block;font-size:var(--t-xs);font-weight:700;border-radius:99px;padding:1.2mm 3.5mm;background:var(--restinga);color:var(--lima)}
+.escuro .chip{background:var(--lima);color:var(--restinga)}
+.chip.claro{background:#fff;color:var(--restinga);border:1.5px solid rgba(37,67,61,.2)}
+.aviso{background:#fff;border-radius:4mm;padding:4mm 5mm;display:grid;gap:1.2mm}
+.aviso b{font-size:var(--t-s);color:var(--restinga)}
+.aviso q{font-size:var(--t-xs);font-style:italic;line-height:1.4;quotes:"“" "”"}
+.aviso span{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--oceano)}
+.escuro .aviso{background:rgba(242,235,221,.07);border:1.5px solid rgba(242,235,221,.18)}
+.escuro .aviso b{color:var(--areia)}.escuro .aviso span{color:var(--lima)}
+/* plano morador × turista */
+.plano{border-radius:var(--r);padding:6mm;display:grid;gap:3mm}
+.bolas{display:flex;flex-wrap:wrap;gap:2mm}
+.bolas i{width:7mm;height:7mm;border-radius:50%;border:1.5px dashed currentColor;opacity:.55}
+.bolas i.f{border:none;opacity:1}
+/* conta do piloto */
+.conta{display:flex;align-items:center;justify-content:center;gap:5mm}
+.conta .bl{background:var(--restinga);border:1.5px solid rgba(242,235,221,.35);border-radius:var(--r);padding:5mm 6mm;text-align:center;min-width:42mm}
+.conta .bl .peq:first-child{font-weight:700;letter-spacing:.12em;color:var(--lima)}
+.conta .gr{font-size:var(--t-xl);margin:2mm 0 1mm}
+.conta .destaque{background:var(--lima);color:var(--restinga);border-color:var(--lima);transform:scale(1.12)}
+.conta .destaque .peq:first-child{color:var(--restinga)}
+.conta .destaque .gr{font-size:44pt}
+.conta .op{font-family:'Baloo 2';font-weight:800;font-size:var(--t-xl);color:var(--lima)}
+/* case: identidade da Pousada Sonhos do Rosa (src/temas/sonhos-do-rosa/estilo.ts) */
+@font-face{font-family:Rosa;src:url(fontes/montserrat-900.woff) format("woff");font-weight:900}
+.sr{--fundo:#FDFAF4;--areia-sr:#F3EAD9;--borda:#E4DDCF;--texto:#2F2115;--suave:#756657;--sol-sr:#E46A00;--mar:#065DA0;--grad:linear-gradient(135deg,#EF8600,#DF5200);
+  background:var(--fundo);color:var(--texto);padding:0}
+.sr .tit{font-family:Rosa;font-weight:900;letter-spacing:-.02em;line-height:1}
+.sr .adesivo{display:inline-block;background:var(--grad);color:#fff;font-size:var(--t-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1.5mm 4mm;border-radius:99px}
+.sr .tel{border-color:#2F2115}
+.sr .pc{border-color:#2F2115}
+.sr .leg{color:var(--suave)}
+.sr .info{background:#fff;border:1px solid var(--borda);border-radius:var(--r);padding:4.5mm 5mm}
+.sr .info .peq:first-child{font-weight:800;letter-spacing:.12em;color:var(--sol-sr)}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="p escuro" style="padding:0">
+  <div style="display:grid;grid-template-columns:1.3fr 1fr;height:100%;align-items:center;padding:0 22mm">
+    <div>
+      <img src="img/logo-selo.png" alt="Bicuíra Digital" style="width:30mm;display:block;margin-bottom:10mm">
+      <h1 style="font-size:76pt;color:var(--areia)">Bicuíra<br><span class="lima">Fideliza</span></h1>
+      <p class="d" style="font-size:var(--t-l);margin-top:6mm">Fidelidade digital com raiz local.</p>
+      <svg class="onda" viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2 6c8-6 16-6 24 0s16 6 24 0 16-6 24 0 16 6 24 0"/></svg>
+      <p style="margin-top:8mm;max-width:120mm;opacity:.9">O cartão fidelidade no celular do seu cliente, para pousadas, bares e restaurantes de Garopaba, Praia do Rosa e Imbituba.</p>
+    </div>
+    <div style="display:flex;justify-content:center;gap:6mm;align-items:center">
+      <div class="tel" style="width:58mm;transform:translateY(8mm)"><img src="img/sonhos/cadastro.webp" alt="Cadastro da Pousada Sonhos do Rosa"></div>
+      <div class="tel" style="width:58mm;transform:translateY(-8mm)"><img src="img/sonhos/cartao-mariana.webp" alt="Cartão com selos da Pousada Sonhos do Rosa"></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section class="p">
+  <div class="cab"><p class="eti">Quem somos</p><h2>Tecnologia com raiz local.</h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1.2fr 1fr">
+      <div>
+        <p style="font-size:var(--t-m);line-height:1.5">A <b>Bicuíra Digital</b> nasceu entre o morro, o mar e o pôr do sol daqui. Criamos tecnologia para quem vive do turismo e da comunidade: pousadas, bares e restaurantes da nossa região.</p>
+        <ul class="lista" style="margin-top:9mm">
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><p>Garopaba · Praia do Rosa · Imbituba</p></li>
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><p>Atendimento perto, de quem conhece a temporada</p></li>
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><p>Sites, automação e fidelização</p></li>
+        </ul>
+      </div>
+      <div class="c"><img src="img/logo-principal.png" alt="Bicuíra Digital" style="width:96mm"></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="n"></span></div>
+</section>
+
+<!-- O PROBLEMA -->
+<section class="p">
+  <div class="cab"><p class="eti">O problema</p><h2>O cliente gostou. Mas <span class="sol">ele volta?</span></h2></div>
+  <div class="corpo">
+    <div class="g3">
+      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><h3>Vem uma vez e some</h3><p>Muita gente aparece, gosta e não volta. E você nem fica sabendo quem era.</p></div>
+      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h.01M11 15h2"/></svg></span><h3>O cartão de papel se perde</h3><p>Fica na carteira, molha na praia, esquece em casa. Os carimbos somem junto.</p></div>
+      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13 13 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61M2 2l20 20"/></svg></span><h3>Você não vê quem retorna</h3><p>Sem registro, não dá para saber quem é fiel, quanto gasta ou quando parou de vir.</p></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="n"></span></div>
+</section>
+
+<!-- POR QUE FIDELIZAR -->
+<section class="p escuro">
+  <div class="cab"><p class="eti">Por que fidelizar</p><h2>Quem já conhece a casa <span class="lima">vale mais.</span></h2></div>
+  <div class="corpo">
+    <div class="g3">
+      <div class="card"><p class="selo-num lima">5 a 25×</p><p>mais caro <b>conquistar um cliente novo</b> do que manter quem já vem.</p><p class="peq" style="opacity:.7">Harvard Business Review, 2014</p></div>
+      <div class="card"><p class="selo-num lima">60 a 70%</p><p>de chance de vender de novo para <b>quem já é cliente</b>. Para um desconhecido: 5 a 20%.</p><p class="peq" style="opacity:.7">Marketing Metrics (Farris et al.)</p></div>
+      <div class="card"><p class="selo-num lima">+5%</p><p>de clientes que ficam pode significar <b>25% a 95%</b> a mais de lucro.</p><p class="peq" style="opacity:.7">Bain &amp; Company (F. Reichheld)</p></div>
+    </div>
+    <p class="c" style="margin-top:10mm;font-size:var(--t-m)">Fidelizar é <b class="lima">valorizar quem já é seu</b>: o morador de toda semana, o turista de todo verão.</p>
+  </div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.7">Estudos de mercado gerais, citados como referência. Não são promessa de resultado.</span><span class="n"></span></div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="p">
+  <div class="cab"><p class="eti">Como funciona</p><h2>Cinco passos. <span class="sol">Nenhum aplicativo.</span></h2></div>
+  <div class="corpo">
+    <div class="g5 c" id="como"></div>
+    <div style="margin-top:9mm;background:var(--restinga);color:var(--areia);border-radius:var(--r);padding:5mm 8mm;display:flex;align-items:center;gap:5mm;justify-content:center">
+      <span class="ic sm" style="background:var(--lima);color:var(--restinga)"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg></span>
+      <p><b class="lima">Um QR só:</b> cria o cartão de quem é novo e abre direto o cartão de quem já tem.</p>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="n"></span></div>
+</section>
+
+<!-- PARA O CLIENTE -->
+<section class="p escuro">
+  <div class="cab"><p class="eti">Para o cliente</p><h2>Simples do <span class="lima">outro lado do balcão.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1fr 1.1fr">
+      <ul class="lista">
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span><p>Sem aplicativo: abre no navegador</p></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><p>Cadastro só com nome e celular</p></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><p>Vê os selos e quanto falta para o prêmio</p></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p>Recebe avisos com o nome e a logo da casa</p></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p>Guarda no Google Wallet<sup>*</sup></p></li>
+        <li><p class="peq" style="opacity:.7">* Após a liberação do Google para o estabelecimento.</p></li>
+      </ul>
+      <div style="display:flex;gap:8mm;justify-content:center">
+        <div style="width:54mm"><div class="tel"><img src="img/sonhos/cadastro.webp" alt=""></div><p class="leg">Cadastro</p></div>
+        <div style="width:54mm"><div class="tel"><img src="img/sonhos/cartao-fabio.webp" alt=""></div><p class="leg">Cartão</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Telas reais da Pousada Sonhos do Rosa, com clientes fictícios de demonstração.</span><span class="n"></span></div>
+</section>
+
+<!-- PERSONALIZAÇÃO: SELOS -->
+<section class="p">
+  <div class="cab"><p class="eti">Personalização · selos</p><h2>O selo tem <span class="sol">a cara da sua casa.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1.15fr 1fr;gap:14mm">
+      <div>
+        <div style="background:#fff;border-radius:var(--r);padding:6mm 7mm;display:grid;gap:4mm">
+          <p class="peq oce" style="font-weight:700;letter-spacing:.12em">SELO DA POUSADA SONHOS DO ROSA</p>
+          <div style="display:flex;align-items:center;gap:5mm">
+            <img src="img/sonhos/selo.webp" alt="Selo ganho" style="width:25mm;border-radius:50%;border:.8mm solid #E46A00">
+            <img src="img/sonhos/selo.webp" alt="Selo ganho" style="width:25mm;border-radius:50%;border:.8mm solid #E46A00">
+            <img src="img/sonhos/selo-cinza.webp" alt="Selo ainda não ganho" style="width:25mm;border-radius:50%;border:.8mm dashed #C9C2B6">
+            <div style="margin-left:4mm;border-left:1px solid rgba(37,67,61,.15);padding-left:6mm"><p class="d" style="font-size:var(--t-xl);color:var(--restinga)">2<span style="font-size:var(--t-m);opacity:.6">/3</span></p><p class="peq" style="white-space:nowrap">3 hospedagens =<br><b>um café da manhã</b></p></div>
+          </div>
+          <p class="peq">O sol da logo da pousada vira o selo. O que ainda falta aparece apagado, para o hóspede ver quanto falta.</p>
+        </div>
+        <div class="g3" style="margin-top:6mm;gap:4mm">
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Logo ou desenho</h3><p class="peq">Sua logo, um prato, um drink: o selo é desenhado para a casa.</p></div>
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Cores e fotos</h3><p class="peq">Cadastro, cartão e painel com a identidade e as fotos do lugar.</p></div>
+          <div class="card" style="padding:5mm;gap:2mm"><h3>Jeito de falar</h3><p class="peq">Na pousada é “hospedagem” e “recepção”; no restaurante, “visita” e “caixa”.</p></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center"><div style="width:54mm"><div class="tel"><img src="img/sonhos/cartao-mariana.webp" alt=""></div><p class="leg">Cartão completo: o prêmio aparece na hora</p></div></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Meta de selos e recompensa definidas por você.</span><span class="n"></span></div>
+</section>
+
+<!-- PERSONALIZAÇÃO: MORADOR × TURISTA -->
+<section class="p escuro">
+  <div class="cab"><p class="eti">Personalização · morador e turista</p><h2>Uma regra para quem mora, <span class="lima">outra para quem visita.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1fr 1.15fr;gap:12mm">
+      <div style="display:grid;gap:5mm">
+        <div class="plano" style="background:var(--lima);color:var(--restinga)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><p class="d" style="font-size:var(--t-l)">Plano morador</p><span class="chip">vem toda semana</span></div>
+          <div class="bolas" id="b-morador"></div>
+          <p><b>10 visitas = 1 prato</b> · meta mais longa para quem vem sempre</p>
+        </div>
+        <div class="plano" style="background:rgba(242,235,221,.08);border:1.5px solid rgba(242,235,221,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><p class="d" style="font-size:var(--t-l);color:var(--areia)">Plano turista</p><span class="chip">fica poucos dias</span></div>
+          <div class="bolas" id="b-turista" style="color:var(--lima)"></div>
+          <p><b>5 visitas = 1 sobremesa</b> · prêmio que dá para ganhar na temporada</p>
+        </div>
+        <ul class="lista" style="gap:3mm;margin-top:1mm">
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><p class="peq">No cadastro o cliente escolhe: <b>“Sou morador”</b> ou <b>“Estou de visita”</b>. Dá para trocar pelo painel.</p></li>
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p class="peq">Avisos automáticos ligados ou desligados <b>por plano</b>, e mensagens só para moradores ou só para turistas.</p></li>
+          <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></svg></span><p class="peq">Métricas separadas: <b>morador × turista</b>.</p></li>
+        </ul>
+      </div>
+      <div><div class="pc"><img src="img/sonhos/avisos-automaticas.webp" alt="Avisos automáticos por plano"></div><p class="leg">Painel da Sonhos do Rosa: cada aviso ligado por plano (na pousada, o turista vira “hóspede”)</p></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Metas e prêmios dos planos são exemplos: você define. Dois planos a partir do plano Profissional.</span><span class="n"></span></div>
+</section>
+
+<!-- AVISOS AUTOMÁTICOS -->
+<section class="p">
+  <div class="cab"><p class="eti">Avisos · automáticos</p><h2>O cartão <span class="sol">chama o cliente de volta.</span></h2></div>
+  <div class="corpo">
+    <div style="display:grid;grid-template-columns:60mm 1fr;gap:14mm;align-items:center">
+      <div><div class="tel"><img src="img/sonhos/cartao-joao.webp" alt="Aviso no cartão"></div><p class="leg">O aviso aparece no topo do cartão</p></div>
+      <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm">
+          <div class="aviso"><span>Faltou 1 selo</span><b>Falta pouco</b><q>Falta só 1 hospedagem para você ganhar um café da manhã! Esperamos você de volta na Praia do Rosa.</q></div>
+          <div class="aviso"><span>Completou o cartão</span><b>Recompensa disponível</b><q>Cartão completo! Na sua próxima hospedagem, mostre o cartão na recepção para ganhar um café da manhã.</q></div>
+          <div class="aviso"><span>Sumiu há um tempo</span><b>Saudades da Praia do Rosa</b><q>Sentimos sua falta na Praia do Rosa! Seus selos continuam guardados: 2 de 3. Que tal planejar a próxima estadia?</q></div>
+          <div class="aviso"><span>Não resgatou o prêmio</span><b>Recompensa guardada</b><q>Sua recompensa (um café da manhã) está guardada para a sua próxima hospedagem. É só mostrar o cartão na recepção.</q></div>
+        </div>
+        <div style="margin-top:6mm;display:flex;gap:4mm;align-items:center;background:var(--restinga);color:var(--areia);border-radius:var(--r);padding:4.5mm 6mm">
+          <span class="ic sm" style="background:var(--lima);color:var(--restinga)"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg></span>
+          <p class="peq" style="font-size:10.5pt">Saem sozinhos, sem ninguém lembrar. Os textos são escritos no jeito da casa, e os de “sentimos sua falta” só saem de dia, em horário comercial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Textos reais da Pousada Sonhos do Rosa. No seu restaurante, falam de visita, prato e caixa.</span><span class="n"></span></div>
+</section>
+
+<!-- AVISOS: MENSAGENS QUE VOCÊ MANDA -->
+<section class="p escuro">
+  <div class="cab"><p class="eti">Avisos · mensagens suas</p><h2>Fale com quem <span class="lima">já é cliente.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1.25fr 1fr;gap:12mm">
+      <div><div class="pc"><img src="img/sonhos/avisos-nova.webp" alt="Nova mensagem no painel"></div><p class="leg">Painel: nova mensagem em 4 passos (mensagem, para quem, quando, revisar)</p></div>
+      <div style="display:grid;gap:5mm">
+        <div>
+          <p class="peq lima" style="font-weight:700;letter-spacing:.12em;margin-bottom:2.5mm">PARA QUEM</p>
+          <div style="display:flex;flex-wrap:wrap;gap:2mm">
+            <span class="chip">Todos</span><span class="chip">Só moradores</span><span class="chip">Só turistas</span><span class="chip">Inativos</span><span class="chip">Perto da recompensa</span><span class="chip">Com recompensa</span><span class="chip">Escolhidos na lista</span>
+          </div>
+        </div>
+        <div>
+          <p class="peq lima" style="font-weight:700;letter-spacing:.12em;margin-bottom:2.5mm">QUANDO</p>
+          <p class="peq" style="font-size:10.5pt">Na hora ou agendada até 60 dias. Ex.: <i>“Hoje tem moqueca no almoço!”</i></p>
+        </div>
+        <div>
+          <p class="peq lima" style="font-weight:700;letter-spacing:.12em;margin-bottom:2.5mm">ONDE CHEGA</p>
+          <ul class="lista" style="gap:2.5mm">
+            <li><span class="ic sm"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span><p class="peq">No topo do cartão</p></li>
+            <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><p class="peq">Notificação no celular de quem ativou os avisos<sup>*</sup></p></li>
+            <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span><p class="peq">No Google Wallet, após a liberação do Google</p></li>
+          </ul>
+        </div>
+        <p class="peq" style="opacity:.8;border-top:1px solid rgba(242,235,221,.18);padding-top:3mm">Até 150 caracteres e até 2 mensagens por semana (ajustável): o cliente recebe novidade, não spam.</p>
+      </div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">* Android pelo navegador; iPhone com o cartão salvo na tela inicial. A entrega depende do celular do cliente. Mensagens próprias a partir do plano Profissional.</span><span class="n"></span></div>
+</section>
+
+<!-- PARA O DONO -->
+<section class="p">
+  <div class="cab"><p class="eti">Para o dono</p><h2>Registrar uma visita leva <span class="sol">segundos.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1.4fr 1fr">
+      <div><div class="pc"><img src="img/sonhos/painel-registrar.webp" alt="Painel do dono"></div><p class="leg">Painel da Sonhos do Rosa: 1 selo por estadia</p></div>
+      <ul class="lista">
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><div><h3>Busca por código ou QR</h3><p class="peq">Digita o código ou escaneia com a câmera.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><div><h3>Visita e valor</h3><p class="peq">O selo entra sozinho quando bate a regra.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></span><div><h3>Corrige e remove</h3><p class="peq">Errou? Ajusta ou retira, com histórico.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span><div><h3>Entrega a recompensa</h3><p class="peq">Um toque e o cartão recomeça.</p></div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="n"></span></div>
+</section>
+
+<!-- MÉTRICAS -->
+<section class="p">
+  <div class="cab"><p class="eti">O que você enxerga</p><h2>Conhecer <span class="sol">quem volta.</span></h2></div>
+  <div class="corpo">
+    <div class="g2" style="grid-template-columns:1fr 1.4fr">
+      <ul class="lista">
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><div><h3>Clientes que retornaram</h3><p class="peq">Quem voltou e com que frequência.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></svg></span><div><h3>Gasto registrado</h3><p class="peq">Total e ticket médio das visitas de retorno.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><div><h3>Clientes inativos</h3><p class="peq">Quem sumiu, para um “sentimos sua falta”.</p></div></li>
+        <li><span class="ic sm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><h3>Morador × turista</h3><p class="peq">Filtro por plano em todas as métricas.</p></div></li>
+      </ul>
+      <div><div class="pc"><img src="img/sonhos/painel-metricas.webp" alt="Métricas"></div><p class="leg">Dados fictícios de demonstração</p></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Valores registrados no painel pelo operador, não faturamento do estabelecimento.</span><span class="n"></span></div>
+</section>
+
+<!-- CASE: POUSADA SONHOS DO ROSA (identidade da pousada) -->
+<section class="p sr">
+  <div style="display:grid;grid-template-columns:118mm 1fr;height:100%">
+    <div style="position:relative;background:url(img/sonhos/foto-aerea.webp) center/cover">
+      <div style="position:absolute;inset:auto 0 0 0;height:8px;background:var(--grad)"></div>
+    </div>
+    <div style="padding:13mm 16mm 10mm 14mm;display:flex;flex-direction:column;gap:5mm">
+      <div style="display:flex;align-items:center;gap:6mm">
+        <img src="img/sonhos/logo.png" alt="Pousada Sonhos do Rosa" style="height:22mm">
+        <div>
+          <span class="adesivo">Case · lançamento em andamento</span>
+          <p class="tit" style="font-size:25pt;margin-top:2.5mm">Pousada <span style="color:var(--sol-sr)">Sonhos do Rosa</span></p>
+          <p class="peq" style="color:var(--suave);margin-top:1mm">Praia do Rosa · cartão fidelidade criado com a identidade do site da pousada</p>
+        </div>
+      </div>
+      <div style="flex:1;display:grid;grid-template-columns:47mm 47mm 1fr;gap:5mm;align-items:center;min-height:0">
+        <div><div class="tel"><img src="img/sonhos/cadastro.webp" alt=""></div><p class="leg">Cadastro</p></div>
+        <div><div class="tel"><img src="img/sonhos/cartao-fabio.webp" alt=""></div><p class="leg">Selo com o sol da logo</p></div>
+        <div style="display:grid;gap:3.5mm">
+          <div class="info"><p class="peq">A REGRA</p><p style="font-weight:700;margin-top:1mm">3 hospedagens = um café da manhã</p></div>
+          <div class="info" style="display:flex;gap:4mm;align-items:center"><img src="img/sonhos/placa.webp" alt="Placa com QR" style="width:17mm;border-radius:1.5mm;border:1px solid var(--borda)"><div><p class="peq">NA RECEPÇÃO</p><p class="peq" style="margin-top:1mm;color:var(--texto)">Placa 10×15 cm com o QR do cadastro</p></div></div>
+          <div class="info"><p class="peq">LANÇAMENTO</p><p class="peq" style="margin-top:1mm;color:var(--texto)">Vídeo e convite no WhatsApp para hóspedes do fim de semana e clientes antigos</p></div>
+          <div class="info" style="background:var(--grad);border:none;color:#fff"><p class="peq" style="color:#fff">NÚMEROS DO PILOTO</p><p class="tit" style="font-size:13pt;margin-top:1.5mm">Resultados em breve</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA CADA NEGÓCIO -->
+<section class="p">
+  <div class="cab"><p class="eti">Feito para o seu negócio</p><h2>A cara da sua casa. <span class="oce">A regra do seu jeito.</span></h2></div>
+  <div class="corpo"><div class="g3" id="negocios"></div></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Exemplos ilustrativos: meta de selos, recompensa e gasto mínimo são definidos por você.</span><span class="n"></span></div>
+</section>
+
+<!-- PLANOS -->
+<section class="p">
+  <div class="cab"><p class="eti">Planos e preços</p><h2>Escolha o tamanho certo.</h2></div>
+  <div class="corpo"><div class="g3" id="planos" style="align-items:stretch"></div></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Apple Wallet: adicional sob consulta, a partir de R$ 300 de implantação. Não incluído nos planos.</span><span class="n"></span></div>
+</section>
+
+<!-- PILOTO -->
+<section class="p escuro">
+  <div class="cab"><p class="eti">Condição de piloto · 3 meses</p><h2>Menos que <span class="lima">um café por dia.</span></h2></div>
+  <div class="corpo">
+    <div class="conta">
+      <div class="bl"><p class="peq">MENSALIDADE</p><p class="d gr">R$ 99</p><p class="peq">por mês</p></div>
+      <p class="op">÷</p>
+      <div class="bl"><p class="peq">DIAS NO MÊS</p><p class="d gr">30</p><p class="peq">dias</p></div>
+      <p class="op">=</p>
+      <div class="bl destaque"><p class="peq">POR DIA</p><p class="d gr">R$ 3,30</p><p class="peq">por dia</p></div>
+      <p class="op">&lt;</p>
+      <div class="bl"><span class="ic" style="margin:0 auto 1mm"><svg viewBox="0 0 24 24"><path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></svg></span><p class="d" style="font-size:var(--t-l)">1 cafezinho</p><p class="peq">no balcão</p></div>
+    </div>
+    <div class="g3" style="margin-top:9mm">
+      <div class="card"><span class="ic sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><h3>+ R$ 1 por selo</h3><p class="peq">Só paga quando o cliente <b>voltou e consumiu</b>. Numa conta de R$ 50, é 2%.</p></div>
+      <div class="card"><span class="ic sm"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><h3>2 visitas pagam o mês</h3><p class="peq">Com uma conta média de R$ 50, duas visitas de retorno já cobrem os R$ 99.</p></div>
+      <div class="card" style="background:var(--lima);border-color:var(--lima);color:var(--restinga)"><span class="ic sm" style="background:var(--restinga);color:var(--lima)"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span><h3 style="color:var(--restinga)">Implantação R$ 299</h3><p class="peq">No lugar de <s>R$ 990</s>. Recursos do plano Profissional por 3 meses.</p></div>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Exemplo com conta média de R$ 50. Simulação ilustrativa, não é promessa de faturamento.</span><span class="n"></span></div>
+</section>
+
+<!-- IMPLANTAÇÃO -->
+<section class="p">
+  <div class="cab"><p class="eti">Implantação e próximos passos</p><h2>Do <span class="sol">sim</span> ao primeiro selo.</h2></div>
+  <div class="corpo">
+    <div class="g5 c" id="passos"></div>
+    <div style="margin:10mm auto 0;display:flex;gap:4mm;align-items:center;background:var(--restinga);color:var(--areia);border-radius:99px;padding:3.5mm 8mm">
+      <span class="d lima" style="font-size:var(--t-m)">Prazo</span><p>[PRAZO] após a aprovação da identidade</p>
+    </div>
+  </div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="n"></span></div>
+</section>
+
+<!-- CONTATO -->
+<section class="p escuro" style="padding:0;justify-content:center;align-items:center;text-align:center">
+  <div style="background:var(--areia);border-radius:50%;padding:4mm"><img src="img/logo-selo.png" alt="Bicuíra Digital" style="width:44mm;display:block"></div>
+  <h2 style="margin-top:9mm;font-size:40pt">Vamos fidelizar <span class="lima">quem já é seu?</span></h2>
+  <svg class="onda" viewBox="0 0 100 12" preserveAspectRatio="none" style="margin:5mm auto 0"><path d="M2 6c8-6 16-6 24 0s16 6 24 0 16-6 24 0 16 6 24 0"/></svg>
+  <div class="g3" style="margin-top:9mm;width:200mm">
+    <div><span class="ic" style="margin:0 auto 3mm"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></span><p>@bicuiradigital</p></div>
+    <div><span class="ic" style="margin:0 auto 3mm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><p>site-bicuira.vercel.app</p></div>
+    <div><span class="ic" style="margin:0 auto 3mm"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><p>Samuel [SOBRENOME]</p></div>
+  </div>
+  <p class="peq lima" style="margin-top:12mm;letter-spacing:.16em;font-weight:700">TECNOLOGIA COM RAIZ LOCAL</p>
+</section>
+
+<script>
+// Conteúdo repetido gerado a partir de dados: mantém os cartões idênticos em estrutura.
+const IC = {
+  rest:'<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  bar:'<path d="M8 22h8M7 10h10M12 15v7M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>',
+  pous:'<path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>',
+  ok:'<path d="M20 6 9 17l-5-5"/>'
+};
+const svg = k => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+
+document.getElementById('como').innerHTML = [
+  ['Escaneia o QR','Na mesa, no balcão ou na recepção.','<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>'],
+  ['Cadastro rápido','Só nome e celular, em uns 30 segundos.','<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>'],
+  ['Cartão no celular','Abre no navegador, sem baixar nada.','<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>'],
+  ['Selo a cada visita','Mostra o código, a equipe registra.','<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'],
+  ['Recompensa','Completou, ganha o prêmio que você definiu.','<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>'],
+].map(([t,d,ic],i,a) => { const ult = i === a.length - 1; return `<div><span class="ic" style="margin:0 auto;${ult?'background:var(--sol);color:var(--areia)':''}"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq ${ult?'sol':'oce'}" style="font-weight:700;margin-top:4mm">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`; }).join('');
+
+const bolas = (n, f, cor) => Array.from({length:n}, (_,k) => `<i class="${k<f?'f':''}" style="${k<f?`background:${cor}`:''}"></i>`).join('');
+document.getElementById('b-morador').innerHTML = bolas(10, 7, 'var(--restinga)');
+document.getElementById('b-turista').innerHTML = bolas(5, 3, 'var(--lima)');
+
+document.getElementById('negocios').innerHTML = [
+  ['rest','Restaurante',10,7,'10 almoços = 1 prato grátis','Plano morador para quem vem toda semana e plano turista mais curto para a temporada.'],
+  ['bar','Bar',8,5,'8 visitas = 1 drink da casa','Gasto mínimo por visita e aviso de “happy hour hoje” para quem já vem.'],
+  ['pous','Pousada',3,2,'3 estadias = 1 café da manhã','Como na Sonhos do Rosa: 1 selo por estadia e lembrete para a próxima temporada.'],
+].map(([i,t,m,f,r,d]) => `<div class="card">
+  <div style="display:flex;align-items:center;gap:4mm"><span class="ic">${svg(i)}</span><p class="d" style="font-size:var(--t-l);color:var(--restinga)">${t}</p></div>
+  <div style="display:grid;grid-template-columns:repeat(5,8mm);gap:2mm;min-height:18mm;align-content:center">${Array.from({length:m},(_,k)=>`<span style="width:8mm;height:8mm;border-radius:50%;${k<f?'background:var(--lima)':'border:1.5px dashed var(--oceano)'}"></span>`).join('')}</div>
+  <h3>${r}</h3><p class="peq">${d}</p></div>`).join('');
+
+const PLANOS = [
+  {n:'Essencial', v:'39,99', imp:'490', itens:['Cadastro com sua logo e cores','Cartão com selos (navegador e Google Wallet, após liberação do Google)','1 plano de fidelidade','Painel: registro, correção e resgate','Avisos automáticos: selo faltando e recompensa disponível','Métricas básicas','QR Code para impressão','Suporte por e-mail em até 2 dias úteis']},
+  {n:'Profissional', v:'99', imp:'990', rec:true, itens:['Tudo do Essencial','2 planos: morador e turista','Troca de plano pelo painel','Dashboard completo separado por plano','Mensagens personalizadas com limite de frequência','Aviso de “sentimos sua falta”','1 display e 1 adesivo impressos','Suporte por WhatsApp em até 1 dia útil','1 ajuste de identidade por trimestre']},
+  {n:'Premium', v:'349', imp:'1.990', itens:['Tudo do Profissional','Página com design exclusivo','Ajustes ilimitados no primeiro mês','Treinamento presencial ou por vídeo','2 displays e 3 adesivos','Suporte no mesmo dia útil']},
+];
+document.getElementById('planos').innerHTML = PLANOS.map(p => `<div class="card" style="padding:6mm;${p.rec?'background:var(--restinga);color:var(--areia);outline:1.2mm solid var(--lima)':''}">
+  <p class="peq" style="height:5mm;font-weight:700;letter-spacing:.12em;color:${p.rec?'var(--lima)':'transparent'}">${p.rec?'★ RECOMENDADO':'·'}</p><p class="d" style="font-size:var(--t-l);color:${p.rec?'var(--lima)':'var(--restinga)'}">${p.n}</p>
+  <p class="d" style="font-size:var(--t-xl)">R$ ${p.v}<span style="font:600 var(--t-xs) Sora">/mês</span></p>
+  <p class="peq">+ R$ 1 por selo · implantação R$ ${p.imp}</p>
+  <ul style="list-style:none;display:grid;gap:1.6mm;margin-top:1mm;border-top:1px solid ${p.rec?'rgba(242,235,221,.2)':'rgba(37,67,61,.12)'};padding-top:3mm">${p.itens.map((t,i)=>`<li class="peq" style="display:flex;gap:2mm;${i===0&&p.n!=='Essencial'?'font-weight:700':''}"><svg viewBox="0 0 24 24" style="width:3.6mm;height:3.6mm;flex:none;margin-top:.3mm;fill:none;stroke:${p.rec?'var(--lima)':'var(--oceano)'};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">${IC.ok}</svg>${t}</li>`).join('')}</ul>
+</div>`).join('');
+
+document.getElementById('passos').innerHTML = [
+  ['Conversa','Meta de selos, recompensa, gasto mínimo e planos.','<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'],
+  ['Identidade','Página, cartão e selo com a cara da sua casa.','<circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2a10 10 0 0 0 0 20 2 2 0 0 0 2-2v-1a2 2 0 0 1 2-2h2a4 4 0 0 0 4-4 10 10 0 0 0-10-11Z"/>'],
+  ['Painel','Acesso do dono e da equipe configurado.','<path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/>'],
+  ['Treino e QR','Equipe treinada e material impresso.','<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 20h1"/>'],
+  ['Lançamento','Primeiros cartões e acompanhamento de perto.','<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>'],
+].map(([t,d,ic],i) => `<div><span class="ic" style="margin:0 auto"><svg viewBox="0 0 24 24">${ic}</svg></span><p class="peq oce" style="font-weight:700;margin-top:4mm">PASSO ${i+1}</p><h3 style="margin:1.5mm 0">${t}</h3><p class="peq">${d}</p></div>`).join('');
+
+// numeração automática no rodapé
+document.querySelectorAll('section.p').forEach((s, i) => { const n = s.querySelector('.rod .n'); if (n) n.textContent = String(i + 1).padStart(2, '0'); });
+
+// ajusta os slides à largura da janela (320 mm = 1209,4 px a 96 dpi)
+const ajustar = () => document.documentElement.style.setProperty('--s', Math.max(Math.min((innerWidth - 32) / 1209.4, 1.6), 0.2));
+addEventListener('resize', ajustar); ajustar();
+</script>
+</body>
+</html>

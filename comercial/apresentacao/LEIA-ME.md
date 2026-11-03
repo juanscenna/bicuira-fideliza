@@ -8,7 +8,8 @@
 - Regerar o PDF: abrir o HTML no Chrome → Imprimir → Salvar como PDF (paisagem, sem margens, com gráficos de fundo).
 
 ## Versão para apresentar na tela (MacBook / desktop)
-- `Bicuira-Fideliza-Apresentacao-Tela.html`: um arquivo só (imagens e fontes embutidas), abre offline em qualquer navegador.
-- Slides em 16:10, um por vez, ajustados ao tamanho da tela.
-- Navegação: ← → (ou espaço / clique), F para tela cheia, Home/End para início e fim. O número do slide fica no endereço (`#5`).
-- Regerar depois de editar `apresentacao.html`: `node gerar-tela.mjs`
+- Fonte editável: `apresentacao-tela.html` (slides 16:10 um embaixo do outro, para rolar).
+- Arquivo para apresentar: `Bicuira-Fideliza-Apresentacao-Tela.html`, um arquivo só (imagens e fontes embutidas), abre offline em qualquer navegador.
+- Prints e fotos do case: Pousada Sonhos do Rosa (`img/sonhos/`). As telas são reais, geradas no sistema com hóspedes fictícios de demonstração.
+- Campos a preencher: `[PRAZO]` (implantação) e `[SOBRENOME]` (contato).
+- Regerar depois de editar: `node gerar-tela.mjs`
