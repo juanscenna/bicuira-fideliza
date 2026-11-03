@@ -251,7 +251,7 @@ sup{font-size:1em;vertical-align:.25em;line-height:0}
       <div><div class="pc"><img src="img/sonhos/avisos-automaticas.webp" alt="Avisos automáticos por plano"></div><p class="leg">Painel da Sonhos do Rosa: cada aviso ligado por plano (na pousada, o turista vira “hóspede”)</p></div>
     </div>
   </div>
-  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Metas e prêmios dos planos são exemplos: você define. Dois planos a partir do plano Profissional.</span><span class="n"></span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">Metas e prêmios dos planos são exemplos: você define.</span><span class="n"></span></div>
 </section>
 
 <!-- AVISOS AUTOMÁTICOS -->
@@ -306,7 +306,7 @@ sup{font-size:1em;vertical-align:.25em;line-height:0}
       </div>
     </div>
   </div>
-  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">* Android pelo navegador; iPhone com o cartão salvo na tela inicial. A entrega depende do celular do cliente. Mensagens próprias a partir do plano Profissional.</span><span class="n"></span></div>
+  <div class="rod"><img src="img/simbolo-areia.png" alt=""><span class="peq" style="font-weight:400;opacity:.75">* Android pelo navegador; iPhone com o cartão salvo na tela inicial. A entrega depende do celular do cliente.</span><span class="n"></span></div>
 </section>
 
 <!-- PARA O DONO -->
@@ -379,13 +379,6 @@ sup{font-size:1em;vertical-align:.25em;line-height:0}
   <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Exemplos ilustrativos: meta de selos, recompensa e gasto mínimo são definidos por você.</span><span class="n"></span></div>
 </section>
 
-<!-- PLANOS -->
-<section class="p">
-  <div class="cab"><p class="eti">Planos e preços</p><h2>Escolha o tamanho certo.</h2></div>
-  <div class="corpo"><div class="g3" id="planos" style="align-items:stretch"></div></div>
-  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">Apple Wallet: adicional sob consulta, a partir de R$ 300 de implantação. Não incluído nos planos.</span><span class="n"></span></div>
-</section>
-
 <!-- PILOTO: ENTREGÁVEIS -->
 <section class="p">
   <div class="cab"><p class="eti">Piloto · até 3 meses</p><h2>O que você recebe <span class="sol">no piloto.</span></h2></div>
@@ -414,7 +407,7 @@ sup{font-size:1em;vertical-align:.25em;line-height:0}
       </div>
     </div>
   </div>
-  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">* Cartão na carteira do celular liberado após a aprovação do Google e da Apple. Condição exclusiva do piloto, não vale para os planos.</span><span class="n"></span></div>
+  <div class="rod"><img src="img/simbolo.png" alt=""><span class="peq" style="font-weight:400">* Cartão na carteira do celular liberado após a aprovação do Google e da Apple. Condição exclusiva do piloto.</span><span class="n"></span></div>
 </section>
 
 <!-- PILOTO -->
@@ -495,18 +488,6 @@ document.getElementById('negocios').innerHTML = [
   <div style="display:flex;align-items:center;gap:4mm"><span class="ic">${svg(i)}</span><p class="d" style="font-size:var(--t-l);color:var(--restinga)">${t}</p></div>
   <div style="display:grid;grid-template-columns:repeat(5,8mm);gap:2mm;min-height:18mm;align-content:center">${Array.from({length:m},(_,k)=>`<span style="width:8mm;height:8mm;border-radius:50%;${k<f?'background:var(--lima)':'border:1.5px dashed var(--oceano)'}"></span>`).join('')}</div>
   <h3>${r}</h3><p class="peq">${d}</p></div>`).join('');
-
-const PLANOS = [
-  {n:'Essencial', v:'39,90', imp:'490', itens:['Cadastro com sua logo e cores','Cartão com selos (navegador e Google Wallet, após liberação do Google)','1 plano de fidelidade','Painel: registro, correção e resgate','Avisos automáticos: selo faltando e recompensa disponível','Métricas básicas','QR Code para impressão','Suporte por e-mail em até 2 dias úteis']},
-  {n:'Profissional', v:'99', imp:'990', rec:true, itens:['Tudo do Essencial','2 planos: morador e turista','Troca de plano pelo painel','Dashboard completo separado por plano','Mensagens personalizadas com limite de frequência','Aviso de “sentimos sua falta”','1 display e 1 adesivo impressos','Suporte por WhatsApp em até 1 dia útil','1 ajuste de identidade por trimestre']},
-  {n:'Premium', v:'349', imp:'1.990', itens:['Tudo do Profissional','Página com design exclusivo','Ajustes ilimitados no primeiro mês','Treinamento presencial ou por vídeo','2 displays e 3 adesivos','Suporte no mesmo dia útil']},
-];
-document.getElementById('planos').innerHTML = PLANOS.map(p => `<div class="card" style="padding:6mm;${p.rec?'background:var(--restinga);color:var(--areia);outline:1.2mm solid var(--lima)':''}">
-  <p class="peq" style="height:5mm;font-weight:700;letter-spacing:.12em;color:${p.rec?'var(--lima)':'transparent'}">${p.rec?'★ RECOMENDADO':'·'}</p><p class="d" style="font-size:var(--t-l);color:${p.rec?'var(--lima)':'var(--restinga)'}">${p.n}</p>
-  <p class="d" style="font-size:var(--t-xl)">R$ ${p.v}<span style="font:600 var(--t-xs) Sora">/mês</span></p>
-  <p class="peq">+ R$ 1 por selo · implantação R$ ${p.imp}</p>
-  <ul style="list-style:none;display:grid;gap:1.6mm;margin-top:1mm;border-top:1px solid ${p.rec?'rgba(242,235,221,.2)':'rgba(37,67,61,.12)'};padding-top:3mm">${p.itens.map((t,i)=>`<li class="peq" style="display:flex;gap:2mm;${i===0&&p.n!=='Essencial'?'font-weight:700':''}"><svg viewBox="0 0 24 24" style="width:3.6mm;height:3.6mm;flex:none;margin-top:.3mm;fill:none;stroke:${p.rec?'var(--lima)':'var(--oceano)'};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">${IC.ok}</svg>${t}</li>`).join('')}</ul>
-</div>`).join('');
 
 document.getElementById('passos').innerHTML = [
   ['Conversa','Meta de selos, recompensa, gasto mínimo e planos.','<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'],
