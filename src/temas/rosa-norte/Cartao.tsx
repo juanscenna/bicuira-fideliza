@@ -61,7 +61,7 @@ export function CartaoRosaNorte({ estab, cliente, carimbos, meta, recompensa, qr
             cheio ? "motion-safe:animate-[destaque_1.4s_ease-in-out_infinite]" : ""
           }`}
         >
-          {cheio ? `Ganhou: ${recompensa}! Mostre no caixa` : `Faltam ${meta - carimbos} para ${recompensa}`}
+          {cheio ? `Ganhou: ${recompensa}! Mostre no caixa` : `${meta - carimbos === 1 ? "Falta" : "Faltam"} ${meta - carimbos} para ${recompensa}`}
         </p>
       </section>
 

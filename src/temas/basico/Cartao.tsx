@@ -36,7 +36,7 @@ export function CartaoBasico({ estab, cliente, carimbos, meta, recompensa, qrSvg
           })}
         </ol>
         <p className="mt-5 border-t border-white/20 pt-4 text-center text-lg font-bold">
-          {cheio ? "Recompensa liberada! Mostre no caixa." : `Faltam ${meta - carimbos} para: ${recompensa}`}
+          {cheio ? "Recompensa liberada! Mostre no caixa." : `${meta - carimbos === 1 ? "Falta" : "Faltam"} ${meta - carimbos} para: ${recompensa}`}
         </p>
       </section>
 

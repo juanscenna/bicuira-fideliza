@@ -7,7 +7,7 @@ export function progresso(d: Pick<DadosPass, "carimbos" | "meta">) {
 }
 
 export function statusRecompensa(d: Pick<DadosPass, "carimbos" | "meta" | "recompensa">) {
-  return d.carimbos >= d.meta ? `Disponível: ${d.recompensa}` : `Faltam ${d.meta - d.carimbos} para ${d.recompensa}`;
+  return d.carimbos >= d.meta ? `Disponível: ${d.recompensa}` : `${d.meta - d.carimbos === 1 ? "Falta" : "Faltam"} ${d.meta - d.carimbos} para ${d.recompensa}`;
 }
 
 export function regras(d: Pick<DadosPass, "meta" | "recompensa" | "gastoMinimoCentavos"> & { porEstadia?: boolean }) {

@@ -62,7 +62,7 @@ export function CartaoSonhosDoRosa({ estab, cliente, carimbos, meta, recompensa,
             cheio ? "motion-safe:animate-[destaque_1.4s_ease-in-out_infinite]" : ""
           }`}
         >
-          {cheio ? `Ganhou: ${recompensa}! Mostre na recepção` : `Faltam ${meta - carimbos} para ${recompensa}`}
+          {cheio ? `Ganhou: ${recompensa}! Mostre na recepção` : `${meta - carimbos === 1 ? "Falta" : "Faltam"} ${meta - carimbos} para ${recompensa}`}
         </p>
       </section>
 

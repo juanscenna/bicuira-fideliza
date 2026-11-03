@@ -133,7 +133,7 @@ export function FichaCliente({
             <span className="text-3xl text-carvao/60"> de {cliente.meta}</span>
           </p>
           <p className="text-right font-semibold">
-            {cliente.recompensaDisponivel ? cliente.recompensa : `Faltam ${cliente.meta - cliente.carimbos} para ${cliente.recompensa}`}
+            {cliente.recompensaDisponivel ? cliente.recompensa : `${cliente.meta - cliente.carimbos === 1 ? "Falta" : "Faltam"} ${cliente.meta - cliente.carimbos} para ${cliente.recompensa}`}
           </p>
         </div>
         <ol className="mt-4 flex flex-wrap gap-2" aria-hidden>

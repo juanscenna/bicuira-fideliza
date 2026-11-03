@@ -86,7 +86,7 @@ export async function GET(_req: Request, { params }: RouteContext<"/api/wallet/s
               whiteSpace: "nowrap",
             }}
           >
-            {completo ? "Ganhou!" : `Faltam ${meta - feitos} selos`}
+            {completo ? "Ganhou!" : `${meta - feitos === 1 ? "Falta 1 selo" : `Faltam ${meta - feitos} selos`}`}
           </div>
         </div>
       </div>
