@@ -36,7 +36,7 @@ export function CartaoBasico({ estab, cliente, carimbos, meta, recompensa, qrSvg
           })}
         </ol>
         <p className="mt-5 border-t border-white/20 pt-4 text-center text-lg font-bold">
-          {cheio ? "Recompensa liberada! Mostre no caixa." : `${meta - carimbos === 1 ? "Falta" : "Faltam"} ${meta - carimbos} para: ${recompensa}`}
+          {cheio ? `Recompensa liberada! Mostre ${estab.porEstadia ? "na recepção" : "no caixa"}.` : `${meta - carimbos === 1 ? "Falta" : "Faltam"} ${meta - carimbos} para: ${recompensa}`}
         </p>
       </section>
 
@@ -45,7 +45,7 @@ export function CartaoBasico({ estab, cliente, carimbos, meta, recompensa, qrSvg
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">{cliente.nome}</p>
           <p className="font-mono text-3xl font-black tracking-widest">{cliente.codigo}</p>
-          <p className="text-xs">Mostre no caixa a cada visita.</p>
+          <p className="text-xs">{estab.porEstadia ? "Mostre na recepção a cada hospedagem." : "Mostre no caixa a cada visita."}</p>
         </div>
       </div>
     </article>

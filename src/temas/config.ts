@@ -2,7 +2,7 @@
 //
 // Como adicionar o design de um restaurante novo:
 //   1. crie a pasta src/temas/<id>/ com Moldura.tsx (página de cadastro e de cartão) e Cartao.tsx (o cartão)
-//   2. registre o id em TEMAS (cores e logo, usadas também no ícone, no manifest e no Wallet)
+//   2. registre o id em TEMAS (cores, logo e `faixa` — o cartão do Google Wallet igual ao cartão web)
 //   3. registre os componentes em src/temas/molduras.tsx e src/temas/cartoes.tsx
 //   4. ligue o endereço (slug) do estabelecimento ao tema em TEMA_POR_SLUG
 // Estabelecimentos sem tema próprio usam o "basico" (preto e branco).
@@ -26,21 +26,86 @@ export type ConfigTema = {
   badge?: string;
   /** textos extras do cartão no Wallet */
   wallet?: { titulo?: string; instagram?: string };
+  /**
+   * OBRIGATÓRIO: visual da faixa de selos do Google Wallet (imagem de destaque), copiado do cartão web
+   * do tema (mesmo fundo, mesmas cores do número, dos selos e da pílula "Faltam X"). Ver docs/ONBOARDING-ESTABELECIMENTO.md.
+   */
+  faixa: FaixaWallet;
+};
+
+/** Cores da faixa de selos do Google Wallet. Aceita cor ou degradê CSS (linear-/radial-gradient). */
+export type FaixaWallet = {
+  /** fundo da faixa (o mesmo do cartão web) */
+  fundo: string;
+  /** barra fina no topo (ex.: a faixa do sol da pousada) */
+  barra: string;
+  /** contador "3" e "/10" */
+  numero: string;
+  numeroMeta: string;
+  /** pílula "Faltam 2 selos" / "Ganhou!" */
+  pilula: string;
+  textoPilula: string;
+  /** contorno do selo ganho */
+  aro: string;
+  /** espaço do selo ainda não ganho */
+  vazio: { fundo: string; borda: string; opacidadeSelo: number };
+  /** último espaço vazio com o desenho de presente (como no cartão web) */
+  presenteNoUltimo?: { cor: string; borda: string };
+  /** texto da pílula em maiúsculas */
+  maiusculas?: boolean;
 };
 
 export const TEMAS: Record<IdTema, ConfigTema> = {
-  basico: { cor_primaria: "#111111", cor_secundaria: "#FFFFFF", logoUrl: null },
+  basico: {
+    cor_primaria: "#111111",
+    cor_secundaria: "#FFFFFF",
+    logoUrl: null,
+    faixa: {
+      fundo: "#111111",
+      barra: "#FFFFFF",
+      numero: "#FFFFFF",
+      numeroMeta: "rgba(255,255,255,0.6)",
+      pilula: "#FFFFFF",
+      textoPilula: "#111111",
+      aro: "#FFFFFF",
+      vazio: { fundo: "transparent", borda: "4px dashed rgba(255,255,255,0.3)", opacidadeSelo: 0.3 },
+      maiusculas: true,
+    },
+  },
   // Comida Caseira Rosa Norte — preto, rosa da logo, amarelo do prato, creme das letras
   "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png`, favicon: "/temas/rosa-norte/logo-256.png",
     selos: { feito: "/temas/rosa-norte/selo-160.png", vazio: "/temas/rosa-norte/selo-cinza-160.png" },
     badge: "/temas/rosa-norte/badge.png",
     wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
+    faixa: {
+      fundo: "radial-gradient(circle at 0% 0%, #3a0c1f 0%, #0A0A0A 60%)",
+      barra: "#E8115A",
+      numero: "#F2B315",
+      numeroMeta: "rgba(255,255,255,0.6)",
+      pilula: "#F2B315",
+      textoPilula: "#0A0A0A",
+      aro: "#E8115A",
+      vazio: { fundo: "transparent", borda: "4px dashed rgba(255,255,255,0.3)", opacidadeSelo: 0.3 },
+      maiusculas: true,
+    },
   },
   // Pousada Sonhos do Rosa (Praia do Rosa, SC) — cores do site deles: laranja do sol, azul do mar, creme
   "sonhos-do-rosa": { cor_primaria: "#FDFAF4", cor_secundaria: "#E46A00", logoUrl: `${SITE_URL}/temas/sonhos-do-rosa/logo.png`, favicon: "/temas/sonhos-do-rosa/logo-256.png",
     selos: { feito: "/temas/sonhos-do-rosa/selo-160.png", vazio: "/temas/sonhos-do-rosa/selo-cinza-160.png" },
     badge: "/temas/sonhos-do-rosa/badge.png",
     wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "sonhos_do_rosa" },
+    // igual ao cartão web (src/temas/sonhos-do-rosa/Cartao.tsx): branco, faixa do sol, número laranja, areia nos vazios
+    faixa: {
+      fundo: "#FFFFFC",
+      barra: "linear-gradient(135deg, #EF8600, #DF5200)",
+      numero: "#E46A00",
+      numeroMeta: "#756657",
+      pilula: "linear-gradient(135deg, #EF8600, #DF5200)",
+      textoPilula: "#FFFFFF",
+      aro: "#E46A00",
+      vazio: { fundo: "#F3EAD9", borda: "3px dashed rgba(117,102,87,0.4)", opacidadeSelo: 0.4 },
+      presenteNoUltimo: { cor: "#065DA0", borda: "4px solid #065DA0" },
+    },
   },
 };
 

@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { enviarPush, pushConfigurado } from "@/lib/push";
 import { SITE_URL } from "@/lib/env";
 import { iconesPushDo } from "@/temas/config";
+import { termosDo, traduzir } from "@/temas/vocabulario";
 
 type Inscricao = { endpoint?: unknown; keys?: { p256dh?: unknown; auth?: unknown } };
 
@@ -19,7 +20,7 @@ async function cartao(req: Request, token: string) {
     .eq("token_cartao", token)
     .is("anonimizado_em", null)
     .maybeSingle();
-  return data ? { clienteId: data.id as string, nome: estab.nome, slug } : null;
+  return data ? { clienteId: data.id as string, nome: estab.nome, slug, termos: termosDo(estab) } : null;
 }
 
 /**
@@ -48,7 +49,8 @@ export async function POST(req: Request, { params }: RouteContext<"/api/push/[to
     after(() =>
       enviarPush(c.clienteId, {
         titulo: c.nome,
-        corpo: "Pronto! Você vai receber os avisos do restaurante aqui. 🎉",
+        // no vocabulário do negócio: "do restaurante" → "da pousada" / "do bar"
+        corpo: traduzir("Pronto! Você vai receber os avisos do restaurante aqui. 🎉", c.termos),
         url: `${SITE_URL}/${c.slug}/cartao/${token}`,
         ...iconesPushDo(c.slug, SITE_URL),
       }),

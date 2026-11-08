@@ -10,6 +10,12 @@ import { TEMAS, temaDo } from "@/temas/config";
 
 const API = "https://walletobjects.googleapis.com/walletobjects/v1";
 
+/**
+ * Versão do desenho da faixa de selos. A imagem fica em cache por 1 ano (no Google e na Vercel):
+ * ao mudar o visual de um tema (`faixa` em src/temas/config.ts), aumente este número.
+ */
+export const VERSAO_FAIXA = 2;
+
 type ContaServico = { client_email: string; private_key: string };
 
 function conta(): ContaServico {
@@ -57,11 +63,11 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     accountId: d.codigo,
     accountName: d.nome,
     loyaltyPoints: { label: "Selos", balance: { string: progresso(d) } },
-    // com a faixa de selos do tema, quanto falta já aparece na imagem
-    ...(tema.selos ? {} : { secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } } }),
-    // faixa com os selos (logo do restaurante), gerada em /api/wallet/selos; a URL muda a cada selo
+    // igual à pílula do cartão web: "Faltam 2 para 1 café da manhã"
+    secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } },
+    // faixa com os selos (visual do cartão web, `faixa` do tema), gerada em /api/wallet/selos; a URL muda a cada selo
     heroImage: {
-      sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}.png` },
+      sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}.png?v=${VERSAO_FAIXA}` },
       contentDescription: { defaultValue: { language: "pt-BR", value: `${d.carimbos} de ${d.meta} selos` } },
     },
     hexBackgroundColor: d.corPrimaria,

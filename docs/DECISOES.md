@@ -112,3 +112,11 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 71. **"Seus dados" no cartão (LGPD art. 18):** o cliente baixa uma cópia (JSON com cadastro, visitas, consentimentos e preferências) e apaga os dados sozinho, com confirmação. Apagar usa a mesma rotina do admin (`src/lib/lgpd.ts`): nome e telefone somem, o link do cartão muda, Wallet e notificações saem, e o aparelho esquece o cartão guardado. Os dois casos ficam na auditoria.
 72. **Contato de privacidade obrigatório** no cadastro do estabelecimento (LGPD art. 41: canal de contato; empresa pequena pode usar só um canal). Estabelecimentos antigos sem contato precisam preencher na próxima edição.
 73. **Cadastro com uma caixa só (texto versão 3, para todos os estabelecimentos):** "Aceito os termos do cartão fidelidade de …" + link da política. O botão "Criar meu cartão" fica apagado até marcar. Promoções saem do cadastro: logo depois de criar, o cartão pergunta "Quer receber novidades e promoções?" (separado do aceite, LGPD art. 8º, § 4º). Publicar o código ANTES de rodar a migration `20261108001300_consentimento_v3.sql`.
+
+## Wallet igual ao cartão web
+
+74. **Faixa de selos do Google Wallet por tema (`faixa` em `src/temas/config.ts`, obrigatória):** fundo, barra do topo, número, pílula, contorno e espaço vazio copiados do cartão web de cada tema. Antes a imagem tinha as cores da Rosa Norte fixas, e o cartão da pousada (fundo creme) saía escuro e ilegível.
+75. **`VERSAO_FAIXA` no endereço da imagem:** a faixa fica em cache por 1 ano; ao mudar o visual de um tema, a versão sobe e o Google busca a nova.
+76. **Recompensa sempre visível no Google Wallet** ("Faltam 2 para 1 café da manhã"), como a pílula do cartão web.
+77. **Botão do Wallet perto do cartão:** acima do cartão logo depois de criar ou recuperar, logo abaixo nas outras visitas; toda página de cartão de tema recebe `wallet` e um teste confere a posição.
+78. **Textos do sistema no vocabulário do negócio:** a notificação de boas-vindas ("avisos da pousada"), o cartão básico, a página padrão e o Apple Wallet ("HÓSPEDE") seguem o tipo de negócio do admin.

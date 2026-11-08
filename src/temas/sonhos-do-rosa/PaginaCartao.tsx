@@ -11,7 +11,7 @@ const FOTO = "/temas/sonhos-do-rosa";
  * Página do cartão da Pousada Sonhos do Rosa: mesmo layout da página de cadastro
  * (foto da praia, etiqueta, faixa areia), com o cartão de verdade no centro.
  */
-export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, guardar, regras, privacidadeHref, outroCartaoHref }: PropsPaginaCartao) {
+export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, wallet, cartao, guardar, regras, privacidadeHref, outroCartaoHref }: PropsPaginaCartao) {
   const cores = {
     "--estab-primaria": SONHOS.sol,
     "--estab-texto-primaria": "#FFFFFF",
@@ -69,11 +69,16 @@ export function PaginaCartaoSonhosDoRosa({ estab, primeiroNome, status, cartao, 
         ) : null}
 
         {/* ---------- O cartão, com luz suave atrás ---------- */}
+        {/* Wallet perto do cartão: acima logo depois de criar, abaixo nas outras visitas (regra de todo tema) */}
+        {status ? wallet : null}
+
         <section aria-label="Seu cartão" className="relative isolate">
           <div aria-hidden className="absolute -inset-x-10 -top-6 h-3/5 -z-10 bg-[radial-gradient(closest-side,rgba(239,134,0,0.22),transparent)] motion-safe:animate-[pulsar_3.2s_ease-in-out_infinite]" />
           <div aria-hidden className="absolute -right-10 bottom-10 size-48 -z-10 bg-[radial-gradient(closest-side,rgba(6,93,160,0.14),transparent)] motion-safe:animate-[pulsar_4s_ease-in-out_infinite_1s]" />
           {cartao}
         </section>
+
+        {status ? null : wallet}
 
         {/* ---------- Como funciona (com as regras reais) ---------- */}
         <section aria-labelledby="titulo-como" className="flex flex-col gap-4">

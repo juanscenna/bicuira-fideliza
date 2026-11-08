@@ -11,7 +11,7 @@ const FOTO = "/temas/rosa-norte";
  * Página do cartão da Comida Caseira Rosa Norte: mesma linguagem da página de cadastro
  * (foto do salão, adesivos, faixa amarela), agora com o cartão de verdade no centro.
  */
-export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, guardar, regras, privacidadeHref, outroCartaoHref }: PropsPaginaCartao) {
+export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, wallet, cartao, guardar, regras, privacidadeHref, outroCartaoHref }: PropsPaginaCartao) {
   const cores = {
     "--estab-primaria": ROSA.preto,
     "--estab-texto-primaria": ROSA.creme,
@@ -72,11 +72,16 @@ export function PaginaCartaoRosaNorte({ estab, primeiroNome, status, cartao, gua
         ) : null}
 
         {/* ---------- O cartão, com luzes atrás ---------- */}
+        {/* Wallet perto do cartão: acima logo depois de criar, abaixo nas outras visitas (regra de todo tema) */}
+        {status ? wallet : null}
+
         <section aria-label="Seu cartão" className="relative isolate">
           <div aria-hidden className="absolute -inset-x-10 -top-6 h-3/5 -z-10 bg-[radial-gradient(closest-side,rgba(232,17,90,0.75),transparent)] motion-safe:animate-[pulsar_3.2s_ease-in-out_infinite]" />
           <div aria-hidden className="absolute -right-10 bottom-10 size-48 -z-10 bg-[radial-gradient(closest-side,rgba(242,179,21,0.45),transparent)] motion-safe:animate-[pulsar_4s_ease-in-out_infinite_1s]" />
           {cartao}
         </section>
+
+        {status ? null : wallet}
 
         {/* ---------- Como funciona (com as regras reais) ---------- */}
         <section aria-labelledby="titulo-como" className="flex flex-col gap-4">

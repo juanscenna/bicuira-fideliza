@@ -11,7 +11,7 @@ import type { EstabelecimentoPublico } from "@/lib/publico";
 type Props = {
   token: string;
   slug: string;
-  estab: Pick<EstabelecimentoPublico, "nome" | "logoUrl" | "tema">;
+  estab: Pick<EstabelecimentoPublico, "nome" | "logoUrl" | "tema" | "porEstadia">;
   inicial: EstadoCartao;
   qrSvg: string;
   /** visual da mensagem e do aviso flutuante (cada tema pode trocar) */
@@ -108,7 +108,7 @@ export function CartaoAoVivo({ token, slug, estab, inicial, qrSvg, classes }: Pr
       ) : null}
 
       <Cartao
-        estab={{ nome: estab.nome, logoUrl: estab.logoUrl }}
+        estab={{ nome: estab.nome, logoUrl: estab.logoUrl, porEstadia: estab.porEstadia }}
         cliente={{ nome: cartao.nome, codigo: cartao.codigo }}
         carimbos={cartao.carimbos}
         meta={cartao.meta}

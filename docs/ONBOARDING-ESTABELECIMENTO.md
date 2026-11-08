@@ -46,7 +46,7 @@ Se o dono esquecer a senha: use "Redefinir senha" na mesma tela do `/admin/<id>`
 Hoje a identidade de cada estabelecimento é feita em código, não no admin. Para um novo estabelecimento:
 
 1. Crie a pasta `src/temas/<id>/` seguindo o modelo de `src/temas/basico/` (ou `src/temas/rosa-norte/`, que é o mais completo): `Moldura.tsx` (cadastro e cartão público) e `Cartao.tsx` (o cartão do Wallet e da página).
-2. Registre o id e as cores e logo em `TEMAS` em `src/temas/config.ts`.
+2. Registre o id e as cores e logo em `TEMAS` em `src/temas/config.ts`, **incluindo `faixa`** (visual do cartão no Google Wallet, ver "Regras do Wallet" abaixo).
 3. Registre os componentes em `src/temas/molduras.tsx` e `src/temas/cartoes.tsx`.
 4. Ligue o slug ao tema em `TEMA_POR_SLUG` (`src/temas/config.ts`).
 5. Coloque a logo em `public/temas/<id>/` e o ícone em `logo-256.png`.
@@ -65,13 +65,25 @@ O painel do dono e os avisos automáticos falam como restaurante por padrão (vi
 - `descricao` e `exemploMensagem`: o rótulo do campo de descrição e o exemplo de nova mensagem.
 - `automaticas`: título, explicação e texto próprios de cada aviso automático (no texto, use `{recompensa}`, `{carimbos}` e `{meta}`).
 
-Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<id>/`.
+Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<id>/`, sempre no vocabulário do negócio (pousada: "recepção", "hospedagem", "hóspede"; nunca "caixa", "balcão", "visita" ou "restaurante"). Textos gerados pelo sistema (notificação de boas-vindas, regras no Wallet, cartão básico) já seguem o **tipo de negócio** escolhido no admin.
+
+### Regras do Wallet (todo estabelecimento novo)
+
+O cartão no Google Wallet (e no Apple Wallet, quando ligado) precisa ser **o mesmo cartão** da página web: mesmas cores, mesmos selos, mesmas palavras.
+
+1. **Faixa de selos = cartão web.** Em `TEMAS` (`src/temas/config.ts`), o campo `faixa` é obrigatório (o build falha sem ele). Copie do `Cartao.tsx` do tema: fundo do cartão, barra do topo, cor do número, cor da pílula "Faltam X", contorno do selo ganho, aparência do espaço vazio e, se o cartão web tem, o presente no último selo. Se o tema tem selo com a logo, gere `selo-160.png` e `selo-cinza-160.png` em `public/temas/<id>/` e preencha `selos`.
+2. **Conferir a faixa antes de entregar:** abra `/api/wallet/selos/<slug>/1-<meta>.png` e `/api/wallet/selos/<slug>/<meta>-<meta>.png` lado a lado com o cartão web.
+3. **Mudou o visual de um tema já publicado?** Aumente `VERSAO_FAIXA` em `src/lib/wallet/google.ts`: o Google guarda a imagem antiga em cache. Os cartões já salvos trocam a imagem na próxima visita registrada.
+4. **Botão do Wallet perto do cartão.** A página do cartão própria do tema (`PaginaCartao.tsx`) recebe `wallet` e tem que mostrar `{status ? wallet : null}` logo **acima** do cartão (recém-criado ou recuperado) e `{status ? null : wallet}` logo **abaixo** (outras visitas). Nunca no fim da página. Um teste confere isso.
+5. **Android abre o Google Wallet sozinho** logo depois de criar o cartão (uma vez). No iPhone, o botão do Apple Wallet fica em destaque acima do cartão.
+6. **Título e Instagram** do cartão no Wallet: `wallet.titulo` e `wallet.instagram` no tema.
 
 ## 5. Conferência final antes de entregar
 
 - [ ] Cadastro público funciona e devolve o cartão existente se o telefone repetir.
 - [ ] Visita com valor abaixo do mínimo registra sem carimbo, com aviso.
 - [ ] Carimbo e resgate aparecem no cartão e no painel do dono.
+- [ ] Wallet (se ligado): no Android, criar um cartão de teste abre o Google Wallet sozinho; o cartão salvo tem as mesmas cores e selos do cartão web; registrar uma visita atualiza a faixa; nenhum texto diz "restaurante", "caixa" ou "visita" se não for restaurante (notificação de boas-vindas inclusa).
 - [ ] Política de privacidade mostra o contato correto.
 - [ ] No cartão de teste: "Novidades e promoções" liga e desliga; "Baixar meus dados" baixa o arquivo; "Apagar meus dados" apaga (use um cadastro de teste).
 - [ ] Dono entrou com o próprio login e não vê outros estabelecimentos.

@@ -1,6 +1,6 @@
 // Conteúdo dos cartões de Wallet e geração do .pkpass (com certificado de teste, autoassinado).
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -101,16 +101,47 @@ describe("Google Wallet", () => {
     expect(o.loyaltyPoints.balance.string).toBe("7/10");
     expect(o.barcode).toEqual({ type: "QR_CODE", value: "K4827", alternateText: "K4827" });
     expect(o.accountName).toBe("Ana Souza");
-    expect(o.secondaryLoyaltyPoints).toBeDefined(); // tema básico: sem faixa de selos
-    expect(o.heroImage.sourceUri.uri).toMatch(/\/api\/wallet\/selos\/restaurante-teste\/7-10\.png$/);
+    expect(o.secondaryLoyaltyPoints.balance.string).toBe("Faltam 3 para 1 prato"); // igual à pílula do cartão web
+    expect(o.heroImage.sourceUri.uri).toMatch(/\/api\/wallet\/selos\/restaurante-teste\/7-10\.png\?v=\d+$/);
   });
 
-  it("tema com faixa de selos: título, Instagram e sem linha de recompensa", async () => {
+  it("tema próprio: título, Instagram e recompensa", async () => {
     const { montarClasse, montarObjeto } = await import("@/lib/wallet/google");
     const rosa = { ...dados, slug: "comidacaseirarosanorte" };
     expect(montarClasse(rosa, "1").programName).toBe("Junte selos. Ganhe recompensas.");
     const o = montarObjeto(rosa, "1");
-    expect(o.secondaryLoyaltyPoints).toBeUndefined();
+    expect(o.secondaryLoyaltyPoints.label).toBe("Recompensa");
     expect(o.linksModuleData.uris.map((u) => u.id)).toContain("instagram");
+  });
+
+  it("pousada: regras com hospedagem e recepção", async () => {
+    const { montarObjeto } = await import("@/lib/wallet/google");
+    const o = montarObjeto({ ...dados, slug: "pousadasonhosdorosa", porEstadia: true, gastoMinimoCentavos: 0 }, "1");
+    const regras = o.textModulesData.find((t) => t.id === "regras")!.body;
+    expect(regras).toMatch(/hospedagem/);
+    expect(regras).toMatch(/recepção/);
+    expect(regras).not.toMatch(/caixa|balcão|visita/);
+  });
+});
+
+// Regras de todo estabelecimento novo (docs/ONBOARDING-ESTABELECIMENTO.md): o Wallet segue o cartão web.
+describe("Regras de tema para o Wallet", () => {
+  it("todo tema tem a faixa de selos do Google Wallet com as cores do seu cartão", async () => {
+    const { TEMAS } = await import("@/temas/config");
+    for (const [id, t] of Object.entries(TEMAS)) {
+      expect(t.faixa, id).toBeDefined();
+      for (const cor of [t.faixa.fundo, t.faixa.numero, t.faixa.pilula, t.faixa.textoPilula, t.faixa.aro]) expect(cor, id).toBeTruthy();
+    }
+  });
+
+  it("toda página de cartão própria mostra o Wallet perto do cartão", () => {
+    const pasta = join(__dirname, "../../src/temas");
+    for (const tema of readdirSync(pasta)) {
+      const arquivo = join(pasta, tema, "PaginaCartao.tsx");
+      if (!existsSync(arquivo)) continue;
+      const codigo = readFileSync(arquivo, "utf8");
+      expect(codigo, tema).toContain("{status ? wallet : null}");
+      expect(codigo, tema).toContain("{status ? null : wallet}");
+    }
   });
 });

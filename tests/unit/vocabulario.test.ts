@@ -20,6 +20,12 @@ describe("vocabulário do painel", () => {
     expect(pousada.mostrarPlanos).toBe(false);
   });
 
+  it("notificação de boas-vindas no vocabulário do negócio", () => {
+    const texto = "Pronto! Você vai receber os avisos do restaurante aqui. 🎉";
+    expect(traduzir(texto, pousada)).toBe("Pronto! Você vai receber os avisos da pousada aqui. 🎉");
+    expect(traduzir(texto, termosDo({ slug: "bar-teste", tipo_negocio: "bar" }))).toBe("Pronto! Você vai receber os avisos do bar aqui. 🎉");
+  });
+
   it("não troca pedaços de palavras", () => {
     expect(traduzir("visitante", pousada)).toBe("visitante");
   });

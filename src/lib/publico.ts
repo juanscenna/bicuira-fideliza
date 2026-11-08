@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { TEMAS, temaDo, type IdTema } from "@/temas/config";
+import { ehTipoNegocio, type TipoNegocio } from "@/lib/dominio/negocio";
 
 export type PlanoPublico = { tipo: "morador" | "turista"; carimbos_meta: number; recompensa_texto: string };
 
@@ -15,6 +16,8 @@ export type EstabelecimentoPublico = {
   cor_secundaria: string;
   ativo: boolean;
   gasto_minimo_centavos: number;
+  /** restaurante, bar ou pousada: define o vocabulário dos textos ao cliente */
+  tipo_negocio: TipoNegocio;
   /** pousada: 1 selo por estadia (sem gasto mínimo) */
   porEstadia: boolean;
   contato_privacidade: string | null;
@@ -48,6 +51,7 @@ export const estabelecimentoPorSlug = cache(async (slug: string): Promise<Estabe
     cor_secundaria: TEMAS[temaDo(data.slug)].cor_secundaria,
     ativo: data.ativo,
     gasto_minimo_centavos: data.gasto_minimo_centavos,
+    tipo_negocio: ehTipoNegocio(data.tipo_negocio) ? data.tipo_negocio : "restaurante",
     porEstadia: data.tipo_negocio === "pousada",
     contato_privacidade: data.contato_privacidade,
     versao_politica: data.versao_politica,

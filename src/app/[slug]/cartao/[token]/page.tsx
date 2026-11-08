@@ -54,6 +54,9 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   const acaoApagar = apagarMeusDados.bind(null, slug, token);
   // guarda o cartão neste aparelho; no Android, logo depois de criar, abre o "Salvar no Google Wallet"
   const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={Boolean(novo) && walletVisivel() && googleConfigurado()} />;
+  // botões do Wallet perto do cartão (acima logo depois de criar/recuperar; abaixo nas outras visitas)
+  const wallet = walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null;
+  const walletAcima = Boolean(novo || recuperado);
 
   // Tema com página do cartão própria (ex.: Rosa Norte)
   const PaginaDoTema = PAGINAS_CARTAO[estab.tema];
@@ -66,11 +69,12 @@ export default async function PaginaCartao({ params, searchParams }: P) {
         estab={{ nome: estab.nome, logoUrl: estab.logoUrl }}
         primeiroNome={cartao.nome.split(" ")[0]}
         status={novo ? "novo" : recuperado ? "recuperado" : null}
+        wallet={wallet}
         cartao={
           <CartaoAoVivo
             token={token}
             slug={slug}
-            estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema }}
+            estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema, porEstadia: estab.porEstadia }}
             inicial={cartao}
             qrSvg={svg}
             classes={{
@@ -100,7 +104,6 @@ export default async function PaginaCartao({ params, searchParams }: P) {
               pergunta={Boolean(novo)}
               classes={{ caixa: "border-2 border-[#E8115A] bg-[#151515] text-[#F3EEE5]", texto: "text-[#F3EEE5]/80" }}
             />
-            {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
             <SalvarNaTelaInicial className="border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]" />
             <SeusDados
               slug={slug}
@@ -139,13 +142,17 @@ export default async function PaginaCartao({ params, searchParams }: P) {
         {/* Logo depois de criar: a pergunta das promoções aparece em destaque, antes do cartão */}
         {novo ? <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} pergunta /> : null}
 
+        {walletAcima ? wallet : null}
+
         <CartaoAoVivo
           token={token}
           slug={slug}
-          estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema }}
+          estab={{ nome: estab.nome, logoUrl: estab.logoUrl, tema: estab.tema, porEstadia: estab.porEstadia }}
           inicial={cartao}
           qrSvg={svg}
         />
+
+        {walletAcima ? null : wallet}
 
         <section aria-labelledby="titulo-wallet" className="flex flex-col gap-3">
           <h2 id="titulo-wallet" className="text-xl font-bold">
@@ -153,7 +160,6 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           </h2>
           {chavePush ? <AtivarAvisos token={token} slug={slug} chavePublica={chavePush} /> : null}
           {novo ? null : <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} />}
-          {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
           <SalvarNaTelaInicial />
         </section>
 
@@ -164,7 +170,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           </h2>
           <ul className="list-disc pl-6 text-base leading-relaxed">
             <li>
-              Mostre o código <strong className="font-mono">{cartao.codigo}</strong> no caixa a cada visita.
+              Mostre o código <strong className="font-mono">{cartao.codigo}</strong> {estab.porEstadia ? "na recepção a cada hospedagem" : "no caixa a cada visita"}.
             </li>
             <li>
               {estab.porEstadia
@@ -178,7 +184,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
                 Com {plano.carimbos_meta} carimbos você ganha: <strong>{plano.recompensa_texto}</strong>.
               </li>
             ) : null}
-            <li>A recompensa é entregue no balcão e o cartão começa de novo.</li>
+            <li>A recompensa é entregue {estab.porEstadia ? "na recepção" : "no balcão"} e o cartão começa de novo.</li>
           </ul>
           <p className="mt-2 text-sm text-neutral-600">
             Guarde este link: é o seu cartão. Trocou de celular? Cadastre de novo com o mesmo telefone.

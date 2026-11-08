@@ -47,7 +47,7 @@ export function montarPassJson(d: DadosPass, ids: { passTypeId: string; teamId: 
       headerFields: [{ key: "carimbos", label: "SELOS", value: progresso(d), changeMessage: "Seus selos: %@" }],
       primaryFields: [{ key: "recompensa_status", label: d.nome, value: statusRecompensa(d), changeMessage: "%@" }],
       secondaryFields: [
-        { key: "cliente", label: "CLIENTE", value: d.nome },
+        { key: "cliente", label: d.porEstadia ? "HÓSPEDE" : "CLIENTE", value: d.nome },
         { key: "recompensa", label: "RECOMPENSA", value: d.recompensa },
       ],
       auxiliaryFields: [{ key: "codigo", label: "CÓDIGO", value: d.codigo }],
