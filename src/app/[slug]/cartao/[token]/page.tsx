@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { estabelecimentoPorSlug } from "@/lib/publico";
-import { carregarCartao, novidadesAceitas } from "@/lib/cartao";
+import { carregarCartao, jaFoiAoGoogleWallet, novidadesAceitas } from "@/lib/cartao";
 import { qrSvg } from "@/lib/qr";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { appleConfigurado, googleConfigurado, walletVisivel } from "@/lib/wallet/config";
@@ -52,8 +52,11 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   const novidades = await novidadesAceitas(estab.id, token);
   const acaoNovidades = definirNovidades.bind(null, slug, token);
   const acaoApagar = apagarMeusDados.bind(null, slug, token);
-  // guarda o cartão neste aparelho; no Android, logo depois de criar, abre o "Salvar no Google Wallet"
-  const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={Boolean(novo) && walletVisivel() && googleConfigurado()} />;
+  // guarda o cartão neste aparelho; no Android, logo depois de criar (ou ao recuperar um cartão que
+  // ainda não foi para o Google), leva direto ao "Salvar no Google Wallet". Voltar traz de novo ao cartão web.
+  const abrirGoogleWallet =
+    walletVisivel() && googleConfigurado() && (Boolean(novo) || (Boolean(recuperado) && !(await jaFoiAoGoogleWallet(estab.id, token))));
+  const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={abrirGoogleWallet} />;
   // botões do Wallet perto do cartão (acima logo depois de criar/recuperar; abaixo nas outras visitas)
   const wallet = walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null;
   const walletAcima = Boolean(novo || recuperado);

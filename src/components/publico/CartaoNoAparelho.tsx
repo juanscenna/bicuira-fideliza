@@ -18,27 +18,50 @@ function ehAndroid() {
 
 /**
  * Na página do cartão: guarda o link neste aparelho (o QR da mesa passa a abrir direto o cartão)
- * e, logo depois de criar o cartão no Android, abre sozinho o "Salvar no Google Wallet" (uma vez só).
+ * e, logo depois de criar o cartão no Android, leva NA HORA ao "Salvar no Google Wallet" (uma vez por aparelho).
+ * A página do cartão fica no histórico: ao voltar do Google, o cliente cai no cartão web, que segue funcionando.
  */
 export function GuardarCartaoNoAparelho({ slug, token, abrirGoogleWallet }: { slug: string; token: string; abrirGoogleWallet: boolean }) {
+  const [abrindo, setAbrindo] = useState(false);
+
   useEffect(() => {
     try {
       localStorage.setItem(chave(slug), token);
     } catch {}
     if (!abrirGoogleWallet || !ehAndroid()) return;
+    // localStorage (e não sessionStorage): voltar do Google, recarregar ou abrir outra aba não abre de novo
+    const marca = `wallet-aberto:${token}`;
     try {
-      const marca = `wallet-oferecido:${token}`;
-      if (sessionStorage.getItem(marca)) return;
-      sessionStorage.setItem(marca, "1");
+      if (localStorage.getItem(marca)) return;
     } catch {
       return;
     }
-    // navegação completa de propósito: a rota redireciona para o Google
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-    const t = setTimeout(() => window.location.assign(`/api/wallet/google/salvar/${token}?e=${encodeURIComponent(slug)}`), 1500);
-    return () => clearTimeout(t);
+    // ao voltar do Google (o navegador pode restaurar a página da memória), some o aviso
+    const aoVoltar = () => setAbrindo(false);
+    window.addEventListener("pageshow", aoVoltar);
+    // no primeiro quadro: mostra o aviso e já navega (sem espera)
+    const quadro = requestAnimationFrame(() => {
+      try {
+        localStorage.setItem(marca, "1"); // marcado só aqui: se o efeito for cancelado antes, ainda abre
+      } catch {}
+      setAbrindo(true);
+      // navegação completa de propósito: a rota redireciona para o Google
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+      window.location.assign(`/api/wallet/google/salvar/${token}?e=${encodeURIComponent(slug)}`);
+    });
+    return () => {
+      cancelAnimationFrame(quadro);
+      window.removeEventListener("pageshow", aoVoltar);
+    };
   }, [slug, token, abrirGoogleWallet]);
-  return null;
+
+  if (!abrindo) return null;
+  return (
+    <div role="status" className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-white p-6 text-center text-neutral-900">
+      <p className="text-xl font-bold">Abrindo o Google Wallet…</p>
+      <p className="max-w-xs text-base">Toque em Salvar. Depois é só voltar: seu cartão continua aqui também.</p>
+    </div>
+  );
 }
 
 /**

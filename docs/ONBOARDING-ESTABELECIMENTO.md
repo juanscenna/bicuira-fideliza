@@ -75,7 +75,7 @@ O cartão no Google Wallet (e no Apple Wallet, quando ligado) precisa ser **o me
 2. **Conferir a faixa antes de entregar:** abra `/api/wallet/selos/<slug>/1-<meta>.png` e `/api/wallet/selos/<slug>/<meta>-<meta>.png` lado a lado com o cartão web.
 3. **Mudou o visual de um tema já publicado?** Aumente `VERSAO_FAIXA` em `src/lib/wallet/google.ts`: o Google guarda a imagem antiga em cache. Os cartões já salvos trocam a imagem na próxima visita registrada.
 4. **Botão do Wallet perto do cartão.** A página do cartão própria do tema (`PaginaCartao.tsx`) recebe `wallet` e tem que mostrar `{status ? wallet : null}` logo **acima** do cartão (recém-criado ou recuperado) e `{status ? null : wallet}` logo **abaixo** (outras visitas). Nunca no fim da página. Um teste confere isso.
-5. **Android abre o Google Wallet sozinho** logo depois de criar o cartão (uma vez). No iPhone, o botão do Apple Wallet fica em destaque acima do cartão.
+5. **Android vai direto para o Google Wallet** logo depois de criar o cartão (e ao recuperar um cartão que ainda não foi para o Google), uma vez por aparelho. Ao voltar do Google, o cliente cai no cartão web: os dois funcionam juntos, e o cartão do Wallet tem o link "Cartão no navegador". No iPhone, o botão do Apple Wallet fica em destaque acima do cartão.
 6. **Título e Instagram** do cartão no Wallet: `wallet.titulo` e `wallet.instagram` no tema.
 
 ## 5. Conferência final antes de entregar
