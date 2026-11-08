@@ -11,12 +11,14 @@ type Props = {
   slug: string;
   perguntarPlano: boolean;
   textoConsentimento: string;
+  /** Caixa opcional de novidades e promoções (null nas versões antigas do texto) */
+  textoNovidades: string | null;
 };
 
 const campo =
   "min-h-14 w-full rounded-xl border-2 border-neutral-300 bg-white px-4 text-lg text-neutral-900 focus:border-[var(--estab-primaria)] focus:outline-none aria-[invalid=true]:border-red-700";
 
-export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento }: Props) {
+export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, textoNovidades }: Props) {
   const [estado, enviar, enviando] = useActionState(acao, {});
   const [telefone, setTelefone] = useState("");
   const [plano, setPlano] = useState("");
@@ -118,6 +120,14 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento }:
         </label>
         {erros.consentimento ? <Erro id="erro-consentimento">{erros.consentimento}</Erro> : null}
       </div>
+
+      {textoNovidades ? (
+        // Opcional e separada do programa (LGPD art. 8º, § 4º): começa desmarcada e não impede o cadastro
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-neutral-200 bg-white p-4">
+          <input type="checkbox" name="novidades" className="mt-0.5 size-6 shrink-0 accent-[var(--estab-primaria)]" />
+          <span className="text-sm leading-relaxed">{textoNovidades}</span>
+        </label>
+      ) : null}
 
       {estado.mensagem ? (
         <p role="alert" className="rounded-xl border-2 border-red-700 bg-white px-4 py-3 font-medium text-red-800">

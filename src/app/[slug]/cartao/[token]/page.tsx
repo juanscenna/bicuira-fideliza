@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { estabelecimentoPorSlug } from "@/lib/publico";
-import { carregarCartao } from "@/lib/cartao";
+import { carregarCartao, novidadesAceitas } from "@/lib/cartao";
 import { qrSvg } from "@/lib/qr";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { appleConfigurado, googleConfigurado, walletVisivel } from "@/lib/wallet/config";
@@ -14,6 +14,8 @@ import { iconesDo } from "@/temas/config";
 import { AtivarAvisos } from "@/components/publico/AtivarAvisos";
 import { GuardarCartaoNoAparelho } from "@/components/publico/CartaoNoAparelho";
 import { pushConfigurado } from "@/lib/push";
+import { PreferenciaNovidades } from "@/components/publico/PreferenciaNovidades";
+import { definirNovidades } from "./acoes";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
 
@@ -46,6 +48,8 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   const plano = estab.planos.find((p) => p.tipo === cartao.plano);
   const svg = await qrSvg(cartao.codigo);
   const chavePush = pushConfigurado() ? process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY! : null;
+  const novidades = await novidadesAceitas(estab.id, token);
+  const acaoNovidades = definirNovidades.bind(null, slug, token);
   // guarda o cartão neste aparelho; no Android, logo depois de criar, abre o "Salvar no Google Wallet"
   const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={Boolean(novo) && walletVisivel() && googleConfigurado()} />;
 
@@ -87,6 +91,12 @@ export default async function PaginaCartao({ params, searchParams }: P) {
                 }}
               />
             ) : null}
+            <PreferenciaNovidades
+              inicial={novidades}
+              nomeEstabelecimento={estab.nome}
+              acao={acaoNovidades}
+              classes={{ caixa: "border-2 border-[#E8115A] bg-[#151515] text-[#F3EEE5]", texto: "text-[#F3EEE5]/80" }}
+            />
             {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
             <SalvarNaTelaInicial className="border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]" />
           </div>
@@ -130,6 +140,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
             Guarde no celular
           </h2>
           {chavePush ? <AtivarAvisos token={token} slug={slug} chavePublica={chavePush} /> : null}
+          <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} />
           {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
           <SalvarNaTelaInicial />
         </section>

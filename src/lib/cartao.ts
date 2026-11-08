@@ -53,3 +53,16 @@ export async function carregarCartao(estabelecimentoId: string, token: string): 
     versao: pass?.versao ?? 1,
   };
 }
+
+/** Se o cliente aceitou novidades e promoções (para mostrar o botão certo no cartão). */
+export async function novidadesAceitas(estabelecimentoId: string, token: string) {
+  if (!TOKEN_VALIDO.test(token)) return false;
+  const { data } = await supabaseAdmin()
+    .from("clientes")
+    .select("novidades_aceitas_em")
+    .eq("estabelecimento_id", estabelecimentoId)
+    .eq("token_cartao", token)
+    .is("anonimizado_em", null)
+    .maybeSingle();
+  return Boolean(data?.novidades_aceitas_em);
+}

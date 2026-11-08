@@ -207,6 +207,7 @@ function ContagemPublico({ previa, detalhado }: { previa: Previa; detalhado?: bo
           .
         </p>
       ) : null}
+      <p className="mt-1 text-sm text-carvao/80">Só recebem os clientes que aceitaram novidades e promoções.</p>
       {detalhado ? (
         <p className="mt-1 text-sm text-carvao/80">
           Cada cliente recebe no máximo {previa.maxSemana} mensagens personalizadas por semana.

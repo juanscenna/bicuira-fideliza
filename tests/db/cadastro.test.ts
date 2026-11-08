@@ -21,8 +21,11 @@ afterEach(async () => {
   await db.query("rollback");
 });
 
-async function cadastrar(nome: string, telefone: string, plano = "morador", slug = "cadastro-teste") {
-  const r = await db.query("select cadastrar_cliente($1, $2, $3, $4, 'ip') as r", [slug, nome, telefone, plano]);
+async function cadastrar(nome: string, telefone: string, plano = "morador", slug = "cadastro-teste", novidades: boolean | null = null) {
+  const r =
+    novidades === null
+      ? await db.query("select cadastrar_cliente($1, $2, $3, $4, 'ip') as r", [slug, nome, telefone, plano])
+      : await db.query("select cadastrar_cliente($1, $2, $3, $4, 'ip', $5) as r", [slug, nome, telefone, plano, novidades]);
   return r.rows[0].r as { status: string; token?: string; codigo?: string };
 }
 
@@ -36,11 +39,36 @@ describe("cadastro de cliente", () => {
     expect(c.rows[0]).toMatchObject({ plano_tipo: "morador", carimbos_atuais: 0 });
     const extras = await db.query(
       `select (select count(*) from passes where cliente_id = $1)::int as passes,
-              (select count(*) from consentimentos where cliente_id = $1 and versao_texto = 1)::int as consent,
+              (select count(*) from consentimentos where cliente_id = $1 and versao_texto = 2 and not novidades)::int as consent,
               (select count(*) from auditoria where alvo_id = $1::text and acao = 'cliente.cadastro')::int as audit`,
       [c.rows[0].id],
     );
     expect(extras.rows[0]).toEqual({ passes: 1, consent: 1, audit: 1 });
+  });
+
+  it("novidades e promoções: só com a caixa opcional marcada (padrão: não)", async () => {
+    const sem = await cadastrar("Ana", "+5548999990001");
+    const com = await cadastrar("Bia", "+5548999990002", "morador", "cadastro-teste", true);
+    const r = await db.query(
+      `select c.token_cartao, c.novidades_aceitas_em is not null as aceita, s.novidades, r.aceita_novidades
+       from clientes c join consentimentos s on s.cliente_id = c.id join clientes_resumo r on r.id = c.id
+       where c.estabelecimento_id = $1 order by c.nome`,
+      [ESTAB],
+    );
+    expect(r.rows).toEqual([
+      { token_cartao: sem.token, aceita: false, novidades: false, aceita_novidades: false },
+      { token_cartao: com.token, aceita: true, novidades: true, aceita_novidades: true },
+    ]);
+  });
+
+  it("telefone já cadastrado: marcar novidades liga; desmarcar não desliga", async () => {
+    await cadastrar("Ana", "+5548999990001");
+    await cadastrar("Ana", "+5548999990001", "morador", "cadastro-teste", true);
+    const aceita = async () =>
+      (await db.query("select novidades_aceitas_em is not null as a from clientes where estabelecimento_id = $1", [ESTAB])).rows[0].a;
+    expect(await aceita()).toBe(true);
+    await cadastrar("Ana", "+5548999990001", "morador", "cadastro-teste", false);
+    expect(await aceita()).toBe(true);
   });
 
   it("telefone já cadastrado devolve o mesmo cartão, sem duplicar e sem mudar o nome", async () => {

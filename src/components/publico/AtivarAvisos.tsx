@@ -104,7 +104,7 @@ export function AtivarAvisos({
           <p className="flex items-center gap-2 text-lg font-bold">
             <BellRing aria-hidden className="size-5" /> Avisos ligados neste celular
           </p>
-          <p className={texto}>Você recebe as novidades do restaurante e os avisos do seu cartão.</p>
+          <p className={texto}>Os avisos do seu cartão aparecem na tela do celular. Novidades e promoções, só se você ligou abaixo.</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <button type="button" onClick={testar} className="min-h-11 text-sm font-semibold underline underline-offset-2">
               Enviar aviso de teste
@@ -120,7 +120,7 @@ export function AtivarAvisos({
             <Bell aria-hidden className="size-5" /> Ativar avisos
           </button>
           <p className={texto}>
-            {estado === "erro" ? "Não deu certo agora. Tente de novo em instantes." : "Receba as novidades do restaurante direto na tela do celular."}
+            {estado === "erro" ? "Não deu certo agora. Tente de novo em instantes." : "Veja os avisos do cartão direto na tela do celular. Você pode desligar quando quiser."}
           </p>
         </>
       ) : estado === "bloqueado" ? (

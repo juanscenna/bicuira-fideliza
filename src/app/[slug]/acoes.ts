@@ -42,6 +42,7 @@ export async function cadastrar(slug: string, _anterior: EstadoCadastro, form: F
     p_telefone: telefone,
     p_plano: plano || "morador",
     p_ip_hash: ipHash,
+    p_aceita_novidades: form.get("novidades") === "on",
   });
   if (error || !data) {
     console.error("[cadastro]", error?.message);

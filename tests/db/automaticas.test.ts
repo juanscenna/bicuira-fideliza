@@ -21,13 +21,14 @@ afterEach(async () => {
   await db.query("rollback");
 });
 
-async function cliente(codigo: string, plano: string, diasSemVisita: number, recompensaHaDias: number | null = null) {
+async function cliente(codigo: string, plano: string, diasSemVisita: number, recompensaHaDias: number | null = null, novidades = true) {
   const r = await db.query(
-    `insert into clientes (estabelecimento_id, nome, telefone, codigo, plano_tipo, criado_em, ultima_visita_em, recompensa_desde)
+    `insert into clientes (estabelecimento_id, nome, telefone, codigo, plano_tipo, criado_em, ultima_visita_em, recompensa_desde, novidades_aceitas_em)
      values ($1, $2, $3, $2, $4, now() - interval '200 days', now() - make_interval(days => $5),
-             case when $6::int is null then null else now() - make_interval(days => $6::int) end)
+             case when $6::int is null then null else now() - make_interval(days => $6::int) end,
+             case when $7 then now() - interval '200 days' end)
      returning id`,
-    [ESTAB, codigo, `+5548999${codigo.charCodeAt(0)}${codigo.slice(1)}`, plano, diasSemVisita, recompensaHaDias],
+    [ESTAB, codigo, `+5548999${codigo.charCodeAt(0)}${codigo.slice(1)}`, plano, diasSemVisita, recompensaHaDias, novidades],
   );
   return r.rows[0].id as string;
 }
@@ -40,6 +41,12 @@ describe("automáticas diárias", () => {
     await cliente("B1111", "turista", 40);
     await cliente("C1111", "morador", 10);
     expect(await candidatos()).toEqual([{ cliente_id: morador, tipo: "sentimos_falta" }]);
+  });
+
+  it("sentimos sua falta é promoção: só para quem aceitou novidades; recompensa esquecida vai para todos", async () => {
+    await cliente("A2222", "morador", 31, null, false);
+    const esquecida = await cliente("B2222", "morador", 5, 20, false);
+    expect(await candidatos()).toEqual([{ cliente_id: esquecida, tipo: "recompensa_esquecida" }]);
   });
 
   it("uma vez por período de inatividade", async () => {

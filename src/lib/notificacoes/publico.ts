@@ -4,12 +4,16 @@ import type { TipoPublico } from "./regras";
 
 export type Publico = { tipo: TipoPublico; clientes?: string[] };
 
-/** Clientes atingidos por um público (sempre limitado ao estabelecimento informado). */
+/**
+ * Clientes atingidos por um público (sempre limitado ao estabelecimento informado).
+ * Mensagem personalizada é novidade/promoção: só vai para quem aceitou receber (LGPD art. 8º, § 4º).
+ */
 export async function resolverPublico(estabelecimentoId: string, publico: Publico): Promise<string[]> {
   let q = supabaseAdmin()
     .from("clientes_resumo")
     .select("id, carimbos_atuais, meta")
-    .eq("estabelecimento_id", estabelecimentoId);
+    .eq("estabelecimento_id", estabelecimentoId)
+    .eq("aceita_novidades", true);
   if (publico.tipo === "moradores") q = q.eq("plano_tipo", "morador");
   if (publico.tipo === "turistas") q = q.eq("plano_tipo", "turista");
   if (publico.tipo === "inativos") q = q.eq("inativo", true);

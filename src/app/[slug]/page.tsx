@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { estabelecimentoPorSlug } from "@/lib/publico";
-import { textoConsentimento } from "@/lib/dominio/consentimento";
+import { textoConsentimento, textoNovidades } from "@/lib/dominio/consentimento";
 import { MolduraPublica } from "@/components/publico/MolduraPublica";
 import { FormCadastro } from "@/components/publico/FormCadastro";
 import { abrirCartao, cadastrar } from "./acoes";
@@ -30,6 +30,7 @@ export default async function PaginaCadastro({ params }: PageProps<"/[slug]">) {
       slug={slug}
       perguntarPlano={estab.planos.length > 1}
       textoConsentimento={textoConsentimento(estab.versao_politica, estab.nome)}
+      textoNovidades={textoNovidades(estab.versao_politica, estab.nome)}
     />
   );
 

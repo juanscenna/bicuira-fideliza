@@ -214,6 +214,7 @@ export async function anonimizarCliente(estabelecimentoId: string, _a: EstadoFor
       nome: "Cliente removido",
       telefone: null,
       anonimizado_em: new Date().toISOString(),
+      novidades_aceitas_em: null,
       token_cartao: randomBytes(24).toString("hex"), // o link antigo do cartão web deixa de funcionar
     })
     .eq("id", cliente.id);
