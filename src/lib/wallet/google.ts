@@ -14,7 +14,7 @@ const API = "https://walletobjects.googleapis.com/walletobjects/v1";
  * Versão do desenho da faixa de selos. A imagem fica em cache por 1 ano (no Google e na Vercel):
  * ao mudar o visual de um tema (`faixa` em src/temas/config.ts), aumente este número.
  */
-export const VERSAO_FAIXA = 2;
+export const VERSAO_FAIXA = 3;
 
 type ContaServico = { client_email: string; private_key: string };
 
@@ -39,11 +39,13 @@ async function chamar<T>(metodo: "GET" | "POST" | "PATCH" | "PUT", caminho: stri
 
 /** Loyalty Class: uma por estabelecimento (nome, logo e cor). */
 export function montarClasse(d: DadosPass, issuer = emissor()) {
-  const logo = d.logoUrl ?? `${SITE_URL}/${d.slug}/icone/512`;
+  // logo quadrada, centralizada para o recorte em círculo do Google (sem logo: ícone gerado com a inicial)
+  const logo = d.logoUrl ? `${SITE_URL}/api/wallet/logo/${d.slug}.png?v=${VERSAO_FAIXA}` : `${SITE_URL}/${d.slug}/icone/512`;
   return {
     id: idClasse(d.estabelecimentoId, issuer),
+    // o cartão se apresenta só com o nome do estabelecimento (textos longos são cortados pelo Google)
     issuerName: d.estabelecimento,
-    programName: TEMAS[temaDo(d.slug)].wallet?.titulo ?? "Cartão fidelidade",
+    programName: d.estabelecimento,
     programLogo: { sourceUri: { uri: logo }, contentDescription: { defaultValue: { language: "pt-BR", value: d.estabelecimento } } },
     hexBackgroundColor: d.corPrimaria,
     reviewStatus: "UNDER_REVIEW",
@@ -62,19 +64,20 @@ export function montarObjeto(d: DadosPass, issuer = emissor()) {
     state: "ACTIVE",
     accountId: d.codigo,
     accountName: d.nome,
+    // na frente só valores curtos (o Google corta textos longos); quanto falta e a recompensa vão na faixa de selos
     loyaltyPoints: { label: "Selos", balance: { string: progresso(d) } },
-    // igual à pílula do cartão web: "Faltam 2 para 1 café da manhã"
-    secondaryLoyaltyPoints: { label: "Recompensa", balance: { string: statusRecompensa(d) } },
     // faixa com os selos (visual do cartão web, `faixa` do tema), gerada em /api/wallet/selos; a URL muda a cada selo
     heroImage: {
-      sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}.png?v=${VERSAO_FAIXA}` },
-      contentDescription: { defaultValue: { language: "pt-BR", value: `${d.carimbos} de ${d.meta} selos` } },
+      sourceUri: { uri: `${SITE_URL}/api/wallet/selos/${d.slug}/${d.carimbos}-${d.meta}-${d.plano}.png?v=${VERSAO_FAIXA}` },
+      contentDescription: { defaultValue: { language: "pt-BR", value: `${d.carimbos} de ${d.meta} selos. ${statusRecompensa(d)}` } },
     },
     hexBackgroundColor: d.corPrimaria,
     barcode: { type: "QR_CODE", value: d.codigo, alternateText: d.codigo },
     textModulesData: [
       // o último recado do restaurante fica no topo dos detalhes (sem precisar abrir a aba de mensagens)
       ...(d.mensagem ? [{ id: "recado", header: `Recado · ${d.estabelecimento}`, body: d.mensagem }] : []),
+      // texto completo, sem cortes, nos detalhes
+      { id: "recompensa", header: "Sua recompensa", body: statusRecompensa(d) },
       { id: "regras", header: "Como funciona", body: regras(d) },
       { id: "bicuira", header: "Tecnologia", body: "por Bicuíra Digital" },
     ],
@@ -100,7 +103,8 @@ async function garantirClasse(d: DadosPass) {
   } else if (r.status < 300) {
     const semRevisao: Partial<typeof classe> = { ...classe };
     delete semRevisao.reviewStatus; // a revisão só é pedida na criação
-    await chamar("PATCH", `/loyaltyClass/${encodeURIComponent(classe.id)}`, semRevisao);
+    const r2 = await chamar("PATCH", `/loyaltyClass/${encodeURIComponent(classe.id)}`, semRevisao);
+    if (r2.status >= 300) console.error("[wallet:google] atualizar classe", r2.status, JSON.stringify(r2.data));
   } else throw new Error(`Google Wallet: classe ${r.status}`);
 }
 

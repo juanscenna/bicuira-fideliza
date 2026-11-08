@@ -76,7 +76,10 @@ O cartão no Google Wallet (e no Apple Wallet, quando ligado) precisa ser **o me
 3. **Mudou o visual de um tema já publicado?** Aumente `VERSAO_FAIXA` em `src/lib/wallet/google.ts`: o Google guarda a imagem antiga em cache. Os cartões já salvos trocam a imagem na próxima visita registrada.
 4. **Botão do Wallet perto do cartão.** A página do cartão própria do tema (`PaginaCartao.tsx`) recebe `wallet` e tem que mostrar `{status ? wallet : null}` logo **acima** do cartão (recém-criado ou recuperado) e `{status ? null : wallet}` logo **abaixo** (outras visitas). Nunca no fim da página. Um teste confere isso.
 5. **Android vai direto para o Google Wallet** no próprio toque em "Criar meu cartão" (o Chrome só abre o app do Wallet logo depois de um toque; por isso o link já vem na resposta do formulário, sem passar antes pela página do cartão) (cartão criado ou recuperado pelo telefone), uma vez por aparelho. Ao voltar do Google, o cliente cai no cartão web: os dois funcionam juntos, e o cartão do Wallet tem o link "Cartão no navegador". No iPhone, o botão do Apple Wallet fica em destaque acima do cartão.
-6. **Título e Instagram** do cartão no Wallet: `wallet.titulo` e `wallet.instagram` no tema.
+6. **Título do cartão = só o nome do estabelecimento** (o mesmo do admin). Nada de slogans: o Google corta textos longos. Na frente do cartão ficam só valores curtos ("1/3"); quanto falta e a recompensa por extenso vão na faixa de selos, e o texto completo também em "Sua recompensa", nos detalhes.
+7. **Logo no Google Wallet:** o Google recorta a logo num círculo. Ela é gerada quadrada em `/api/wallet/logo/<slug>.png`. No tema, `logoWallet.escala` (logo redonda: `1`; logo larga: ~`0.8`) e, se a logo tiver partes brancas, `logoWallet.fundo: "#FFFFFF"`. Confira abrindo o endereço e imaginando o círculo: nada pode encostar na borda.
+8. **Instagram** no cartão: `wallet.instagram` no tema.
+9. **Textos da faixa legíveis no celular:** a faixa aparece a ~1/3 do tamanho; não diminua as fontes da rota `/api/wallet/selos`.
 
 ## 5. Conferência final antes de entregar
 

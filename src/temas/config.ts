@@ -24,8 +24,14 @@ export type ConfigTema = {
   selos?: { feito: string; vazio: string };
   /** ícone pequeno das notificações (Android): branco com fundo transparente */
   badge?: string;
-  /** textos extras do cartão no Wallet */
-  wallet?: { titulo?: string; instagram?: string };
+  /** textos extras do cartão no Wallet (o título do cartão é sempre o nome do estabelecimento) */
+  wallet?: { instagram?: string };
+  /**
+   * Logo no Google Wallet: o Google recorta a logo num círculo. A imagem é gerada quadrada (660 px) com a
+   * logo centralizada sobre `cor_primaria`. `escala`: quanto da largura a logo ocupa (logo redonda: 1;
+   * logo larga: ~0.75 para nada encostar na borda do círculo).
+   */
+  logoWallet?: { escala: number; fundo?: string };
   /**
    * OBRIGATÓRIO: visual da faixa de selos do Google Wallet (imagem de destaque), copiado do cartão web
    * do tema (mesmo fundo, mesmas cores do número, dos selos e da pílula "Faltam X"). Ver docs/ONBOARDING-ESTABELECIMENTO.md.
@@ -76,7 +82,8 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
   "rosa-norte": { cor_primaria: "#0A0A0A", cor_secundaria: "#E8115A", logoUrl: `${SITE_URL}/temas/rosa-norte/logo.png`, favicon: "/temas/rosa-norte/logo-256.png",
     selos: { feito: "/temas/rosa-norte/selo-160.png", vazio: "/temas/rosa-norte/selo-cinza-160.png" },
     badge: "/temas/rosa-norte/badge.png",
-    wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "comidacaseirarosa" },
+    wallet: { instagram: "comidacaseirarosa" },
+    logoWallet: { escala: 1 }, // logo já é redonda
     faixa: {
       fundo: "radial-gradient(circle at 0% 0%, #3a0c1f 0%, #0A0A0A 60%)",
       barra: "#E8115A",
@@ -93,7 +100,9 @@ export const TEMAS: Record<IdTema, ConfigTema> = {
   "sonhos-do-rosa": { cor_primaria: "#FDFAF4", cor_secundaria: "#E46A00", logoUrl: `${SITE_URL}/temas/sonhos-do-rosa/logo.png`, favicon: "/temas/sonhos-do-rosa/logo-256.png",
     selos: { feito: "/temas/sonhos-do-rosa/selo-160.png", vazio: "/temas/sonhos-do-rosa/selo-cinza-160.png" },
     badge: "/temas/sonhos-do-rosa/badge.png",
-    wallet: { titulo: "Junte selos. Ganhe recompensas.", instagram: "sonhos_do_rosa" },
+    wallet: { instagram: "sonhos_do_rosa" },
+    // logo larga (sol + mar): centralizada, longe da borda do círculo; fundo branco porque a logo tem detalhes brancos
+    logoWallet: { escala: 0.82, fundo: "#FFFFFF" },
     // igual ao cartão web (src/temas/sonhos-do-rosa/Cartao.tsx): branco, faixa do sol, número laranja, areia nos vazios
     faixa: {
       fundo: "#FFFFFC",

@@ -101,16 +101,18 @@ describe("Google Wallet", () => {
     expect(o.loyaltyPoints.balance.string).toBe("7/10");
     expect(o.barcode).toEqual({ type: "QR_CODE", value: "K4827", alternateText: "K4827" });
     expect(o.accountName).toBe("Ana Souza");
-    expect(o.secondaryLoyaltyPoints.balance.string).toBe("Faltam 3 para 1 prato"); // igual à pílula do cartão web
-    expect(o.heroImage.sourceUri.uri).toMatch(/\/api\/wallet\/selos\/restaurante-teste\/7-10\.png\?v=\d+$/);
+    // nome do estabelecimento como título, sem textos longos na frente (o Google corta)
+    expect(c.issuerName).toBe("Restaurante Teste");
+    expect(c.programName).toBe("Restaurante Teste");
+    expect(o.textModulesData.find((t) => t.id === "recompensa")!.body).toBe("Faltam 3 para 1 prato");
+    expect(o.heroImage.sourceUri.uri).toMatch(/\/api\/wallet\/selos\/restaurante-teste\/7-10-morador\.png\?v=\d+$/);
   });
 
-  it("tema próprio: título, Instagram e recompensa", async () => {
+  it("tema próprio: logo quadrada para o círculo do Google e Instagram", async () => {
     const { montarClasse, montarObjeto } = await import("@/lib/wallet/google");
-    const rosa = { ...dados, slug: "comidacaseirarosanorte" };
-    expect(montarClasse(rosa, "1").programName).toBe("Junte selos. Ganhe recompensas.");
+    const rosa = { ...dados, slug: "comidacaseirarosanorte", logoUrl: "https://fideliza.bicuira.com.br/temas/rosa-norte/logo.png" };
+    expect(montarClasse(rosa, "1").programLogo.sourceUri.uri).toMatch(/\/api\/wallet\/logo\/comidacaseirarosanorte\.png\?v=\d+$/);
     const o = montarObjeto(rosa, "1");
-    expect(o.secondaryLoyaltyPoints.label).toBe("Recompensa");
     expect(o.linksModuleData.uris.map((u) => u.id)).toContain("instagram");
   });
 
