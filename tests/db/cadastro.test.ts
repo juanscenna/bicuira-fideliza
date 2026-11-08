@@ -39,7 +39,7 @@ describe("cadastro de cliente", () => {
     expect(c.rows[0]).toMatchObject({ plano_tipo: "morador", carimbos_atuais: 0 });
     const extras = await db.query(
       `select (select count(*) from passes where cliente_id = $1)::int as passes,
-              (select count(*) from consentimentos where cliente_id = $1 and versao_texto = 2 and not novidades)::int as consent,
+              (select count(*) from consentimentos where cliente_id = $1 and versao_texto = 3 and not novidades)::int as consent,
               (select count(*) from auditoria where alvo_id = $1::text and acao = 'cliente.cadastro')::int as audit`,
       [c.rows[0].id],
     );

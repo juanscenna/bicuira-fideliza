@@ -11,9 +11,12 @@ export function PreferenciaNovidades({
   inicial,
   nomeEstabelecimento,
   acao,
+  pergunta = false,
   classes,
 }: {
   inicial: boolean;
+  /** Logo depois de criar o cartão: em vez do interruptor, a pergunta "Quer receber novidades?" */
+  pergunta?: boolean;
   nomeEstabelecimento: string;
   acao: (aceita: boolean) => Promise<{ ok: boolean; aceita: boolean }>;
   classes?: { caixa?: string; texto?: string };
@@ -34,6 +37,30 @@ export function PreferenciaNovidades({
 
   const caixa = `flex flex-col gap-2 rounded-2xl p-4 ${classes?.caixa ?? "border-2 border-neutral-900 bg-white"}`;
   const texto = `text-sm ${classes?.texto ?? "text-neutral-700"}`;
+
+  if (pergunta && !aceita) {
+    return (
+      <div className={caixa}>
+        <p className="flex items-center gap-2 text-lg font-bold">
+          <Megaphone aria-hidden className="size-5" /> Quer receber novidades e promoções?
+        </p>
+        <p className={texto}>{nomeEstabelecimento} avisa pelo cartão. Você pode desligar quando quiser.</p>
+        <button
+          type="button"
+          onClick={alternar}
+          disabled={pendente}
+          className="min-h-12 self-start rounded-xl border-2 border-current px-4 font-bold disabled:opacity-60"
+        >
+          {pendente ? "Salvando…" : "Sim, quero receber"}
+        </button>
+        {erro ? (
+          <p role="alert" className="text-sm font-medium">
+            Não deu certo agora. Tente de novo em instantes.
+          </p>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <div className={caixa}>

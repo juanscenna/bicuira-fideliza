@@ -37,8 +37,8 @@ export default async function Privacidade({ params }: PageProps<"/[slug]/privaci
           <li>Recuperar seu cartão se você trocar de celular (pelo número de telefone).</li>
           <li>Mostrar no cartão avisos sobre seus carimbos e recompensas (por exemplo, quando a recompensa estiver disponível).</li>
           <li>
-            Somente se você marcou a caixa opcional: enviar novidades e promoções do estabelecimento pelo cartão. Você liga e
-            desliga isso no próprio cartão, em &quot;Novidades e promoções&quot;, quando quiser.
+            Somente se você aceitar: enviar novidades e promoções do estabelecimento pelo cartão. Isso não faz parte do aceite
+            do cadastro: você liga e desliga no próprio cartão, em &quot;Novidades e promoções&quot;, quando quiser.
           </li>
           <li>Gerar números agregados para o estabelecimento (quantidade de visitas e de clientes que retornaram).</li>
         </ul>

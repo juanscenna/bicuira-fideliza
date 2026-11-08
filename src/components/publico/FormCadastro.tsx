@@ -22,6 +22,7 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
   const [estado, enviar, enviando] = useActionState(acao, {});
   const [telefone, setTelefone] = useState("");
   const [plano, setPlano] = useState("");
+  const [aceito, setAceito] = useState(false);
   const erros = estado.erros ?? {};
 
   return (
@@ -107,14 +108,16 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
           <input
             type="checkbox"
             name="consentimento"
+            checked={aceito}
+            onChange={(e) => setAceito(e.target.checked)}
             className="mt-0.5 size-6 shrink-0 accent-[var(--estab-primaria)]"
             aria-invalid={!!erros.consentimento}
             aria-describedby={erros.consentimento ? "erro-consentimento" : undefined}
           />
-          <span className="text-sm leading-relaxed">
+          <span className="text-base leading-relaxed">
             {textoConsentimento}{" "}
             <Link href={`/${slug}/privacidade`} target="_blank" className="font-semibold underline underline-offset-2">
-              Política de privacidade
+              Privacidade
             </Link>
           </span>
         </label>
@@ -135,13 +138,21 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={enviando}
-        className="min-h-14 rounded-2xl bg-[var(--estab-primaria)] px-6 text-xl font-bold text-[var(--estab-texto-primaria)] transition active:scale-[0.99] disabled:opacity-60"
-      >
-        {enviando ? "Criando seu cartão…" : "Criar meu cartão"}
-      </button>
+      <div className="flex flex-col gap-2">
+        <button
+          type="submit"
+          disabled={enviando || !aceito}
+          aria-describedby={aceito ? undefined : "ajuda-aceite"}
+          className="min-h-14 rounded-2xl bg-[var(--estab-primaria)] px-6 text-xl font-bold text-[var(--estab-texto-primaria)] transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-75"
+        >
+          {enviando ? "Criando seu cartão…" : "Criar meu cartão"}
+        </button>
+        {!aceito ? (
+          <p id="ajuda-aceite" className="text-center text-sm text-neutral-700">
+            Marque a caixa acima para criar o cartão.
+          </p>
+        ) : null}
+      </div>
     </form>
   );
 }

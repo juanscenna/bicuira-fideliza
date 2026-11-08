@@ -97,6 +97,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
               inicial={novidades}
               nomeEstabelecimento={estab.nome}
               acao={acaoNovidades}
+              pergunta={Boolean(novo)}
               classes={{ caixa: "border-2 border-[#E8115A] bg-[#151515] text-[#F3EEE5]", texto: "text-[#F3EEE5]/80" }}
             />
             {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
@@ -135,6 +136,9 @@ export default async function PaginaCartao({ params, searchParams }: P) {
           </p>
         ) : null}
 
+        {/* Logo depois de criar: a pergunta das promoções aparece em destaque, antes do cartão */}
+        {novo ? <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} pergunta /> : null}
+
         <CartaoAoVivo
           token={token}
           slug={slug}
@@ -148,7 +152,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
             Guarde no celular
           </h2>
           {chavePush ? <AtivarAvisos token={token} slug={slug} chavePublica={chavePush} /> : null}
-          <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} />
+          {novo ? null : <PreferenciaNovidades inicial={novidades} nomeEstabelecimento={estab.nome} acao={acaoNovidades} />}
           {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
           <SalvarNaTelaInicial />
         </section>
