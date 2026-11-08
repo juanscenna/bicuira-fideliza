@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { Home, Luggage } from "lucide-react";
 import { mascararTelefone } from "@/lib/dominio/telefone";
 import type { EstadoCadastro } from "@/app/[slug]/acoes";
@@ -25,12 +25,29 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
   const [aceito, setAceito] = useState(false);
   const erros = estado.erros ?? {};
 
+  // Android: a resposta já traz o link do Google Wallet. Guarda o cartão neste aparelho, troca o endereço
+  // pelo do cartão web (ao voltar do Google, o cliente cai no cartão) e vai direto ao Google.
+  const wallet = estado.wallet;
+  useEffect(() => {
+    if (!wallet) return;
+    try {
+      localStorage.setItem(`cartao:${slug}`, wallet.token);
+      localStorage.setItem(`wallet-aberto:${wallet.token}`, "1"); // a página do cartão não abre de novo
+    } catch {}
+    window.history.replaceState(null, "", wallet.cartao);
+    window.location.assign(wallet.url);
+    // se o navegador não sair (bloqueou o Wallet), abre o cartão web, que tem o botão
+    const t = setTimeout(() => window.location.assign(wallet.cartao), 6000);
+    return () => clearTimeout(t);
+  }, [wallet, slug]);
+
   return (
     <form
       noValidate
       onSubmit={(e) => {
         e.preventDefault();
         const dados = new FormData(e.currentTarget);
+        if (/Android/i.test(navigator.userAgent)) dados.set("android", "1");
         startTransition(() => enviar(dados));
       }}
       className="flex flex-col gap-6"
@@ -141,11 +158,11 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
       <div className="flex flex-col gap-2">
         <button
           type="submit"
-          disabled={enviando || !aceito}
+          disabled={enviando || !aceito || !!wallet}
           aria-describedby={aceito ? undefined : "ajuda-aceite"}
           className="min-h-14 rounded-2xl bg-[var(--estab-primaria)] px-6 text-xl font-bold text-[var(--estab-texto-primaria)] transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-75"
         >
-          {enviando ? "Criando seu cartão…" : "Criar meu cartão"}
+          {wallet ? "Abrindo o Google Wallet…" : enviando ? "Criando seu cartão…" : "Criar meu cartão"}
         </button>
         {!aceito ? (
           <p id="ajuda-aceite" className="text-center text-sm text-neutral-700">
@@ -153,6 +170,12 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
           </p>
         ) : null}
       </div>
+      {wallet ? (
+        <div role="status" className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-white p-6 text-center text-neutral-900">
+          <p className="text-xl font-bold">Pronto! Abrindo o Google Wallet…</p>
+          <p className="max-w-xs text-base">Toque em Salvar. Depois é só voltar: seu cartão continua aqui também.</p>
+        </div>
+      ) : null}
     </form>
   );
 }

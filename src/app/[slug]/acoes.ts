@@ -4,8 +4,16 @@ import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { origemDaRequisicao } from "@/lib/auditoria";
 import { normalizarTelefone } from "@/lib/dominio/telefone";
+import { googleConfigurado, walletVisivel } from "@/lib/wallet/config";
+import { dadosPorToken } from "@/lib/wallet/dados";
+import { linkSalvarGoogle } from "@/lib/wallet/google";
 
-export type EstadoCadastro = { erros?: Partial<Record<"nome" | "telefone" | "plano" | "consentimento", string>>; mensagem?: string };
+export type EstadoCadastro = {
+  erros?: Partial<Record<"nome" | "telefone" | "plano" | "consentimento", string>>;
+  mensagem?: string;
+  /** Android: o formulário leva direto ao Google Wallet (url) e deixa o cartão web (cartao) no histórico */
+  wallet?: { url: string; cartao: string; token: string };
+};
 
 // Muita gente usa o Wi-Fi do restaurante (mesmo IP): limite generoso, só para barrar robôs.
 const LIMITE_POR_IP = 30;
@@ -50,11 +58,32 @@ export async function cadastrar(slug: string, _anterior: EstadoCadastro, form: F
   }
 
   const r = data as { status: string; token?: string };
+  if ((r.status === "criado" || r.status === "existente") && r.token && form.get("android") === "1") {
+    const wallet = await linkDireto(slug, r.token, r.status === "criado" ? "novo" : "recuperado");
+    if (wallet) return { wallet };
+  }
   if (r.status === "criado") redirect(`/${slug}/cartao/${r.token}?novo=1`);
   if (r.status === "existente") redirect(`/${slug}/cartao/${r.token}?recuperado=1`);
   if (r.status === "inativo") return { mensagem: "O programa de fidelidade deste estabelecimento está pausado." };
   if (r.status === "plano_invalido") return { erros: { plano: "Escolha uma das opções." } };
   return { mensagem: "Estabelecimento não encontrado." };
+}
+
+/**
+ * Link "Salvar no Google Wallet" já pronto na resposta do formulário. O Chrome do Android só abre o app
+ * do Wallet quando a navegação vem logo depois de um toque; por isso o próprio toque em "Criar meu cartão"
+ * leva ao Google, sem passar antes pela página do cartão. Se algo falhar, segue o caminho normal (página do cartão).
+ */
+async function linkDireto(slug: string, token: string, status: "novo" | "recuperado") {
+  if (!walletVisivel() || !googleConfigurado()) return null;
+  try {
+    const d = await dadosPorToken(token, slug);
+    if (!d) return null;
+    return { url: await linkSalvarGoogle(d), cartao: `/${slug}/cartao/${token}?${status}=1`, token };
+  } catch (erro) {
+    console.error("[wallet:google] link no cadastro", erro);
+    return null;
+  }
 }
 
 export type EstadoAbrir = { erro?: string };
