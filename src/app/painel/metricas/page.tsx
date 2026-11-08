@@ -36,14 +36,18 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
   const desde = periodo === "tudo" ? null : diasAtras(Number(periodo));
 
   const supabase = await supabaseServidor();
-  const [planosAtivos, selos, ...resultados] = await Promise.all([
+  let consultaSelos = supabase.from("selos_dados").select("delta").eq("estabelecimento_id", estabelecimento.id);
+  if (desde) consultaSelos = consultaSelos.gte("criado_em", desde);
+  const [planosAtivos, selos, selosPeriodo, ...resultados] = await Promise.all([
     supabase.from("planos").select("tipo").eq("ativo", true),
     supabase.rpc("selos_por_mes", { p_estab: estabelecimento.id, p_meses: 6 }),
+    consultaSelos,
     ...([null, "morador", "turista"] as const).map((plano) =>
       supabase.rpc("metricas", { p_desde: desde, p_plano: plano, p_estab: estabelecimento.id }),
     ),
   ]);
-  const [todos, morador, turista] = resultados.map((r) => r.data as M);
+  const [todos, morador, turista] = (resultados as { data: unknown }[]).map((r) => r.data as M);
+  const selosNoPeriodo = Math.max(((selosPeriodo.data ?? []) as { delta: number }[]).reduce((s, x) => s + x.delta, 0), 0);
   const porPublico: Record<Publico, M> = { todos, morador, turista };
   const m = porPublico[publico];
   const doisPlanos = (planosAtivos.data ?? []).length > 1 || morador.clientes_cadastrados > 0 && turista.clientes_cadastrados > 0;
@@ -104,6 +108,12 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
             <dd className="text-sm text-carvao/80">{i.explicacao}</dd>
           </div>
         ))}
+        {/* selos dados no período (todos os clientes; base da cobrança) */}
+        <div className="flex flex-col gap-1 rounded-2xl bg-white p-5">
+          <dt className="font-semibold text-restinga">Selos dados</dt>
+          <dd className="font-display text-4xl leading-tight text-carvao tabular-nums">{selosNoPeriodo}</dd>
+          <dd className="text-sm text-carvao/80">{t("Selos ganhos no período, já descontados os desfeitos e removidos. Base da cobrança.")}</dd>
+        </div>
       </dl>
 
       {doisPlanos ? (

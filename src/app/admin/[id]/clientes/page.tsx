@@ -9,6 +9,7 @@ import { formatarReais } from "@/lib/dominio/dinheiro";
 import { diasAtras, formatarDia } from "@/lib/dominio/datas";
 import { formatarTelefone } from "@/lib/dominio/telefone";
 import { classesBotao } from "@/components/ui/Botao";
+import { SelosDados, type SelosMes } from "@/components/painel/SelosDados";
 import { termosDo, traduzir } from "@/temas/vocabulario";
 
 type M = {
@@ -54,17 +55,14 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
 
   const supabase = await supabaseServidor();
   const desde = periodo === "tudo" ? null : diasAtras(Number(periodo));
-  // selos dados = mesma conta do painel do dono (visitas, ajustes à mão, correções e desfeitos)
-  let consultaSelos = supabase
-    .from("eventos_carimbo")
-    .select("delta")
-    .eq("estabelecimento_id", id)
-    .in("tipo", ["visita", "manual_mais", "manual_menos", "desfazer", "ajuste_edicao"]);
+  // selos dados = mesma conta da cobrança (tabela selos_dados; cliente apagado não muda o que foi dado)
+  let consultaSelos = supabase.from("selos_dados").select("delta").eq("estabelecimento_id", id);
   if (desde) consultaSelos = consultaSelos.gte("criado_em", desde);
-  const [{ data }, clientes, { data: eventosSelos }] = await Promise.all([
+  const [{ data }, clientes, { data: eventosSelos }, { data: selosMes }] = await Promise.all([
     supabase.rpc("metricas", { p_desde: desde, p_plano: null, p_estab: id }),
     clientesDoEstabelecimento(id),
     consultaSelos,
+    supabase.rpc("selos_por_mes", { p_estab: id, p_meses: 12 }),
   ]);
   const selosDados = Math.max((eventosSelos ?? []).reduce((soma, e) => soma + e.delta, 0), 0);
   const m = data as M;
@@ -79,7 +77,7 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
     { rotulo: "Ticket médio", valor: media(m.gasto_total_centavos, m.total_visitas), nota: "Gasto ÷ visitas." },
     { rotulo: "Taxa de retorno", valor: pct(m.clientes_que_retornaram, m.clientes_com_visita), nota: "Clientes com visita que já tinham vindo antes." },
     { rotulo: "Gasto em retornos", valor: formatarReais(m.gasto_retorno_centavos), nota: "Visitas que não foram a primeira do cliente." },
-    { rotulo: "Selos dados", valor: String(selosDados), nota: "Carimbos no período, já descontados os retirados." },
+    { rotulo: "Selos dados", valor: String(selosDados), nota: "Selos no período, já descontados os desfeitos e removidos (base da cobrança)." },
     { rotulo: "Recompensas resgatadas", valor: String(m.recompensas_resgatadas), nota: "Entregues no período." },
     { rotulo: "Clientes inativos (agora)", valor: String(m.clientes_inativos), nota: "Sem visita há mais dias que o limite." },
   ].map((c) => ({ ...c, rotulo: t(c.rotulo), nota: t(c.nota) }));
@@ -107,6 +105,10 @@ export default async function ClientesDoEstabelecimento({ params, searchParams }
             </div>
           ))}
         </dl>
+        <SelosDados
+          meses={(selosMes ?? []) as SelosMes[]}
+          explicacao="Por mês, para a cobrança (fixo + valor por selo). Resgates não descontam; cliente apagado não muda o que já foi dado."
+        />
       </section>
 
       <section aria-labelledby="titulo-clientes" className="flex flex-col gap-3">
