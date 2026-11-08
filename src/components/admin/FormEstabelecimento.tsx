@@ -166,9 +166,10 @@ export function FormEstabelecimento({ acao, inicial, novo, urlBase }: Props) {
           <Campo
             id="contato_privacidade"
             name="contato_privacidade"
-            rotulo="Contato para pedidos de exclusão de dados"
+            rotulo="Contato para pedidos sobre dados pessoais (obrigatório)"
             ajuda="E-mail ou telefone do estabelecimento. Aparece na política de privacidade."
             defaultValue={inicial.contato_privacidade ?? ""}
+            erro={erros.contato_privacidade}
           />
         </Secao>
 

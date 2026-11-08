@@ -15,7 +15,8 @@ import { AtivarAvisos } from "@/components/publico/AtivarAvisos";
 import { GuardarCartaoNoAparelho } from "@/components/publico/CartaoNoAparelho";
 import { pushConfigurado } from "@/lib/push";
 import { PreferenciaNovidades } from "@/components/publico/PreferenciaNovidades";
-import { definirNovidades } from "./acoes";
+import { SeusDados } from "@/components/publico/SeusDados";
+import { apagarMeusDados, definirNovidades } from "./acoes";
 
 type P = PageProps<"/[slug]/cartao/[token]">;
 
@@ -50,6 +51,7 @@ export default async function PaginaCartao({ params, searchParams }: P) {
   const chavePush = pushConfigurado() ? process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY! : null;
   const novidades = await novidadesAceitas(estab.id, token);
   const acaoNovidades = definirNovidades.bind(null, slug, token);
+  const acaoApagar = apagarMeusDados.bind(null, slug, token);
   // guarda o cartão neste aparelho; no Android, logo depois de criar, abre o "Salvar no Google Wallet"
   const guardar = <GuardarCartaoNoAparelho slug={slug} token={token} abrirGoogleWallet={Boolean(novo) && walletVisivel() && googleConfigurado()} />;
 
@@ -99,6 +101,12 @@ export default async function PaginaCartao({ params, searchParams }: P) {
             />
             {walletVisivel() ? <BotoesWallet token={token} slug={slug} apple={appleConfigurado()} google={googleConfigurado()} /> : null}
             <SalvarNaTelaInicial className="border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]" />
+            <SeusDados
+              slug={slug}
+              token={token}
+              acaoApagar={acaoApagar}
+              classes={{ caixa: "border-2 border-[#F3EEE5]/15 bg-[#151515] text-[#F3EEE5]", texto: "text-[#F3EEE5]/80", perigo: "bg-[#E8115A] text-white" }}
+            />
           </div>
         }
         regras={{
@@ -178,6 +186,8 @@ export default async function PaginaCartao({ params, searchParams }: P) {
             Não é o seu cartão? Criar outro
           </Link>
         </section>
+
+        <SeusDados slug={slug} token={token} acaoApagar={acaoApagar} />
       </div>
     </MolduraPublica>
   );

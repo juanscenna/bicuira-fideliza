@@ -66,3 +66,16 @@ export async function novidadesAceitas(estabelecimentoId: string, token: string)
     .maybeSingle();
   return Boolean(data?.novidades_aceitas_em);
 }
+
+/** Id do cliente dono do cartão (token secreto + estabelecimento do endereço), ou null. */
+export async function clientePorToken(estabelecimentoId: string, token: string) {
+  if (!TOKEN_VALIDO.test(token)) return null;
+  const { data } = await supabaseAdmin()
+    .from("clientes")
+    .select("id")
+    .eq("estabelecimento_id", estabelecimentoId)
+    .eq("token_cartao", token)
+    .is("anonimizado_em", null)
+    .maybeSingle();
+  return (data?.id as string | undefined) ?? null;
+}

@@ -1,6 +1,5 @@
 "use server";
 
-import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { atualizarWalletDoEstabelecimento } from "@/lib/wallet";
@@ -8,6 +7,7 @@ import { redirect } from "next/navigation";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { registrarAuditoria } from "@/lib/auditoria";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { anonimizarClientePorId } from "@/lib/lgpd";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { lerReais } from "@/lib/dominio/dinheiro";
 import type { TipoNegocio } from "@/lib/dominio/negocio";
@@ -208,19 +208,8 @@ export async function anonimizarCliente(estabelecimentoId: string, _a: EstadoFor
   const { data: cliente } = await consulta.maybeSingle();
   if (!cliente) return { erros: { busca: "Nenhum cliente ativo encontrado com esse código ou telefone." } };
 
-  const { error } = await admin
-    .from("clientes")
-    .update({
-      nome: "Cliente removido",
-      telefone: null,
-      anonimizado_em: new Date().toISOString(),
-      novidades_aceitas_em: null,
-      token_cartao: randomBytes(24).toString("hex"), // o link antigo do cartão web deixa de funcionar
-    })
-    .eq("id", cliente.id);
-  if (error) return { mensagem: `Não foi possível apagar: ${error.message}` };
-  await admin.from("passes").delete().eq("cliente_id", cliente.id);
-  await admin.from("push_inscricoes").delete().eq("cliente_id", cliente.id);
+  const r = await anonimizarClientePorId(cliente.id);
+  if (!r.ok) return { mensagem: `Não foi possível apagar: ${r.erro}` };
 
   await registrarAuditoria({
     acao: "cliente.anonimizar",

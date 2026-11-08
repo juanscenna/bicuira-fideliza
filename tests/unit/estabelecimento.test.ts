@@ -9,7 +9,7 @@ const base: DadosEstabelecimento = {
   gasto_minimo_centavos: 1500,
   dias_inatividade: 30,
   max_personalizadas_semana: 2,
-  contato_privacidade: null,
+  contato_privacidade: "(48) 99999-0000",
   ativo: true,
   cobranca_plano: null,
   cobranca_status: null,
@@ -33,6 +33,12 @@ describe("estabelecimento", () => {
 
   it("aceita os padrões do piloto", () => {
     expect(validarEstabelecimento(base)).toEqual({});
+  });
+
+  it("exige contato de privacidade (LGPD)", () => {
+    expect(validarEstabelecimento({ ...base, contato_privacidade: null }).contato_privacidade).toBeTruthy();
+    expect(validarEstabelecimento({ ...base, contato_privacidade: "  " }).contato_privacidade).toBeTruthy();
+    expect(validarEstabelecimento({ ...base, contato_privacidade: "contato@exemplo.com" }).contato_privacidade).toBeUndefined();
   });
 
   it("exige pelo menos um plano ativo", () => {

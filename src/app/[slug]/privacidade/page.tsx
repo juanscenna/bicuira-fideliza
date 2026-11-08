@@ -62,7 +62,8 @@ export default async function Privacidade({ params }: PageProps<"/[slug]/privaci
 
         <h2>Seus direitos e como pedir exclusão</h2>
         <p>
-          Você pode pedir para ver, corrigir ou apagar seus dados.{" "}
+          No próprio cartão, em &quot;Seus dados&quot;, você pode baixar uma cópia dos seus dados ou apagá-los, sem precisar
+          pedir a ninguém. Também pode pedir para ver, corrigir ou apagar seus dados.{" "}
           {contato ? (
             <>
               Fale com o estabelecimento: <strong>{contato}</strong>.

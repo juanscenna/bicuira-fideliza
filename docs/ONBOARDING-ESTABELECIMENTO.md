@@ -73,6 +73,7 @@ Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<
 - [ ] Visita com valor abaixo do mínimo registra sem carimbo, com aviso.
 - [ ] Carimbo e resgate aparecem no cartão e no painel do dono.
 - [ ] Política de privacidade mostra o contato correto.
+- [ ] No cartão de teste: "Novidades e promoções" liga e desliga; "Baixar meus dados" baixa o arquivo; "Apagar meus dados" apaga (use um cadastro de teste).
 - [ ] Dono entrou com o próprio login e não vê outros estabelecimentos.
 - [ ] Nenhum texto no site ou no cartão promete resultado ou recurso que não existe.
 - [ ] Label "Produto em desenvolvimento" mantido no site da Bicuíra Digital.

@@ -63,6 +63,10 @@ export function validarEstabelecimento(d: DadosEstabelecimento): ErrosForm {
     erros.dias_inatividade = "Entre 1 e 3650 dias, ou marque sem limite.";
   if (!Number.isInteger(d.max_personalizadas_semana) || d.max_personalizadas_semana < 0 || d.max_personalizadas_semana > 14)
     erros.max_personalizadas_semana = "Entre 0 e 14 mensagens.";
+  // LGPD art. 41: o cliente precisa de um canal para pedir acesso e exclusão dos dados
+  const contato = d.contato_privacidade?.trim() ?? "";
+  if (contato.length < 5 || contato.length > 120)
+    erros.contato_privacidade = "Informe o e-mail ou telefone para pedidos sobre dados pessoais (aparece na política de privacidade).";
   if (!d.morador.ativo && !d.turista.ativo) erros.planos = "Deixe pelo menos um plano ativo.";
   for (const tipo of ["morador", "turista"] as const) {
     const p = d[tipo];
