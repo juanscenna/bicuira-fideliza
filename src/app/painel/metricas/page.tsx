@@ -5,6 +5,7 @@ import { termosDo, traduzir } from "@/temas/vocabulario";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarReais } from "@/lib/dominio/dinheiro";
 import { diasAtras } from "@/lib/dominio/datas";
+import { SelosDados, type SelosMes } from "@/components/painel/SelosDados";
 
 type M = {
   clientes_cadastrados: number;
@@ -35,8 +36,9 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
   const desde = periodo === "tudo" ? null : diasAtras(Number(periodo));
 
   const supabase = await supabaseServidor();
-  const [planosAtivos, ...resultados] = await Promise.all([
+  const [planosAtivos, selos, ...resultados] = await Promise.all([
     supabase.from("planos").select("tipo").eq("ativo", true),
+    supabase.rpc("selos_por_mes", { p_estab: estabelecimento.id, p_meses: 6 }),
     ...([null, "morador", "turista"] as const).map((plano) =>
       supabase.rpc("metricas", { p_desde: desde, p_plano: plano, p_estab: estabelecimento.id }),
     ),
@@ -83,6 +85,11 @@ export default async function Metricas({ searchParams }: PageProps<"/painel/metr
   return (
     <div className="flex flex-col gap-6">
       <h1 className="font-display text-4xl text-restinga">Métricas</h1>
+
+      <SelosDados
+        meses={(selos.data ?? []) as SelosMes[]}
+        explicacao={t("Selos ganhos pelos clientes no mês (visitas e +1 manual), já descontados os desfeitos e removidos. Base da cobrança mensal.")}
+      />
 
       <div className="flex flex-col gap-3">
         <Segmentado rotulo="Período" itens={PERIODOS} atual={periodo} href={(k) => link({ periodo: k })} />

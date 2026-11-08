@@ -16,9 +16,13 @@ export default async function AdminInicio() {
   const resumos = new Map(
     await Promise.all(
       (estabelecimentos ?? []).map(async (e) => {
-        const { data } = await supabase.rpc("metricas", { p_desde: null, p_plano: null, p_estab: e.id });
+        const [{ data }, { data: selos }] = await Promise.all([
+          supabase.rpc("metricas", { p_desde: null, p_plano: null, p_estab: e.id }),
+          supabase.rpc("selos_por_mes", { p_estab: e.id, p_meses: 2 }),
+        ]);
         const m = data as { total_visitas: number; gasto_total_centavos: number } | null;
-        return [e.id, m] as const;
+        const [mesAtual, mesPassado] = (selos ?? []) as { selos: number }[];
+        return [e.id, m ? { ...m, selosMes: mesAtual?.selos ?? 0, selosMesPassado: mesPassado?.selos ?? 0 } : null] as const;
       }),
     ),
   );
@@ -43,6 +47,11 @@ export default async function AdminInicio() {
               <div>
                 <p className="text-lg font-semibold">{e.nome}</p>
                 <p className="text-sm text-carvao/80">/{e.slug}</p>
+                {/* cobrança: selos dados no mês */}
+                <p className="mt-1 text-sm">
+                  Selos dados: <strong className="tabular-nums">{resumos.get(e.id)?.selosMes ?? 0}</strong> este mês ·{" "}
+                  <span className="tabular-nums">{resumos.get(e.id)?.selosMesPassado ?? 0}</span> no mês passado
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-sm">

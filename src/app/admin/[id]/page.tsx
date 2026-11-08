@@ -10,6 +10,8 @@ import { FormAnonimizar, FormCriarDono, FormRedefinirSenha } from "@/components/
 import { classesBotao } from "@/components/ui/Botao";
 import { qrSvg } from "@/lib/qr";
 import { SITE_URL } from "@/lib/env";
+import { supabaseServidor } from "@/lib/supabase/servidor";
+import { SelosDados, type SelosMes } from "@/components/painel/SelosDados";
 
 export default async function EditarEstabelecimento({ params, searchParams }: PageProps<"/admin/[id]">) {
   await exigirSuperAdmin();
@@ -18,7 +20,12 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
   const estab = await carregarEstabelecimento(id);
   if (!estab) notFound();
 
-  const [donos, qrPagina] = await Promise.all([donosDoEstabelecimento(id), qrSvg(`${SITE_URL}/${estab.slug}`)]);
+  const supabase = await supabaseServidor();
+  const [donos, qrPagina, selos] = await Promise.all([
+    donosDoEstabelecimento(id),
+    qrSvg(`${SITE_URL}/${estab.slug}`),
+    supabase.rpc("selos_por_mes", { p_estab: id, p_meses: 12 }),
+  ]);
   const inicial = { ...estab, id: undefined, logo_path: undefined };
   const urlPublica = `${SITE_URL}/${estab.slug}`;
 
@@ -49,6 +56,11 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
           </p>
         ) : null}
       </div>
+
+      <SelosDados
+        meses={(selos.data ?? []) as SelosMes[]}
+        explicacao="Para a cobrança mensal (fixo + valor por selo): selos ganhos no mês, já descontados os desfeitos e removidos. Resgates não descontam; cliente apagado não muda o que já foi dado."
+      />
 
       <div className="grid gap-6 md:grid-cols-2">
         <section aria-labelledby="titulo-qr" className="flex flex-col gap-4 rounded-2xl bg-white p-5">

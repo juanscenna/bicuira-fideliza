@@ -132,3 +132,8 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 85. **Exclusão é de vez (substitui as decisões 18 e 71):** o dono pode apagar qualquer cliente do próprio estabelecimento pela ficha ("Apagar cliente", digitando APAGAR). Cadastro, cartão, visitas, carimbos, resgates, consentimentos, envios e notificações saem do banco em cascata; nada fica como "Cliente removido". As métricas passam a não contar esse cliente. Vale também para o admin e para o "Apagar meus dados" do próprio cliente.
 86. **Wallet ao apagar:** o Google não deixa o sistema apagar um cartão salvo; ele é encerrado (vai para "expirados", com "Cartão apagado"). A auditoria guarda só o código do cartão, sem nome nem telefone.
 87. **Limpeza dos antigos:** a migration `20261108001400_apagar_clientes_removidos.sql` apaga os clientes que ficaram anonimizados pela regra anterior.
+
+## Cobrança: selos dados
+
+88. **"Selos dados" por mês, no painel do dono (Métricas) e no admin (lista e página do estabelecimento):** base da cobrança mensal (valor fixo + valor por selo). Conta +1 por selo ganho (visita com selo, +1 manual, edição que passou a dar selo) e −1 por correção (desfazer/remover visita, −1 manual, edição que tirou o selo). Resgate e troca de plano não mudam a conta. Mês do calendário de Brasília; a correção conta no mês em que foi feita; o mês nunca fica negativo.
+89. **Registro próprio (`selos_dados`), sem ligação com o cliente:** apagar um cliente não muda selos já dados. Os clientes apagados antes desta mudança não entram (não estão mais no banco). O dono só lê o próprio estabelecimento; ninguém grava pelo painel (só o gatilho do banco).
