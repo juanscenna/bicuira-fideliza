@@ -54,19 +54,6 @@ export async function carregarCartao(estabelecimentoId: string, token: string): 
   };
 }
 
-/** Se este cartão já foi enviado ao Google Wallet alguma vez (para não abrir o Wallet sozinho de novo). */
-export async function jaFoiAoGoogleWallet(estabelecimentoId: string, token: string) {
-  if (!TOKEN_VALIDO.test(token)) return true;
-  const { data } = await supabaseAdmin()
-    .from("clientes")
-    .select("passes (google_object_id)")
-    .eq("token_cartao", token)
-    .eq("estabelecimento_id", estabelecimentoId)
-    .maybeSingle();
-  const p = (Array.isArray(data?.passes) ? data.passes[0] : data?.passes) as { google_object_id: string | null } | null | undefined;
-  return Boolean(p?.google_object_id);
-}
-
 /** Se o cliente aceitou novidades e promoções (para mostrar o botão certo no cartão). */
 export async function novidadesAceitas(estabelecimentoId: string, token: string) {
   if (!TOKEN_VALIDO.test(token)) return false;

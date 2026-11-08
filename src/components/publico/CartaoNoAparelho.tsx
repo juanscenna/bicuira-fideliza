@@ -39,6 +39,8 @@ export function GuardarCartaoNoAparelho({ slug, token, abrirGoogleWallet }: { sl
     // ao voltar do Google (o navegador pode restaurar a página da memória), some o aviso
     const aoVoltar = () => setAbrindo(false);
     window.addEventListener("pageshow", aoVoltar);
+    // se o navegador não sair da página (bloqueou a abertura), o aviso some e o botão fica à vista
+    let desistir: ReturnType<typeof setTimeout> | undefined;
     // no primeiro quadro: mostra o aviso e já navega (sem espera)
     const quadro = requestAnimationFrame(() => {
       try {
@@ -48,9 +50,11 @@ export function GuardarCartaoNoAparelho({ slug, token, abrirGoogleWallet }: { sl
       // navegação completa de propósito: a rota redireciona para o Google
       // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.assign(`/api/wallet/google/salvar/${token}?e=${encodeURIComponent(slug)}`);
+      desistir = setTimeout(aoVoltar, 6000);
     });
     return () => {
       cancelAnimationFrame(quadro);
+      clearTimeout(desistir);
       window.removeEventListener("pageshow", aoVoltar);
     };
   }, [slug, token, abrirGoogleWallet]);
