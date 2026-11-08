@@ -2,21 +2,13 @@
 
 import { useSyncExternalStore } from "react";
 import { Smartphone } from "lucide-react";
-
-type Aparelho = "ios" | "android" | "outro";
+import { detectarAparelho, type Aparelho } from "@/lib/aparelho";
 
 const semAssinatura = () => () => {};
 
 /** Tipo de aparelho (no servidor: "outro"; no navegador: detectado pelo user agent). */
 function useAparelho(): Aparelho {
-  return useSyncExternalStore(semAssinatura, detectar, () => "outro");
-}
-
-function detectar(): Aparelho {
-  const ua = navigator.userAgent;
-  if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return "ios";
-  if (/Android/i.test(ua)) return "android";
-  return "outro";
+  return useSyncExternalStore(semAssinatura, () => detectarAparelho(), () => "outro");
 }
 
 /**

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { Home, Luggage } from "lucide-react";
 import { mascararTelefone } from "@/lib/dominio/telefone";
+import { detectarAparelho } from "@/lib/aparelho";
 import type { EstadoCadastro } from "@/app/[slug]/acoes";
 
 type Props = {
@@ -47,7 +48,7 @@ export function FormCadastro({ acao, slug, perguntarPlano, textoConsentimento, t
       onSubmit={(e) => {
         e.preventDefault();
         const dados = new FormData(e.currentTarget);
-        if (/Android/i.test(navigator.userAgent)) dados.set("android", "1");
+        if (detectarAparelho() === "android") dados.set("android", "1");
         startTransition(() => enviar(dados));
       }}
       className="flex flex-col gap-6"

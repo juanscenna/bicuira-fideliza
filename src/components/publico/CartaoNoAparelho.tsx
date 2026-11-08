@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { detectarAparelho } from "@/lib/aparelho";
 
 const chave = (slug: string) => `cartao:${slug}`;
 
@@ -12,9 +13,7 @@ function ler(slug: string) {
   }
 }
 
-function ehAndroid() {
-  return /Android/i.test(navigator.userAgent);
-}
+const ehAndroid = () => detectarAparelho() === "android";
 
 /**
  * Na página do cartão: guarda o link neste aparelho (o QR da mesa passa a abrir direto o cartão)
