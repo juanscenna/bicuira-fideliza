@@ -71,7 +71,7 @@ export default async function Privacidade({ params }: PageProps<"/[slug]/privaci
           ) : (
             <>Peça diretamente no balcão do estabelecimento.</>
           )}{" "}
-          Quando os dados são apagados, o cartão deixa de funcionar e as visitas ficam apenas como números, sem identificar você.
+          Quando os dados são apagados, tudo sai do sistema: cadastro, cartão, visitas e histórico. O cartão deixa de funcionar.
         </p>
 
         <h2>Consentimento</h2>

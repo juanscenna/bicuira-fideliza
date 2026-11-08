@@ -33,6 +33,7 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
   const t = (texto: string) => traduzir(texto, termos);
   const sp = await searchParams;
   const q = typeof sp.q === "string" ? sp.q.trim().slice(0, 60) : "";
+  const apagado = typeof sp.apagado === "string" && /^[A-Z0-9]{1,8}$/.test(sp.apagado) ? sp.apagado : null;
   const filtro: Filtro = typeof sp.filtro === "string" && sp.filtro in FILTROS ? (sp.filtro as Filtro) : "todos";
   const ordem: Ordem = typeof sp.ordem === "string" && sp.ordem in ORDENS ? (sp.ordem as Ordem) : "ultima";
 
@@ -74,6 +75,11 @@ export default async function Clientes({ searchParams }: PageProps<"/painel/clie
   return (
     <div className="flex flex-col gap-5">
       <h1 className="font-display text-4xl text-restinga">Clientes</h1>
+      {apagado ? (
+        <p role="status" className="rounded-2xl bg-lima p-4 font-semibold text-carvao">
+          Cliente <span className="font-mono">{apagado}</span> apagado de vez.
+        </p>
+      ) : null}
 
       <form action="/painel/clientes" role="search" className="flex gap-2">
         {filtro !== "todos" ? <input type="hidden" name="filtro" value={filtro} /> : null}

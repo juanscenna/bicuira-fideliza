@@ -1415,3 +1415,9 @@ grant select on public.clientes_resumo to authenticated, service_role;
 -- Rodar DEPOIS de publicar o código que conhece a versão 3 (src/lib/dominio/consentimento.ts).
 alter table public.estabelecimentos alter column versao_politica set default 3;
 update public.estabelecimentos set versao_politica = 3 where versao_politica < 3;
+
+-- ===== 20261108001400_apagar_clientes_removidos.sql =====
+-- Cliente apagado sai DE VEZ do banco (cadastro, cartão, visitas, carimbos, resgates, consentimentos,
+-- envios e notificações apagam em cascata). Antes, a exclusão só anonimizava ("Cliente removido") e as
+-- visitas ficavam. Esta migration apaga os que ficaram assim; os novos já são apagados pelo sistema.
+delete from public.clientes where anonimizado_em is not null;

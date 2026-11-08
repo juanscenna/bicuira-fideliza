@@ -60,8 +60,8 @@ export function SeusDados({
       {confirmando ? (
         <div className="flex flex-col gap-3">
           <p className={texto}>
-            Apagar seu nome e celular? Os carimbos e as recompensas deste cartão serão perdidos e o cartão para de funcionar.
-            Não dá para desfazer.
+            Apagar seus dados? Seu cadastro, os carimbos, as recompensas e o histórico deste cartão serão apagados e o cartão
+            para de funcionar. Não dá para desfazer.
           </p>
           <div className="flex flex-wrap gap-3">
             <button

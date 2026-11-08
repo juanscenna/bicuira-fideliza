@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { exigirSuperAdmin } from "@/lib/auth";
 import { registrarAuditoria } from "@/lib/auditoria";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { anonimizarClientePorId } from "@/lib/lgpd";
+import { apagarClientePorId } from "@/lib/lgpd";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { lerReais } from "@/lib/dominio/dinheiro";
 import type { TipoNegocio } from "@/lib/dominio/negocio";
@@ -184,10 +184,7 @@ export async function redefinirSenhaDono(
   return { ok: true, mensagem: "Senha redefinida. Passe a nova senha ao dono." };
 }
 
-/**
- * LGPD: apaga os dados pessoais de um cliente (nome e telefone) e o cartão no Wallet.
- * As visitas continuam, sem identificar a pessoa, para não distorcer as métricas.
- */
+/** LGPD: apaga o cliente de vez (cadastro, cartão, visitas e histórico) e encerra o cartão no Wallet. */
 export async function anonimizarCliente(estabelecimentoId: string, _a: EstadoForm, form: FormData): Promise<EstadoForm> {
   const sessao = await exigirSuperAdmin();
   const busca = texto(form, "busca");
@@ -208,16 +205,16 @@ export async function anonimizarCliente(estabelecimentoId: string, _a: EstadoFor
   const { data: cliente } = await consulta.maybeSingle();
   if (!cliente) return { erros: { busca: "Nenhum cliente ativo encontrado com esse código ou telefone." } };
 
-  const r = await anonimizarClientePorId(cliente.id);
+  const r = await apagarClientePorId(cliente.id);
   if (!r.ok) return { mensagem: `Não foi possível apagar: ${r.erro}` };
 
   await registrarAuditoria({
-    acao: "cliente.anonimizar",
+    acao: "cliente.apagar",
     userId: sessao.userId,
     estabelecimentoId,
     alvoTipo: "cliente",
     alvoId: cliente.id,
     antes: { codigo: cliente.codigo },
   });
-  return { ok: true, mensagem: `Dados do cliente ${cliente.codigo} apagados.` };
+  return { ok: true, mensagem: `Cliente ${cliente.codigo} apagado de vez.` };
 }

@@ -99,8 +99,8 @@ export default async function EditarEstabelecimento({ params, searchParams }: Pa
       <section aria-labelledby="titulo-lgpd" className="flex flex-col gap-4 rounded-2xl border-2 border-carvao/15 bg-white p-5">
         <h2 id="titulo-lgpd" className="font-display text-2xl text-restinga">Apagar dados de um cliente (LGPD)</h2>
         <p>
-          Use quando um cliente pedir a exclusão. Nome e telefone são apagados e o cartão deixa de funcionar. As visitas continuam
-          nas métricas, sem identificar a pessoa. <strong>Não dá para desfazer.</strong>
+          Use quando um cliente pedir a exclusão. O cliente é apagado de vez: cadastro, cartão, visitas e histórico saem do
+          sistema e das métricas, e o cartão deixa de funcionar. <strong>Não dá para desfazer.</strong>
         </p>
         <FormAnonimizar acao={anonimizarCliente.bind(null, id)} />
       </section>

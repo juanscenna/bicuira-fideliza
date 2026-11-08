@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { exigirDono } from "@/lib/auth";
-import { origemDaRequisicao } from "@/lib/auditoria";
+import { origemDaRequisicao, registrarAuditoria } from "@/lib/auditoria";
+import { apagarClientePorId } from "@/lib/lgpd";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { lerReais } from "@/lib/dominio/dinheiro";
 import { aposMudanca, type EstadoOperacao } from "@/lib/painel/apos-mudanca";
@@ -85,4 +86,39 @@ export async function buscarPorCodigo(codigo: string): Promise<{ id: string } | 
   const supabase = await supabaseServidor();
   const { data } = await supabase.from("clientes").select("id").eq("codigo", limpo).is("anonimizado_em", null).maybeSingle();
   return data ? { id: data.id } : { erro: `Nenhum cartão com o código ${limpo}.` };
+}
+
+/**
+ * O dono apaga um cliente de vez (cadastro, cartão, visitas e histórico). Confirmação: digitar APAGAR.
+ * Só clientes do próprio estabelecimento: a busca usa o login do dono (RLS) antes de apagar.
+ */
+export async function apagarCliente(clienteId: string, confirmacao: string): Promise<{ ok: true } | { ok: false; erro: string }> {
+  const sessao = await exigirDono();
+  if (confirmacao.trim().toUpperCase() !== "APAGAR") return { ok: false, erro: "Digite APAGAR para confirmar." };
+  if (!/^[0-9a-f-]{36}$/.test(clienteId)) return { ok: false, erro: "Cliente não encontrado." };
+  const supabase = await supabaseServidor();
+  const { data: cliente } = await supabase
+    .from("clientes")
+    .select("id, codigo")
+    .eq("id", clienteId)
+    .eq("estabelecimento_id", sessao.estabelecimento.id)
+    .maybeSingle();
+  if (!cliente) return { ok: false, erro: "Cliente não encontrado." };
+
+  const r = await apagarClientePorId(cliente.id);
+  if (!r.ok) {
+    console.error("[apagar-cliente]", r.erro);
+    return { ok: false, erro: "Não foi possível apagar agora. Tente de novo." };
+  }
+  await registrarAuditoria({
+    acao: "cliente.apagar",
+    userId: sessao.userId,
+    estabelecimentoId: sessao.estabelecimento.id,
+    alvoTipo: "cliente",
+    alvoId: cliente.id,
+    antes: { codigo: cliente.codigo }, // só o código: nome e telefone não ficam guardados
+    depois: { pedido_por: "dono" },
+  });
+  for (const caminho of ["/painel", "/painel/clientes", "/painel/metricas"]) revalidatePath(caminho);
+  return { ok: true };
 }

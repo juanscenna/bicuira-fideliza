@@ -5,6 +5,7 @@ import { exigirDono } from "@/lib/auth";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { formatarTelefone } from "@/lib/dominio/telefone";
 import { FichaCliente, type ItemHistorico } from "@/components/painel/FichaCliente";
+import { ApagarCliente } from "@/components/painel/ApagarCliente";
 
 export default async function Ficha({ params, searchParams }: PageProps<"/painel/clientes/[id]">) {
   const { estabelecimento } = await exigirDono();
@@ -62,6 +63,7 @@ export default async function Ficha({ params, searchParams }: PageProps<"/painel
         historico={historico}
         focarValor={registrar === "1"}
       />
+      <ApagarCliente clienteId={cliente.id} nome={cliente.nome} codigo={cliente.codigo} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ Conferência feita a partir de dois vídeos educativos (checklists de LGPD/CDC p
 | Consentimento separado para marketing (art. 8º, § 4º) | Caixa opcional de novidades e promoções, desmarcada. Personalizadas e "Sentimos sua falta" só vão para quem aceitou. |
 | Descadastro fácil (art. 8º, § 5º) | "Novidades e promoções" liga/desliga no cartão; "Desligar avisos" para as notificações. |
 | Cookies e rastreadores (guia de cookies da ANPD) | Nenhum cookie de propaganda, análise ou rastreamento nas páginas públicas; só armazenamento necessário, explicado na política. |
-| Acesso e exclusão (art. 18) | "Seus dados" no cartão: baixar cópia e apagar. Também pelo admin, a pedido. |
+| Acesso e exclusão (art. 18) | "Seus dados" no cartão: baixar cópia e apagar. Também pelo dono (ficha do cliente → "Apagar cliente") e pelo admin. Apagar é de vez: cadastro, cartão, visitas e histórico saem do banco; a auditoria guarda só o código do cartão. |
 | Canal de contato (art. 41) | Contato de privacidade obrigatório por estabelecimento, mostrado na política. |
 | Sem cronômetro falso, taxa escondida ou promessa (CDC arts. 31 e 37) | O cartão não tem nada disso. Manter assim nas mensagens dos donos. |
 

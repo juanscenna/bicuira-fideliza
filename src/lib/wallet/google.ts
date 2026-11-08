@@ -174,3 +174,22 @@ export async function mensagemGoogle(d: DadosPass, texto: string, notificar: boo
   if (r.status < 300) await atualizarObjetoGoogle(d);
   return r.status < 300 ? "sem_notificacao" : r.status === 404 ? "nao_salvo" : "erro";
 }
+
+/**
+ * Cliente apagado: encerra o cartão no Google Wallet (o Google não deixa apagar pelo sistema; o cartão
+ * vai para "expirados" no celular, sem nome nem selos). Sem credenciais, só registra.
+ */
+export async function encerrarObjetoGoogle(objetoId: string) {
+  if (!googleConfigurado()) {
+    console.info(`[wallet:google] modo de teste: encerrar ${objetoId}`);
+    return;
+  }
+  const r = await chamar("PATCH", `/loyaltyObject/${encodeURIComponent(objetoId)}`, {
+    state: "EXPIRED",
+    accountName: "Cartão apagado",
+    loyaltyPoints: { label: "Selos", balance: { string: "-" } },
+    textModulesData: [{ id: "apagado", header: "Cartão apagado", body: "Este cartão foi apagado e não vale mais. Pode removê-lo do Wallet." }],
+    messages: [],
+  });
+  if (r.status >= 300 && r.status !== 404) console.error("[wallet:google] encerrar", r.status, JSON.stringify(r.data));
+}

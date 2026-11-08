@@ -95,7 +95,7 @@ O cartão no Google Wallet (e no Apple Wallet, quando ligado) precisa ser **o me
 
 ## Dados de clientes e LGPD
 
-- Pedido de exclusão: `/admin/<id>` → "Apagar dados de um cliente (LGPD)". Não apague no banco direto.
+- Pedido de exclusão: o dono apaga pelo painel (ficha do cliente → "Apagar cliente", digitando APAGAR) ou o admin em `/admin/<id>` → "Apagar dados de um cliente (LGPD)". O cliente some de vez (lista, métricas e Wallet). Não apague no banco direto.
 - Cadastros de teste devem ser apagados antes da entrega.
 
 ## Depois da entrega

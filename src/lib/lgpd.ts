@@ -1,30 +1,25 @@
 import "server-only";
-import { randomBytes } from "node:crypto";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { encerrarObjetoGoogle } from "@/lib/wallet/google";
 
 /**
- * LGPD art. 18: apaga os dados pessoais de um cliente (nome e telefone), troca o link secreto do cartão
- * (o antigo para de funcionar), remove o cartão do Wallet e as notificações.
- * As visitas continuam, sem identificar a pessoa, para não distorcer as métricas.
- * Usado pelo admin (pedido no balcão ou por contato) e pelo próprio cliente no cartão.
+ * Apaga o cliente DE VEZ (LGPD art. 18, VI): o cadastro, o cartão, as visitas, os carimbos, os resgates,
+ * os consentimentos, as mensagens enviadas e as notificações saem do banco (as tabelas apagam em cascata).
+ * Nada fica como "cliente removido": ele some da lista e das métricas, e o link do cartão para de funcionar.
+ * O cartão salvo no Google Wallet é encerrado (vai para "expirados" no celular do cliente).
+ * Usado pelo dono (painel), pelo admin e pelo próprio cliente no cartão.
  */
-export async function anonimizarClientePorId(clienteId: string): Promise<{ ok: true } | { ok: false; erro: string }> {
+export async function apagarClientePorId(clienteId: string): Promise<{ ok: true; codigo: string } | { ok: false; erro: string }> {
   const admin = supabaseAdmin();
-  const { error } = await admin
-    .from("clientes")
-    .update({
-      nome: "Cliente removido",
-      telefone: null,
-      anonimizado_em: new Date().toISOString(),
-      novidades_aceitas_em: null,
-      token_cartao: randomBytes(24).toString("hex"),
-    })
-    .eq("id", clienteId)
-    .is("anonimizado_em", null);
+  const { data: c } = await admin.from("clientes").select("codigo, passes (google_object_id)").eq("id", clienteId).maybeSingle();
+  if (!c) return { ok: false, erro: "Cliente não encontrado." };
+  const pass = (Array.isArray(c.passes) ? c.passes[0] : c.passes) as { google_object_id: string | null } | null;
+
+  const { error } = await admin.from("clientes").delete().eq("id", clienteId);
   if (error) return { ok: false, erro: error.message };
-  await admin.from("passes").delete().eq("cliente_id", clienteId);
-  await admin.from("push_inscricoes").delete().eq("cliente_id", clienteId);
-  return { ok: true };
+
+  if (pass?.google_object_id) await encerrarObjetoGoogle(pass.google_object_id).catch((e) => console.error("[wallet:google] encerrar", e));
+  return { ok: true, codigo: c.codigo as string };
 }
 
 /**

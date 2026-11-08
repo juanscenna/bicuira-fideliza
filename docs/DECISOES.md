@@ -126,3 +126,9 @@ Decisões que não estavam no documento original (`prompt-bicuira-fideliza.md`).
 82. **Tablet Android em "modo computador":** tablets (ex.: Samsung) abrem sites como computador e não dizem "Android". A detecção (`src/lib/aparelho.ts`) também considera Linux com tela de toque e as dicas do navegador; iPad em modo computador continua como iPhone.
 83. **Cartão do Google Wallet só com o nome do estabelecimento:** título e emissor = nome do admin (antes, slogan cortado). A linha "Recompensa: Faltam 2 para…" saiu da frente (era cortada); quanto falta e a recompensa por extenso estão na faixa de selos (até 2 linhas, letra grande o bastante para o celular) e o texto completo em "Sua recompensa", nos detalhes.
 84. **Logo quadrada para o círculo do Google** (`/api/wallet/logo/<slug>.png`, 660 px): a logo larga da pousada ia direto e ficava espremida e cortada. Escala e fundo por tema (`logoWallet`).
+
+## Apagar cliente de vez
+
+85. **Exclusão é de vez (substitui as decisões 18 e 71):** o dono pode apagar qualquer cliente do próprio estabelecimento pela ficha ("Apagar cliente", digitando APAGAR). Cadastro, cartão, visitas, carimbos, resgates, consentimentos, envios e notificações saem do banco em cascata; nada fica como "Cliente removido". As métricas passam a não contar esse cliente. Vale também para o admin e para o "Apagar meus dados" do próprio cliente.
+86. **Wallet ao apagar:** o Google não deixa o sistema apagar um cartão salvo; ele é encerrado (vai para "expirados", com "Cartão apagado"). A auditoria guarda só o código do cartão, sem nome nem telefone.
+87. **Limpeza dos antigos:** a migration `20261108001400_apagar_clientes_removidos.sql` apaga os clientes que ficaram anonimizados pela regra anterior.
