@@ -87,3 +87,44 @@ Os textos públicos (cadastro e cartão) ficam no próprio tema, em `src/temas/<
 - Marque o feedback do dia 30 na agenda.
 - Registre o que o dono disse, sem inventar números, em uma planilha de pilotos.
 - Só cite o caso publicamente com autorização por escrito.
+
+## 6. Materiais de divulgação (fazer depois que o estabelecimento estiver criado)
+
+Ordem recomendada: site, placa, depois a mensagem para os clientes.
+
+### 6a. Página no site da Bicuíra Digital (repositório `site-bicuira`)
+
+1. Adicione o case em `src/content/projects.ts` (uma entrada nova com `service` e imagens). Ele aparece na página do serviço e ganha página própria pelo `GenericProject`.
+2. Fotos: use as reais do estabelecimento em `public/images/projects/`. Se não houver captura real, deixe `src: ''` (aparece "Captura em breve"). Não use imagem ilustrativa como captura.
+3. Textos com fidelidade: nome correto, só links reais, nada de número, resultado ou depoimento que não existe. Fideliza é sempre "Produto em desenvolvimento".
+4. Rode `npm run build` (precisa passar) e publique.
+
+### 6b. Placa 10x15 cm com QR (repositório `bicuira-fideliza`, pasta `docs/arte/fonte/`)
+
+1. Copie `placa.html` e `gerar.mjs` para uma pasta nova, por estabelecimento (ex.: `docs/arte/fonte-<id>/`).
+2. No `gerar.mjs`, troque a constante `URL` pelo link de criação do cartão (`https://bicuira-fideliza.vercel.app/<slug>`) e o caminho `pub` pela pasta de imagens do novo tema (`public/temas/<id>/`).
+3. No `placa.html`, troque nome, textos e cores pelos do estabelecimento. Hoje o arquivo está escrito para a Pousada Sonhos do Rosa.
+4. Rode `node gerar.mjs` (precisa de `playwright-core` e `qrcode`; o Chromium do ambiente é `/opt/pw-browsers/chromium`). Gera o PDF vetorial e o PNG.
+5. Antes de imprimir, escaneie o QR gerado com o celular e confirme que abre o cadastro certo.
+
+Observação: o PDF do QR baixado no painel (`/admin/<id>` → QR Code) é uma folha A5 genérica com o nome e o endereço. A placa 10x15 com a identidade é a versão desenhada à mão em `placa.html`.
+
+### 6c. Mensagem para os clientes (WhatsApp)
+
+1. Envie o vídeo do Fideliza primeiro e o texto depois.
+2. Use uma lista de transmissão (não dá para colocar nome por nome). O texto não tem `{{nome}}`, porque a lista não preenche esse campo.
+3. Faça duas versões: uma para quem está chegando (ex.: fim de semana) e outra para os clientes já etiquetados. Não misture os dois públicos no mesmo texto.
+4. Todo texto de divulgação precisa ter o link de criação, a instrução de como sair ("responda SAIR") e nada que prometa resultado.
+
+### 6d. Condições do piloto (para o cliente)
+
+- Implantação: R$ 299,90 (uma vez).
+- Mensalidade: R$ 39,90 + R$ 1,00 por selo emitido.
+- Piloto de no máximo 3 meses, para testar com um restaurante de cada tipo antes de fechar o plano.
+- Criação do cartão em até 10 dias úteis.
+- Entregáveis: site, cartão próprio salvo no Google Wallet e no Apple Wallet, painel do dono, placa com QR.
+- Apresentação de vendas: `comercial/apresentacao/` (`Bicuira-Fideliza-Apresentacao-Tela.html`, gerada por `gerar-tela.mjs`). Os planos e preços foram removidos da apresentação de propósito: serão mostrados depois do piloto, com as métricas.
+
+## Como retomar em uma nova conversa
+
+Comece a conversa com: "leia docs/ONBOARDING-ESTABELECIMENTO.md e me ajude a montar o novo estabelecimento X". O roteiro inteiro está aqui, então não depende do histórico do chat.
